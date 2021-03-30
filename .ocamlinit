@@ -1,0 +1,8 @@
+#require "ounit2";;
+#directory "_build";;
+#load "command.cmo";;
+#load "state.cmo";;
+#load "move.cmo";;
+#load "npc.cmo";;
+#load "gameState.cmo";;
+#load "roundState.cmo";;
