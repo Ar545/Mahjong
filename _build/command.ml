@@ -6,6 +6,7 @@ type command =
   | Pung
   | Chow of player_command
   | Kong
+  | Mahjong
   | Quit
 
 exception Invalid of string
@@ -31,6 +32,8 @@ let parse str =
       match t with [] -> Chow t | _ -> raise_invalid "chow")
   | "kong" :: t -> (
       match t with [] -> Kong | _ -> raise_invalid "kong")
+  | "mahjong" :: t -> (
+      match t with [] -> Mahjong | _ -> raise_invalid "mahjong")
   | "quit" :: t -> (
       match t with [] -> Quit | _ -> raise_invalid "quit")
   | _ -> raise_invalid ""

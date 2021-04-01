@@ -13,6 +13,7 @@ type command =
   | Pung
   | Chow of player_command
   | Kong
+  | Mahjong
   | Quit
 
 (** [Invalid] is an exception that is raised when a command is invalid
