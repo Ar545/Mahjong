@@ -28,9 +28,9 @@ ocamlfind ocamldep -package ounit2 -modules gameState.ml > gameState.ml.depends
 # Target: gameState.cmo, tags: { package(ounit2), byte, compile, extension:cmo, extension:ml, file:gameState.cmo, file:gameState.ml, implem, ocaml, quiet, traverse }
 ocamlfind ocamlc -c -package ounit2 -o gameState.cmo gameState.ml
 + ocamlfind ocamlc -c -package ounit2 -o gameState.cmo gameState.ml
-File "gameState.ml", line 8, characters 10-15:
-8 |   order : Npc.t list;
-              ^^^^^
-Error: Unbound type constructor Npc.t
+File "gameState.ml", line 23, characters 4-9:
+23 |     order : player list;
+         ^^^^^
+Error: Unbound value order
 Command exited with code 2.
 # Compilation unsuccessful.

@@ -1,12 +1,12 @@
 type npc =
-  | Npc1
-  | Npc2
-  | Npc3
-
-type user = User
+  | One
+  | Two
+  | Three
 
 type player =
   | Npc of npc
-  | User of user
+  | User
 
-let execute_round npc = ()
+let player_list = [ User; Npc One; Npc Two; Npc Three ]
+
+let execute_round player = ()
