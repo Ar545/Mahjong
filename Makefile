@@ -1,6 +1,6 @@
 # credits to CS3110 Professor MRC
 
-MODULES= command roundState gameState main npc tiles move
+MODULES= command roundState gameState main players tiles move
 OBJECTS=$(MODULES:=.cmo)
 MLS=$(MODULES:=.ml)
 MLIS=$(MODULES:=.mli)

@@ -1,15 +1,13 @@
-open Npc
+open Players
 
-type order = Npc.t list
+type order = player list
 
-let hand = {
-
-}
+(* let hand = { abble: int; } *)
 
 type t = {
   tiles_count_left : int;
   tiles_left : int list;
-  next_player : npc.t;
+  next_player : player;
 }
 
-let init_round () : t = 
+let init_round () : t = failwith "TODO"

@@ -1,11 +1,11 @@
-open Npc
+open Players
 
 type t = {
   round : int;
   termination_distance : int;
   scores : int array;
-  players : Npc.t list;
-  order : Npc.t list;
+  players : player list;
+  order : player list;
 }
 
 let init_game () = failwith "TODO"

@@ -29,7 +29,7 @@ let parse str =
   | "pung" :: t -> (
       match t with [] -> Pung | _ -> raise_invalid "pung")
   | "chow" :: t -> (
-      match t with [] -> Chow t | _ -> raise_invalid "chow")
+      match t with [] -> raise_invalid "chow" | _ -> Chow t)
   | "kong" :: t -> (
       match t with [] -> Kong | _ -> raise_invalid "kong")
   | "mahjong" :: t -> (
