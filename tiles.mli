@@ -6,7 +6,7 @@ type tile
 type t = tile list
 
 (** Initialize with 144 tiles*)
-val init_tiles : unit -> tile list
+val init_tiles : tile list
 
 (** [chow_valid hand t1 t2 t3] is true when t1 t2 t3 is a valid chow and
     t1 and t2 are both in hand. Otherwise, false*)
@@ -27,3 +27,7 @@ val winning_hand : tile list -> bool
 (** [scoring hand] is the amount of points that is awarded to the player
     with the winning [hand]*)
 val scoring : tile list -> int
+
+val tiles_to_str : tile list -> string list
+
+(* val init_hand : t -> *)

@@ -6,17 +6,12 @@ let new_round () = failwith "TODO"
 let initalize () = failwith "TODO"
 
 let print_tiles hand =
-  let rec helper = function
-    | [ h ] ->
-        print_string h;
-        ()
-    | h :: t ->
-        print_string h;
-        helper t
-    | _ -> failwith "Print tiles failed"
-  in
-  helper hand
+  ignore (List.map (fun x -> print_string (x ^ " ")) hand);
+  ()
 
-let main () = print_tiles Tiles.init_tiles
+let main () =
+  print_string "\nWelcome to Mahjong! \n";
+  print_string "\nHere are all the tiles in a round! \n";
+  tiles_to_str init_tiles |> print_tiles
 
 let () = main ()
