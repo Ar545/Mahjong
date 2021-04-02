@@ -4,7 +4,7 @@
     house out of the four players, the points for each player, distance
     from termination, and the number of rounds that has elapsed. *)
 
-(** [t] is the state of the entire game *)
+(** [t] is the state of the entire games *)
 type t
 
 val init_game : unit -> t
