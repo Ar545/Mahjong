@@ -5,6 +5,9 @@ type tile
     with 144 tiles*)
 type t = tile list
 
+(** Initialize with 144 tiles*)
+val init_tiles : unit -> tile list
+
 (** [chow_valid hand t1 t2 t3] is true when t1 t2 t3 is a valid chow and
     t1 and t2 are both in hand. Otherwise, false*)
 val chow_valid : tile list -> tile -> tile -> tile -> bool

@@ -9,3 +9,5 @@
 (** [t] is the state of a round within the game*)
 
 type t
+
+val init_round : unit -> t

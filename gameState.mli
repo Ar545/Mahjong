@@ -6,3 +6,5 @@
 
 (** [t] is the state of the entire game *)
 type t
+
+val init_game : unit -> t

@@ -4,10 +4,10 @@ open RoundState
 type t = {
   round_num : int;
   termination_distance : int;
-  scores : int array;
+  mutable scores : int array;
   players : player list;
   order : player list;
-  game : RoundState.t;
+  mutable game : RoundState.t;
 }
 
 let seating_order () = []
@@ -23,5 +23,5 @@ let init_game () : t =
     scores = [| 0; 0; 0; 0 |];
     players = player_list;
     order;
-    game = RoundState.t;
+    game = init_round ();
   }
