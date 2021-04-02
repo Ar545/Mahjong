@@ -6,7 +6,7 @@
     player that is hidden from other players, the tile hands that are
     shown, and the player of the current turn *)
 
-(** [t] is the state of a round within the game*)
+(** [t] is the state of a round within the games*)
 
 type t
 
