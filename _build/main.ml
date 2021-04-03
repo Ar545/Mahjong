@@ -27,7 +27,6 @@ let main () =
   current_round game |> hand 2 |> print_str_list;
   print_string "\n\nexample player four hand:\n";
   current_round game |> hand 3 |> print_str_list;
-  Random.bits () |> string_of_int |> print_string;
   print_string "\n\n\n"
 
 let () = main ()
