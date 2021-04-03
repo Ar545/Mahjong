@@ -6,3 +6,11 @@
 
 (** [t] is the state of the entire game *)
 type t
+
+type move =
+  | Legal
+  | Illegal
+
+val current_round : t -> RoundState.t
+
+val init_game : t

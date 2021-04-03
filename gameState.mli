@@ -7,4 +7,10 @@
 (** [t] is the state of the entire games *)
 type t
 
-val init_game : unit -> t
+type move =
+  | Legal
+  | Illegal
+
+val current_round : t -> RoundState.t
+
+val init_game : t

@@ -3,10 +3,18 @@ type npc =
   | Two
   | Three
 
+type advance =
+  | One
+  | Two
+  | Three
+
 type player =
   | Npc of npc
+  | Advance of advance
   | User
 
-let player_list = [ User; Npc One; Npc Two; Npc Three ]
+type t = player array
+
+let basic_npc : t = [| User; Npc One; Npc Two; Npc Three |]
 
 let execute_round player = ()

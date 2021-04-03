@@ -5,23 +5,31 @@ type t = {
   round_num : int;
   termination_distance : int;
   mutable scores : int array;
-  players : player list;
-  order : player list;
-  mutable game : RoundState.t;
+  players : player array;
+  current : int;
+  mutable round : RoundState.t;
 }
+
+let current_round t = t.round
+
+type move =
+  | Legal
+  | Illegal
 
 let seating_order () = []
 
 let termination_distance = 8
 
-let order = player_list
+let players = basic_npc
 
-let init_game () : t =
+let current = 0
+
+let init_game : t =
   {
-    round_num = 1;
+    round_num = 0;
     termination_distance;
     scores = [| 0; 0; 0; 0 |];
-    players = player_list;
-    order;
-    game = init_round ();
+    players;
+    current;
+    round = init_round players.(current) players;
   }
