@@ -70,8 +70,17 @@ let all_tiles_variety =
 
 let tile_length tiles = List.length tiles
 
+(** time () returns a random int from the system time. limit the int to
+    at most 1000000, at few 0 by the mod in the end *)
+let time () = (Unix.time () |> int_of_float) mod 1000000
+
 let shuffle t =
-  let random_arr = List.map (fun a -> (Random.bits (), a)) t in
+  let compare x y =
+    match x with a, b -> ( match y with c, d -> a - c)
+  in
+  let random_arr =
+    List.map (fun a -> (Random.bits () mod time (), a)) t
+  in
   let sorted = List.sort compare random_arr in
   List.map snd sorted
 
