@@ -10,4 +10,8 @@
 
 type t
 
-val init_round : unit -> t
+val init_round : Players.player -> Players.player array -> t
+
+val hand : int -> t -> string list
+
+val next_turn : t -> t
