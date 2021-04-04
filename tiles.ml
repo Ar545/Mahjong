@@ -71,7 +71,7 @@ let all_tiles_variety =
 let tile_length tiles = List.length tiles
 
 (** time () returns a random int from the system time. limit the int to
-    at most 1000000, at few 0 by the mod in the end *)
+    at most 10000, at few 0 by the mod in the end *)
 let time () = (Unix.time () |> int_of_float) mod 10000
 
 let shuffle t =

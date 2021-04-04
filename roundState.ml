@@ -8,7 +8,7 @@ type t = {
   players : Players.t;
   mutable current : int;
   mutable tiles_count_left : int;
-  mutable hands : Tiles.t array;
+  hands : Tiles.t array;
   mutable tiles_left : Tiles.t;
 }
 
@@ -47,5 +47,7 @@ let init_round house players : t =
     }
 
 let hand index t = tiles_to_str t.hands.(index)
+
+let tiles_left t = tiles_to_str t.tiles_left
 
 let next_turn t : t = failwith "TODO"

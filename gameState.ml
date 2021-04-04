@@ -24,7 +24,7 @@ let players = basic_npc
 
 let current = 0
 
-let init_game : t =
+let init_game () : t =
   {
     round_num = 0;
     termination_distance;
