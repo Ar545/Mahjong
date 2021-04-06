@@ -71,8 +71,8 @@ let all_tiles_variety =
 let tile_length tiles = List.length tiles
 
 (** time () returns a random int from the system time. limit the int to
-    at most 1000000, at few 0 by the mod in the end *)
-let time () = (Unix.time () |> int_of_float) mod 1000000
+    at most 10000, at few 0 by the mod in the end *)
+let time () = (Unix.time () |> int_of_float) mod 10000
 
 let shuffle t =
   let compare x y =
@@ -93,7 +93,25 @@ let init_tiles () : t = shuffle new_tiles
 
 exception Unknown
 
+let get_index_of_tile = function
+  | Dots int -> int
+  | Bamboo int -> int
+  | Characters int -> int
+  | _ -> 0
+
+let get_shape_of_tile = function
+  | Dots int -> 1
+  | Bamboo int -> 2
+  | Characters int -> 3
+  | _ -> 0
+
 let chow_valid hand t1 t2 t3 = failwith "TODO"
+
+(* let list_shape = [ get_shape_of_tile t1; get_shape_of_tile t2;
+   get_shape_of_tile t3 ] in let sorted_index = [ get_index_of_tile t1;
+   get_index_of_tile t2; get_index_of_tile t3 ] |> List.sort compare in
+   match sorted_index with | [ a; b; c ] -> if a + 1 == b && b + 1 == c
+   then List.fold_left ( == ) true list_shape else false | _ -> false *)
 
 let pung_valid hand tile = failwith "TODO"
 

@@ -13,4 +13,4 @@ type move =
 
 val current_round : t -> RoundState.t
 
-val init_game : t
+val init_game : unit -> t
