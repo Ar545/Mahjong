@@ -9,7 +9,9 @@ type t = {
   mutable current : int;
   mutable tiles_count_left : int;
   hands : Tiles.t array;
+  hands_open : Tiles.t array;
   mutable tiles_left : Tiles.t;
+  mutable tiles_played : Tiles.t;
 }
 
 let draw_one state =
@@ -43,7 +45,9 @@ let init_round house players : t =
       current = 0;
       tiles_count_left = tile_length (init_tiles ());
       hands = [| []; []; []; [] |];
+      hands_open = [| []; []; []; [] |];
       tiles_left = init_tiles ();
+      tiles_played = [];
     }
 
 let hand index t = tiles_to_str t.hands.(index)

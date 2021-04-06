@@ -27,7 +27,7 @@ finalcheck:
 	@bash check.sh final
 
 zip:
-	zip mahjong.zip *.ml* *.json *.sh _tags .merlin .ocamlformat .ocamlinit LICENSE Makefile	
+	zip mahjong.zip *.ml* *.json *.sh _tags .merlin .ocamlformat .ocamlinit .md LICENSE Makefile	
 	
 docs: docs-public docs-private
 	
