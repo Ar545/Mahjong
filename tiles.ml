@@ -105,14 +105,30 @@ let get_shape_of_tile = function
   | Characters int -> 3
   | _ -> 0
 
-let chow_valid hand t1 t2 t3 = failwith "TODO"
+(** [chow_valid hand t1 t2 t3] is true if t1 t2 t3 is a chow. \n AF: the
+    (hand : tile list) must already contain t1 and t2, otherwise it is
+    not a valid chow. In other words, if a person chow 1 2 to 3 without
+    having 1 2, system will retrun 'invalid command, no such 1 and 2'.
+    else, here to determine if 1 2 3 forms a valid chow, and if not
+    return 'invalid chow, 1 2 3 is not a chow'*)
+let chow_valid (hand : t) t1 t2 t3 =
+  let list_shape = List.map get_shape_of_tile [ t1; t2; t3 ] in
+  match list_shape with
+  | [ a; b; c ] ->
+      if a == b && b == c then
+        let sorted_index =
+          List.map get_index_of_tile [ t1; t2; t3 ] |> List.sort compare
+        in
+        match sorted_index with
+        | [ a; b; c ] ->
+            if a + 1 == b && b + 1 == c then true else false
+        | _ -> false
+      else false
+  | _ -> false
 
-(* let list_shape = [ get_shape_of_tile t1; get_shape_of_tile t2;
-   get_shape_of_tile t3 ] in let sorted_index = [ get_index_of_tile t1;
-   get_index_of_tile t2; get_index_of_tile t3 ] |> List.sort compare in
-   match sorted_index with | [ a; b; c ] -> if a + 1 == b && b + 1 == c
-   then List.fold_left ( == ) true list_shape else false | _ -> false *)
-
+(** [pung_valid hand tile] is true if t is a pung. AF: the hand is a
+    valid hand. if hand does contain two tile_of_question then return
+    true*)
 let pung_valid hand tile = failwith "TODO"
 
 let kong_valid hand tile = failwith "TODO"
