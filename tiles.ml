@@ -71,7 +71,7 @@ let bonuses =
 let all_tiles_variety =
   dots_set @ bamboo_set @ characters_set @ orientations_set
 
-(* let tile_length tiles = List.length tiles *)
+let tile_length tiles = List.length tiles
 
 let tile_index_converter = function
   | Dots (num : int) -> 200 + num
@@ -202,6 +202,13 @@ let pung_valid hand tile =
 let kong_valid hand tile =
   if count_tile hand tile 0 > 2 then true else false
 
+let ankong_valid hand tile =
+  if count_tile hand tile 0 > 3 then true else false
+
+let ankong_index_valid hand (pos : int) =
+  let tile = List.nth hand pos in
+  if count_tile hand tile 0 > 3 then true else false
+
 (**************************************************************************
   cpkong - end - winning and scoring - start*)
 
@@ -225,8 +232,8 @@ let rec find_trump checked_hand = function
   | t1 :: tail -> false
   | [] -> false
 
-let winning_hand_standard hand open_hand tile =
-  find_trump [] (tiles_to_index (tile :: hand))
+let winning_hand_standard hand open_hand =
+  find_trump [] (tiles_to_index hand)
 
 let rec check_seven = function
   | t1 :: t2 :: tail -> if t1 = t2 then check_seven tail else false
@@ -234,9 +241,9 @@ let rec check_seven = function
   | _ -> raise Unknown
 
 (**the compare function to compare tiles is not yet implemented*)
-let winning_hand_seven hand tile =
+let winning_hand_seven hand =
   if check_size_13 hand then
-    let sorted_together = List.sort compare (tile :: hand) in
+    let sorted_together = List.sort compare hand in
     check_seven sorted_together
   else false
 
@@ -246,22 +253,28 @@ let rec check_thirteen = function
   | t1 :: tail -> true
   | _ -> raise Unknown
 
-let winning_hand_thirteen (hand : t) tile =
+let winning_hand_thirteen (hand : t) =
   if check_size_13 hand then
-    let sorted_together = List.sort compare (tile :: hand) in
+    let sorted_together = List.sort compare hand in
     check_thirteen (tiles_to_index sorted_together)
   else false
 
-let winning_hand (hand : t) (open_hand : t) tile =
-  if winning_hand_standard hand open_hand tile then 1
-  else if winning_hand_seven hand tile then 2
-  else if winning_hand_thirteen hand tile then 4
+let winning_hand (hand : t) (open_hand : t) (current : tile option) =
+  let complete_hand =
+    match current with None -> hand | Some tile -> tile :: hand
+  in
+  if winning_hand_standard complete_hand open_hand then 1
+  else if winning_hand_seven complete_hand then 2
+  else if winning_hand_thirteen complete_hand then 4
   else 0
 
-let scoring hand open_hand tile =
-  let (score : int ref) = ref (winning_hand hand open_hand tile) in
-  let () = if tile = Blank then score := !score * 2 else () in
-  let () = if open_hand = [] then score := !score * 2 else () in
+let winning_valid (hand : t) (open_hand : t) (current : tile option) =
+  if winning_hand hand open_hand current <> 0 then true else false
+
+let scoring hand open_hand (current : tile option) =
+  let (score : int ref) = ref (winning_hand hand open_hand current) in
+  let () = match current with None -> score := !score * 2 | _ -> () in
+  let () = match open_hand with [] -> score := !score * 2 | _ -> () in
   !score
 
 (***************************************************************************
@@ -324,4 +337,22 @@ let tile_string_converter = function
 let tiles_to_str hand = List.map tile_string_converter hand
 
 (**************************************************************************
-  tile-printer end*)
+  tile-printer - end - wildcard win - start*)
+
+let wildcard_score hand open_hand (current : tile option) =
+  scoring hand open_hand current / 2
+
+let wildcard_winning_valid
+    (wildcard : tile)
+    (subsitute_list : t)
+    hand
+    open_hand
+    (current : tile option) =
+  let clean_list =
+    let not_wild m = wildcard <> m in
+    List.filter not_wild hand
+  in
+  winning_valid (subsitute_list @ clean_list) open_hand current
+
+(**************************************************************************
+  end - wildcard win *)
