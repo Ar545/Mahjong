@@ -24,6 +24,7 @@ type tile =
     with 144 tiles*)
 type t = tile list
 
+(**randomize the order if a list of tile*)
 val shuffle : t -> t
 
 (** Initialize with 144 tiles*)
@@ -33,9 +34,15 @@ val init_tiles : unit -> t
 
 val tile_length : t -> int
 
-(** [chow_valid hand t1 t2 t3] is true when t1 t2 t3 is a valid chow and
-    t1 and t2 are both in hand. Otherwise, false*)
-val chow_valid : t -> tile -> tile -> tile -> bool
+(** **Depreciated** [chow_valid hand t1 t2 t3] is true when t1 t2 t3 is
+    a valid chow and t1 and t2 are both in hand. Otherwise, false.
+    **Depreciated**)
+val chow_valid_alternative : t -> tile -> tile -> tile -> bool
+
+(** [chow_valid hand t1 t2 t3] is true when t1 t2 is valid position of
+    hand and t1's tile and t2's tile and t3 is a valid chow. Otherwise,
+    false*)
+val chow_index_valid : t -> int -> int -> tile -> bool
 
 (** [pung_valid hand tile] is true when [tile] can form a pung
     combination with [hand] and false otherwise*)
@@ -45,14 +52,26 @@ val pung_valid : t -> tile -> bool
     combination with [hand] and false otherwise*)
 val kong_valid : t -> tile -> bool
 
+(** **Depreciated** [kong_valid hand tile] is true when [tile] can form
+    a kong combination with the tile [tile] and tile [tile] is within
+    the tile list [hand] and false otherwise **Depreciated* *)
+val ankong_valid : t -> tile -> bool
+
+(** [kong_valid hand tile] is true when [tile] can form a kong
+    combination with [hand] using the tile at index pos and false
+    otherwise*)
+val ankong_index_valid : t -> int -> bool
+
 (** [winning_hand hand] is true when [hand] is a valid winning hand in
     mahjong and false otherwise*)
-val winning_hand : t -> bool
+val winning_valid : t -> tile option -> bool
 
 (** [scoring hand] is the amount of points that is awarded to the player
     with the winning [hand]*)
-val scoring : t -> int
+val scoring : t -> tile option -> int
 
 val tiles_to_str : t -> string list
+
+val tiles_to_index : t -> int list
 
 (* val init_hand : t -> *)
