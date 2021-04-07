@@ -1,3 +1,5 @@
+(* open Tiles *)
+
 let random_abc_gen () =
   let i = Unix.gettimeofday () in
   let bound = int_of_float i mod 6 in
@@ -33,7 +35,7 @@ let random_e () =
   let bound = int_of_float i mod 3 in
   bound + 5
 
-let inital_int_list () =
+let initial_int_list () =
   match random_abc_gen () with
   | [ ah; bh; ch ] ->
       let a = random_a () in
@@ -49,6 +51,7 @@ let inital_int_list () =
         bh + b + 1;
         ch + 1;
         ch + c;
+        ch + c;
         600 + (11 * d);
         600 + (11 * d);
         600 + (11 * e);
@@ -62,3 +65,6 @@ let tutorial () =
     "At the beginning, the dealer, aka the player who play the \n\
      first hand (player on house) has 14 tiles and the player has 13 \
      cards."
+
+;;
+print_endline " "

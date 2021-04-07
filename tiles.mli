@@ -62,16 +62,22 @@ val ankong_valid : t -> tile -> bool
     otherwise*)
 val ankong_index_valid : t -> int -> bool
 
-(** [winning_hand hand] is true when [hand] is a valid winning hand in
-    mahjong and false otherwise*)
-val winning_valid : t -> tile option -> bool
+(** [winning_hand hand open_hand] is true when [hand] is a valid winning
+    hand in mahjong and false otherwise*)
+val winning_valid : t -> t -> tile option -> bool
 
-(** [scoring hand] is the amount of points that is awarded to the player
-    with the winning [hand]*)
-val scoring : t -> tile option -> int
+(** [scoring hand open_hand] is the amount of points that is awarded to
+    the player with the winning [hand]*)
+val scoring : t -> t -> tile option -> int
 
 val tiles_to_str : t -> string list
 
 val tiles_to_index : t -> int list
 
 (* val init_hand : t -> *)
+
+val tile_index_converter : tile -> int
+
+val index_to_tiles : int list -> t
+
+val index_tile_converter : int -> tile

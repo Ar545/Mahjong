@@ -356,3 +356,27 @@ let wildcard_winning_valid
 
 (**************************************************************************
   end - wildcard win *)
+
+let index_tile_converter (i : int) =
+  if i = 0 then Blank
+  else if i < 110 then Bamboo (i - 100)
+  else if i < 210 then Dots (i - 200)
+  else if i < 310 then Characters (i - 300)
+  else if i = 611 then East
+  else if i = 622 then South
+  else if i = 633 then West
+  else if i = 644 then North
+  else if i = 655 then Red
+  else if i = 666 then Green
+  else if i = 677 then White
+  else if i = 811 then Plum
+  else if i = 822 then Orchid
+  else if i = 833 then Chrysanthemum
+  else if i = 844 then Bam
+  else if i = 855 then Spring
+  else if i = 866 then Summer
+  else if i = 877 then Autumn
+  else if i = 888 then Winter
+  else raise Unknown
+
+let index_to_tiles hand = List.map index_tile_converter hand
