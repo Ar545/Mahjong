@@ -1,6 +1,6 @@
 # credits to CS3110 Professor MRC
 
-MODULES= command roundState gameState main players tiles 
+MODULES= command roundState gameState main players tiles tutorial
 OBJECTS=$(MODULES:=.cmo)
 MLS=$(MODULES:=.ml)
 MLIS=$(MODULES:=.mli)

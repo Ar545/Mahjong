@@ -1,0 +1,138 @@
+2021-04-08T03:49:17+00:00 leo#00 I: Runner: sequential
+2021-04-08T03:49:17+00:00 leo#00 I: Chooser: simple
+2021-04-08T03:49:17+00:00 leo#00 I: Configuration suite_name = "Mahjong test suite"
+2021-04-08T03:49:17+00:00 leo#00 I: Configuration cache_filename = "/home/lz527/3110/final_project/_build/oUnit-$(suite_name).cache"
+2021-04-08T03:49:17+00:00 leo#00 I: Configuration run_gc_full_major = "true"
+2021-04-08T03:49:17+00:00 leo#00 I: Configuration display = "true"
+2021-04-08T03:49:17+00:00 leo#00 I: Configuration results_style_1_X = "false"
+2021-04-08T03:49:17+00:00 leo#00 I: Configuration testdata_dir = "none"
+2021-04-08T03:49:17+00:00 leo#00 I: Configuration health_check_interval = "1."
+2021-04-08T03:49:17+00:00 leo#00 I: Configuration verbose = "false"
+2021-04-08T03:49:17+00:00 leo#00 I: Configuration chooser = "simple"
+2021-04-08T03:49:17+00:00 leo#00 I: Configuration output_html_dir = "none"
+2021-04-08T03:49:17+00:00 leo#00 I: Configuration processes_kill_period = "5."
+2021-04-08T03:49:17+00:00 leo#00 I: Configuration runner = "sequential"
+2021-04-08T03:49:17+00:00 leo#00 I: Configuration shards = "4"
+2021-04-08T03:49:17+00:00 leo#00 I: Configuration processes_grace_period = "5."
+2021-04-08T03:49:17+00:00 leo#00 I: Configuration log_encoding = "utf-8"
+2021-04-08T03:49:17+00:00 leo#00 I: Configuration output_junit_file = "none"
+2021-04-08T03:49:17+00:00 leo#00 I: Configuration ci = "false"
+2021-04-08T03:49:17+00:00 leo#00 I: Configuration output_file = "/home/lz527/3110/final_project/_build/oUnit-$(suite_name)-$(shard_id).log"
+2021-04-08T03:49:17+00:00 leo#00 I: Start test Mahjong test suite:0:c1a.
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:0:c1a is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: End test Mahjong test suite:0:c1a.
+2021-04-08T03:49:17+00:00 leo#00 I: Start test Mahjong test suite:1:c1b.
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:1:c1b is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: End test Mahjong test suite:1:c1b.
+2021-04-08T03:49:17+00:00 leo#00 I: Start test Mahjong test suite:2:c1n.
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:2:c1n is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: End test Mahjong test suite:2:c1n.
+2021-04-08T03:49:17+00:00 leo#00 I: Start test Mahjong test suite:3:c2a.
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:3:c2a is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: End test Mahjong test suite:3:c2a.
+2021-04-08T03:49:17+00:00 leo#00 I: Start test Mahjong test suite:4:c2b.
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:4:c2b is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: End test Mahjong test suite:4:c2b.
+2021-04-08T03:49:17+00:00 leo#00 I: Start test Mahjong test suite:5:c2c.
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:5:c2c is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: End test Mahjong test suite:5:c2c.
+2021-04-08T03:49:17+00:00 leo#00 I: Start test Mahjong test suite:6:c2n1.
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:6:c2n1 is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: End test Mahjong test suite:6:c2n1.
+2021-04-08T03:49:17+00:00 leo#00 I: Start test Mahjong test suite:7:c2n2.
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:7:c2n2 is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: End test Mahjong test suite:7:c2n2.
+2021-04-08T03:49:17+00:00 leo#00 I: Start test Mahjong test suite:8:c2n3.
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:8:c2n3 is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: End test Mahjong test suite:8:c2n3.
+2021-04-08T03:49:17+00:00 leo#00 I: Start test Mahjong test suite:9:p1a.
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:9:p1a is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: End test Mahjong test suite:9:p1a.
+2021-04-08T03:49:17+00:00 leo#00 I: Start test Mahjong test suite:10:p1b.
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:10:p1b is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: End test Mahjong test suite:10:p1b.
+2021-04-08T03:49:17+00:00 leo#00 I: Start test Mahjong test suite:11:p1n1.
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:11:p1n1 is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: End test Mahjong test suite:11:p1n1.
+2021-04-08T03:49:17+00:00 leo#00 I: Start test Mahjong test suite:12:p1n2.
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:12:p1n2 is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: End test Mahjong test suite:12:p1n2.
+2021-04-08T03:49:17+00:00 leo#00 I: Start test Mahjong test suite:13:p2a.
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:13:p2a is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: End test Mahjong test suite:13:p2a.
+2021-04-08T03:49:17+00:00 leo#00 I: Start test Mahjong test suite:14:p2b.
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:14:p2b is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: End test Mahjong test suite:14:p2b.
+2021-04-08T03:49:17+00:00 leo#00 I: Start test Mahjong test suite:15:p2n1.
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:15:p2n1 is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: End test Mahjong test suite:15:p2n1.
+2021-04-08T03:49:17+00:00 leo#00 I: Start test Mahjong test suite:16:p2n2.
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:16:p2n2 is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: End test Mahjong test suite:16:p2n2.
+2021-04-08T03:49:17+00:00 leo#00 I: Start test Mahjong test suite:17:k1.
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:17:k1 is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: End test Mahjong test suite:17:k1.
+2021-04-08T03:49:17+00:00 leo#00 I: Start test Mahjong test suite:18:k1n1.
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:18:k1n1 is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: End test Mahjong test suite:18:k1n1.
+2021-04-08T03:49:17+00:00 leo#00 I: Start test Mahjong test suite:19:k1n2.
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:19:k1n2 is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: End test Mahjong test suite:19:k1n2.
+2021-04-08T03:49:17+00:00 leo#00 I: Start test Mahjong test suite:20:k2.
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:20:k2 is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: End test Mahjong test suite:20:k2.
+2021-04-08T03:49:17+00:00 leo#00 I: Start test Mahjong test suite:21:k2n1.
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:21:k2n1 is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: End test Mahjong test suite:21:k2n1.
+2021-04-08T03:49:17+00:00 leo#00 I: Start test Mahjong test suite:22:k2n2.
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:22:k2n2 is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: End test Mahjong test suite:22:k2n2.
+2021-04-08T03:49:17+00:00 leo#00 I: Start test Mahjong test suite:23:ak1n1.
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:23:ak1n1 is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: End test Mahjong test suite:23:ak1n1.
+2021-04-08T03:49:17+00:00 leo#00 I: Start test Mahjong test suite:24:ak1n2.
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:24:ak1n2 is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: End test Mahjong test suite:24:ak1n2.
+2021-04-08T03:49:17+00:00 leo#00 I: Start test Mahjong test suite:25:ak2n1.
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:25:ak2n1 is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: End test Mahjong test suite:25:ak2n1.
+2021-04-08T03:49:17+00:00 leo#00 I: Start test Mahjong test suite:26:ak2n2.
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:26:ak2n2 is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: End test Mahjong test suite:26:ak2n2.
+2021-04-08T03:49:17+00:00 leo#00 I: ==============
+2021-04-08T03:49:17+00:00 leo#00 I: Summary:
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:26:ak2n2 is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:25:ak2n1 is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:24:ak1n2 is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:23:ak1n1 is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:22:k2n2 is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:21:k2n1 is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:20:k2 is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:19:k1n2 is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:18:k1n1 is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:17:k1 is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:16:p2n2 is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:15:p2n1 is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:14:p2b is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:13:p2a is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:12:p1n2 is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:11:p1n1 is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:10:p1b is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:9:p1a is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:8:c2n3 is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:7:c2n2 is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:6:c2n1 is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:5:c2c is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:4:c2b is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:3:c2a is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:2:c1n is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:1:c1b is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: Test Mahjong test suite:0:c1a is successful.
+2021-04-08T03:49:17+00:00 leo#00 I: Ran: 27 tests in: 0.05 seconds.
+2021-04-08T03:49:17+00:00 leo#00 I: Cases: 27.
+2021-04-08T03:49:17+00:00 leo#00 I: Tried: 27.
+2021-04-08T03:49:17+00:00 leo#00 I: Errors: 0.
+2021-04-08T03:49:17+00:00 leo#00 I: Failures: 0.
+2021-04-08T03:49:17+00:00 leo#00 I: Skip: 0.
+2021-04-08T03:49:17+00:00 leo#00 I: Todo: 0.
+2021-04-08T03:49:17+00:00 leo#00 I: Timeout: 0.
