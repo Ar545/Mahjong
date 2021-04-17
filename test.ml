@@ -4,8 +4,7 @@ open RoundState
 open GameState
 open Players
 open Tiles
-
-(* open Tutorial *)
+open Tutorial
 
 (** [cmp_set_like_lists lst1 lst2] compares two lists to see whether
     they are equivalent set-like lists. That means checking two things.
@@ -54,6 +53,33 @@ let chow_valid_index_test
   assert_equal ~printer:string_of_bool expected_output
     (chow_index_valid hand t1 t2 t3)
 
+let pung_valid_test
+    (name : string)
+    (hand : Tiles.t)
+    (tile : Tiles.tile)
+    (expected_output : bool) : test =
+  name >:: fun _ ->
+  assert_equal ~printer:string_of_bool expected_output
+    (pung_valid hand tile)
+
+let kong_valid_test
+    (name : string)
+    (hand : Tiles.t)
+    (tile : Tiles.tile)
+    (expected_output : bool) : test =
+  name >:: fun _ ->
+  assert_equal ~printer:string_of_bool expected_output
+    (kong_valid hand tile)
+
+let ankong_valid_index_test
+    (name : string)
+    (hand : Tiles.t)
+    (tile : int)
+    (expected_output : bool) : test =
+  name >:: fun _ ->
+  assert_equal ~printer:string_of_bool expected_output
+    (ankong_index_valid hand tile)
+
 (* end tiles test *)
 
 let tiles_list_1 =
@@ -64,25 +90,63 @@ let tiles_list_2 =
   [ 101; 103; 109; 207; 208; 301; 304; 304; 633; 633; 666; 666; 666 ]
   |> index_to_tiles
 
-let tile_1a = index_tile_converter 105
+let tile_1_chow_a = index_tile_converter 105
 
-let tile_1b = index_tile_converter 304
+let tile_1_chow_b = index_tile_converter 304
 
-let tile_2a = index_tile_converter 102
+let tile_1_pung_a = index_tile_converter 203
 
-let tile_2b = index_tile_converter 209
+let tile_1_pung_b = index_tile_converter 633
 
-let tile_2c = index_tile_converter 206
+let tile_2_pung_b = tile_1_pung_b
+
+let tile_1_kong = index_tile_converter 677
+
+let tile_2_chow_a = index_tile_converter 102
+
+let tile_2_chow_b = index_tile_converter 209
+
+let tile_2_chow_c = index_tile_converter 206
+
+let tile_2_pung_a = index_tile_converter 304
+
+let tile_false = index_tile_converter 611
+
+let tile_2_kong = index_tile_converter 666
 
 let tiles_tests =
   [
-    chow_valid_index_test "1a" tiles_list_1 1 2 tile_1a true;
-    chow_valid_index_test "1b" tiles_list_1 4 5 tile_1b true;
-    chow_valid_index_test "1n" tiles_list_1 1 2 tile_2b false;
-    chow_valid_index_test "2a" tiles_list_2 1 2 tile_2a true;
-    chow_valid_index_test "2b" tiles_list_2 4 5 tile_2b true;
-    chow_valid_index_test "2c" tiles_list_2 4 5 tile_2c true;
-    chow_valid_index_test "2n" tiles_list_2 4 5 tile_1a false;
+    (* chow *)
+    chow_valid_index_test "c1a" tiles_list_1 1 2 tile_1_chow_a true;
+    chow_valid_index_test "c1b" tiles_list_1 4 5 tile_1_chow_b true;
+    chow_valid_index_test "c1n" tiles_list_1 1 2 tile_2_chow_b false;
+    chow_valid_index_test "c2a" tiles_list_2 1 2 tile_2_chow_a true;
+    chow_valid_index_test "c2b" tiles_list_2 4 5 tile_2_chow_b true;
+    chow_valid_index_test "c2c" tiles_list_2 4 5 tile_2_chow_c true;
+    chow_valid_index_test "c2n1" tiles_list_2 4 5 tile_1_chow_a false;
+    chow_valid_index_test "c2n2" tiles_list_2 4 5 tile_1_chow_b false;
+    chow_valid_index_test "c2n3" tiles_list_2 4 5 tile_false false;
+    (* pung *)
+    pung_valid_test "p1a" tiles_list_1 tile_1_pung_a true;
+    pung_valid_test "p1b" tiles_list_1 tile_1_pung_b true;
+    pung_valid_test "p1n1" tiles_list_1 tile_2_pung_a false;
+    pung_valid_test "p1n2" tiles_list_1 tile_false false;
+    pung_valid_test "p2a" tiles_list_2 tile_2_pung_a true;
+    pung_valid_test "p2b" tiles_list_2 tile_2_pung_b true;
+    pung_valid_test "p2n1" tiles_list_2 tile_1_pung_a false;
+    pung_valid_test "p2n2" tiles_list_2 tile_false false;
+    (* kong *)
+    kong_valid_test "k1" tiles_list_1 tile_1_kong true;
+    kong_valid_test "k1n1" tiles_list_1 tile_2_kong false;
+    kong_valid_test "k1n2" tiles_list_1 tile_false false;
+    kong_valid_test "k2" tiles_list_2 tile_2_kong true;
+    kong_valid_test "k2n1" tiles_list_2 tile_1_kong false;
+    kong_valid_test "k2n2" tiles_list_2 tile_false false;
+    (*ankong*)
+    ankong_valid_index_test "ak1n1" tiles_list_1 1 false;
+    ankong_valid_index_test "ak1n2" tiles_list_1 11 false;
+    ankong_valid_index_test "ak2n1" tiles_list_2 2 false;
+    ankong_valid_index_test "ak2n2" tiles_list_2 12 false;
   ]
 
 let suite =

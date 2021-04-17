@@ -1,4 +1,4 @@
-(* open Tiles *)
+open Tiles
 
 let random_abc_gen () =
   let i = Unix.gettimeofday () in
