@@ -53,11 +53,14 @@ let welcome_text () =
   ANSITerminal.print_string [ ANSITerminal.Bold ]
     "\n\nWelcome to Mahjong! \n";
   Unix.sleep 1;
-  print_endline "Ian Presents!";
-  Unix.sleep 3
+  print_endline "Ian Presents!"
+
+(* ; Unix.sleep 3 *)
 
 let rec main_menu () =
-  print_endline "MAIN MENU - Mahjong Game v.beta";
+  ANSITerminal.print_string
+    [ ANSITerminal.red; ANSITerminal.Bold ]
+    "MAIN MENU - Mahjong Game v.beta\n";
   Unix.sleep 1;
   ANSITerminal.print_string [ ANSITerminal.blue ] "1. Play Easy\n";
   Unix.sleep 1;
@@ -85,7 +88,7 @@ let rec main_menu () =
             match_input ()
         | Some integer ->
             let not_ready () =
-              print_string "Module Not Ready Yet. Quit to Main Menu";
+              print_string "Module Not Ready Yet. Quit to Main Menu.\n";
               main_menu ()
             in
             if integer = 1 then not_ready ()
