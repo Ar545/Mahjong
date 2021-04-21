@@ -405,3 +405,24 @@ let ankong_tile_opt hand = List.find_opt (ankong_valid hand) hand
     valid hand. if hand does contain such pattern then return true *)
 let ankong_valid_new hand =
   match ankong_tile_opt hand with None -> false | Some t -> true
+
+let sort_hand hand =
+  index_to_tiles (List.sort Stdlib.compare (tiles_to_index hand))
+
+let rev_sort_hand hand = List.rev (sort_hand hand)
+
+let separate_first_tile hand =
+  match sort_hand hand with
+  | h :: t -> (t, h)
+  | [] -> failwith "precondition violation"
+
+let separate_random_tile hand =
+  match shuffle hand with
+  | h :: t -> (sort_hand t, h)
+  | [] -> failwith "precondition violation"
+
+let separate_last_tile hand =
+  let rev = rev_sort_hand hand in
+  match rev with
+  | h :: t -> (sort_hand t, h)
+  | [] -> failwith "precondition violation"

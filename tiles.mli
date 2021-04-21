@@ -94,3 +94,18 @@ val selfkong_valid : t -> t -> bool
     automatically kong the first hidden kong find. AF: the hand is a
     valid hand. if hand does contain such pattern then return true *)
 val ankong_valid_new : t -> bool
+
+(** sort a list of tile by the standard order *)
+val sort_hand : t -> t
+
+(** sort a list of tile by the reverse of standard order *)
+val rev_sort_hand : t -> t
+
+(** separate the first tile from the list of tiles *)
+val separate_first_tile : t -> t * tile
+
+(** separate the last tile from the list of tiles *)
+val separate_last_tile : t -> t * tile
+
+(** separate a random tile from the list of tiles *)
+val separate_random_tile : t -> t * tile

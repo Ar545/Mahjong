@@ -4,6 +4,7 @@ open Command
 
 type t = {
   house : player;
+  house_seat : int;
   players : Players.t;
   mutable current_drawer : int;
   mutable tiles_count_left : int;
@@ -57,6 +58,8 @@ exception Help_needed of t
 
 exception Invalid of string
 
+exception Winning of (player * int)
+
 let view_played () = failwith "unimplemented"
 
 let discard state (index : int) =
@@ -75,11 +78,6 @@ let selfkong state = failwith "unimplemented"
 let ankong state = failwith "unimplemented"
 
 let chow state index_1 index_2 = failwith "unimplemented"
-
-(* let selfkong_valid open_hand hand = failwith "unimplemented in
-   tiles.ml"
-
-   let ankong_valid_new hand = failwith "unimplemented in tiles.ml" *)
 
 let win_round (state : t) (player : Players.player) (from_wall : bool) :
     unit =
@@ -151,11 +149,13 @@ let init_round input_house input_players : t =
         draw_one state;
         helper (n - 1) state
   in
+  let house_seat_int = house_pos 0 input_players in
   helper 52
     {
       house = input_house;
+      house_seat = house_seat_int;
       players = input_players;
-      current_drawer = house_pos 0 input_players;
+      current_drawer = house_seat_int;
       tiles_count_left = tile_length (init_tiles ());
       hands = [| []; []; []; [] |];
       hands_open = [| []; []; []; [] |];
@@ -205,8 +205,45 @@ type move =
   | Legal
   | Illegal
 
-(*************************)
+let player_discard state : unit = failwith "unimplemented"
+
+let npc_response state : unit = failwith "unimplemented"
+
+let npc_discard state int : unit = failwith "unimplemented"
+
+let player_response state int : unit = failwith "unimplemented"
+
+let rec user_round state : unit =
+  draw_one state;
+  player_discard state;
+  npc_response state;
+  npc_int_round state 1
+
+and npc_int_round state npc_int : unit =
+  draw_one state;
+  npc_discard state npc_int;
+  player_response state npc_int;
+  if npc_int = 3 then user_round state
+  else npc_int_round state (npc_int + 1)
+
+let rec start_rounds input_house input_players =
+  let init_state = init_round input_house input_players in
+  let start_rounds_loop state : unit =
+    let index = state.house_seat in
+    match
+      if index = 0 then user_round state else npc_int_round state index
+    with
+    | exception Quit_game -> raise Quit_game
+    | exception Restart_round -> start_rounds state.house state.players
+    | exception End_of_tiles -> raise End_of_tiles
+    | exception Winning (a, b) -> raise (Winning (a, b))
+    | _ -> ()
+  in
+  start_rounds_loop init_state
+
+(**********************************************)
 (* some shit that ian left behind that leo do not understand *)
+(**********************************************)
 
 (* let hand = { abble: int; } *)
 
