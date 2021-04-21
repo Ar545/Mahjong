@@ -82,15 +82,8 @@ val index_to_tiles : int list -> t
 
 val index_tile_converter : int -> tile
 
-(** true if tile is a bonus *)
 val is_bonus : tile -> bool
 
-(** selfkong_valid open_hand hand is true if one can use one of the hand
-    to kong some three in the open hand. AF: the hand is a valid hand.
-    if hand does contain such combo then return true *)
 val selfkong_valid : t -> t -> bool
 
-(** ankong_valid_new hand is true if the hand has a valid hidden kong.
-    automatically kong the first hidden kong find. AF: the hand is a
-    valid hand. if hand does contain such pattern then return true *)
 val ankong_valid_new : t -> bool

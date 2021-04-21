@@ -381,27 +381,12 @@ let index_tile_converter (i : int) =
 
 let index_to_tiles hand = List.map index_tile_converter hand
 
-(** true if tile is a bonus *)
 let is_bonus = function
   | Plum | Orchid | Chrysanthemum | Bam | Spring | Summer | Autumn
   | Winter ->
       true
   | _ -> false
 
-(** selfkong_valid open_hand hand is true if one can use one of the hand
-    to kong some three in the open hand. AF: the hand is a valid hand.
-    if hand does contain such combo then return true *)
-let rec selfkong_valid open_hand hand =
-  match hand with
-  | h :: t ->
-      if kong_valid open_hand h then true
-      else selfkong_valid open_hand t
-  | [] -> false
+let selfkong_valid open_hand hand = false
 
-let ankong_tile_opt hand = List.find_opt (ankong_valid hand) hand
-
-(** ankong_valid_new hand is true if the hand has a valid hidden kong.
-    automatically kong the first hidden kong find. AF: the hand is a
-    valid hand. if hand does contain such pattern then return true *)
-let ankong_valid_new hand =
-  match ankong_tile_opt hand with None -> false | Some t -> true
+let ankong_valid_new hand = false

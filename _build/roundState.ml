@@ -76,10 +76,9 @@ let ankong state = failwith "unimplemented"
 
 let chow state index_1 index_2 = failwith "unimplemented"
 
-(* let selfkong_valid open_hand hand = failwith "unimplemented in
-   tiles.ml"
+let selfkong_valid open_hand hand = failwith "unimplemented in tiles.ml"
 
-   let ankong_valid_new hand = failwith "unimplemented in tiles.ml" *)
+let ankong_valid_new hand = failwith "unimplemented in tiles.ml"
 
 let win_round (state : t) (player : Players.player) (from_wall : bool) :
     unit =
