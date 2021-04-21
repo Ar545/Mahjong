@@ -1,36 +1,148 @@
 open Players
 open Tiles
-
-(* let hand = { abble: int; } *)
+open Command
 
 type t = {
   house : player;
   players : Players.t;
-  mutable current : int;
+  mutable current_drawer : int;
   mutable tiles_count_left : int;
   hands : Tiles.t array;
   hands_open : Tiles.t array;
   mutable tiles_left : Tiles.t;
   mutable tiles_played : Tiles.t;
+  mutable current_discard : Tiles.tile;
 }
 
-let draw_one state =
+exception End_of_tiles
+
+let rec kong_draw_one state (konger_index : int) : unit =
   match state.tiles_left with
-  | [] -> failwith "No More Tiles"
+  | [] -> raise End_of_tiles
   | h :: t ->
       state.tiles_count_left <- state.tiles_count_left - 1;
-      state.hands.(state.current) <- h :: state.hands.(state.current);
       state.tiles_left <- t;
-      state.current <- (state.current + 1) mod 4
+      if Tiles.is_bonus h then (
+        (* redraw a tile when the draw is bonus *)
+        state.hands_open.(konger_index) <-
+          h :: state.hands_open.(konger_index);
+        kong_draw_one state konger_index;
+        ())
+      else state.hands.(konger_index) <- h :: state.hands.(konger_index);
+      ()
 
-(* | {house;players;current;tiles_count_left;hands;tiles_left} as
-   new_state -> match tiles_left with | [] -> failwith "No More Tiles" |
-   h::t ->( hands.(current) <- h::hands.(current); {new_state with hands
-   = hands}) *)
+let rec draw_one state =
+  match state.tiles_left with
+  | [] -> raise End_of_tiles
+  | h :: t ->
+      state.tiles_count_left <- state.tiles_count_left - 1;
+      state.tiles_left <- t;
+      if Tiles.is_bonus h then (
+        (* redraw a tile when the draw is bonus *)
+        state.hands_open.(state.current_drawer) <-
+          h :: state.hands_open.(state.current_drawer);
+        draw_one state;
+        ())
+      else (
+        state.hands.(state.current_drawer) <-
+          h :: state.hands.(state.current_drawer);
+        state.current_drawer <- (state.current_drawer + 1) mod 4;
+        ())
 
-let play_one state tile = failwith "TODO"
+exception Quit_game
 
-let init_round house players : t =
+exception Restart_round
+
+exception Help_needed of t
+
+exception Invalid of string
+
+let view_played () = failwith "unimplemented"
+
+let discard state (index : int) =
+  let discard = List.nth state.hands.(0) index in
+  state.hands.(0) <- List.filter (fun x -> x != discard) state.hands.(0);
+  state.tiles_played <- discard :: state.tiles_played;
+  state.current_discard <- discard;
+  ()
+
+let pung state = failwith "unimplemented"
+
+let kong state = failwith "unimplemented"
+
+let selfkong state = failwith "unimplemented"
+
+let ankong state = failwith "unimplemented"
+
+let chow state index_1 index_2 = failwith "unimplemented"
+
+let selfkong_valid open_hand hand = failwith "unimplemented in tiles.ml"
+
+let ankong_valid_new hand = failwith "unimplemented in tiles.ml"
+
+let win_round (state : t) (player : Players.player) (from_wall : bool) :
+    unit =
+  failwith "unimplemented"
+
+let take_command state command =
+  let is_users_turn = state.current_drawer = 1 in
+  match command with
+  (* anytime, valid *)
+  | Quit -> raise Quit_game
+  | Restart -> raise Restart_round
+  | Help -> raise (Help_needed state)
+  | Played -> view_played ()
+  (* anytime, check *)
+  | Mahjong ->
+      let user = List.hd state.players in
+      if is_users_turn then
+        if winning_valid state.hands.(0) state.hands_open.(0) None then
+          win_round state user true
+        else
+          raise (Invalid "your hand does not meet mahjong requirement")
+      else if
+        winning_valid state.hands.(0) state.hands_open.(0)
+          (Some state.current_discard)
+      then win_round state user false
+      else raise (Invalid "this discard is not valid to hu")
+  | Kong ->
+      if is_users_turn then
+        if selfkong_valid state.hands_open.(0) state.hands.(0) then
+          selfkong state
+        else if ankong_valid_new state.hands.(0) then ankong state
+        else raise (Invalid "this discard is not valid to kong")
+      else if kong_valid state.hands.(0) state.current_discard then
+        kong state
+      else raise (Invalid "this discard is not valid to kong")
+  (* player only, check *)
+  | Discard int ->
+      if is_users_turn then discard state int
+      else raise (Invalid "not turn to discard")
+  (* npc only, check *)
+  | Continue ->
+      if not is_users_turn then ()
+      else raise (Invalid "must take action")
+  | Pung ->
+      if is_users_turn then
+        raise (Invalid "you can only pung other's tiles")
+      else if pung_valid state.hands.(0) state.current_discard then
+        pung state
+      else raise (Invalid "this discard is not valid to pung")
+  | Chow (index_1, index_2) ->
+      let is_upper_turn = state.current_drawer = 0 in
+      if not is_upper_turn then
+        raise (Invalid "you can only chow your upper hand's tiles")
+      else if
+        chow_index_valid state.hands.(0) index_1 index_2
+          state.current_discard
+      then chow state index_1 index_2
+      else raise (Invalid "this discard is not valid to chow")
+
+let init_round input_house input_players : t =
+  let rec house_pos acc = function
+    | h :: t -> if h = input_house then acc else house_pos (acc + 1) t
+    | _ -> failwith "precondition violation"
+  in
   let rec helper n state =
     match n with
     | 0 -> state
@@ -40,18 +152,66 @@ let init_round house players : t =
   in
   helper 52
     {
-      house;
-      players;
-      current = 0;
+      house = input_house;
+      players = input_players;
+      current_drawer = house_pos 0 input_players;
       tiles_count_left = tile_length (init_tiles ());
       hands = [| []; []; []; [] |];
       hands_open = [| []; []; []; [] |];
       tiles_left = init_tiles ();
       tiles_played = [];
+      current_discard = Blank;
     }
 
 let hand index t = tiles_to_str t.hands.(index)
 
 let tiles_left t = tiles_to_str t.tiles_left
 
-let next_turn t : t = failwith "TODO"
+let discard_hint state =
+  let kong_possible = failwith "unimplemented" in
+  let hu_possible = failwith "unimplemented" in
+  (* check hu *)
+  if hu_possible then print_endline "you may hu now"
+  else if (* check kong *)
+          kong_possible then print_endline "you may kong now"
+  else
+    let discard_suggestion = failwith "unimplemented" in
+    (* give discard suggestions *)
+    print_string "you may discard now. we suggest,";
+    discard_suggestion
+
+let continue_hint state =
+  let pung_possible = failwith "unimplemented" in
+  let continue_prompt = print_endline "no work to do. enter continue" in
+  (* check pung *)
+  if pung_possible then print_endline "you may pung now"
+  else continue_prompt;
+  (* check chow *)
+  if state.current_drawer = 0 then
+    let chow_possible = failwith "unimplemented" in
+    if chow_possible then print_endline "you may try chow now"
+    else continue_prompt
+  else continue_prompt
+
+let resolve_help state =
+  if state.current_drawer = 1 then
+    (* current player is user *)
+    discard_hint state
+  else (* current player is npc *)
+    continue_hint state
+
+type move =
+  | Legal
+  | Illegal
+
+(*************************)
+(* some shit that ian left behind that leo do not understand *)
+
+(* let hand = { abble: int; } *)
+
+(* | {house;players;current;tiles_count_left;hands;tiles_left} as
+   new_state -> match tiles_left with | [] -> failwith "No More Tiles" |
+   h::t ->( hands.(current) <- h::hands.(current); {new_state with hands
+   = hands}) *)
+
+(* let next_turn t : t = failwith "TODO" *)

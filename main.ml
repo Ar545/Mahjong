@@ -24,7 +24,7 @@ let test () =
   print_string "\n\nHere are the randomized tiles! \n";
   init_tiles () |> tiles_to_str |> print_str_list;
   print_string "\n\n";
-  let game = init_game () in
+  let game = init_game 1 false in
   print_string "example player one hand:\n";
   current_round game |> hand 0 |> print_str_list;
   print_string "\n\nexample player two hand:\n";
@@ -36,7 +36,7 @@ let test () =
   print_string "\n\ntiles left after initial distribution";
   current_round game |> tiles_left |> print_str_list;
   print_string "\n\n\n";
-  let game2 = init_game () in
+  let game2 = init_game 2 false in
   print_string "example player one hand:\n";
   current_round game2 |> hand 0 |> print_str_list;
   print_string "\n\nexample player two hand:\n";

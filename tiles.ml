@@ -380,3 +380,13 @@ let index_tile_converter (i : int) =
   else raise Unknown
 
 let index_to_tiles hand = List.map index_tile_converter hand
+
+let is_bonus = function
+  | Plum | Orchid | Chrysanthemum | Bam | Spring | Summer | Autumn
+  | Winter ->
+      true
+  | _ -> false
+
+let selfkong_valid open_hand hand = false
+
+let ankong_valid_new hand = false

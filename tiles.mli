@@ -81,3 +81,9 @@ val tile_index_converter : tile -> int
 val index_to_tiles : int list -> t
 
 val index_tile_converter : int -> tile
+
+val is_bonus : tile -> bool
+
+val selfkong_valid : t -> t -> bool
+
+val ankong_valid_new : t -> bool

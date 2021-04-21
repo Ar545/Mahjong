@@ -10,10 +10,10 @@
 
 type t
 
-val init_round : Players.player -> Players.player array -> t
+val init_round : Players.player -> Players.player list -> t
 
 val hand : int -> t -> string list
 
 val tiles_left : t -> string list
 
-val next_turn : t -> t
+val take_command : t -> Command.command -> unit

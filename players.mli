@@ -7,9 +7,11 @@ type npc
 
 type advance
 
-type t = player array
+type t = player list
 
-val basic_npc : t
+val basic_players : t
+
+val adv_players : t
 
 (** [execute_round npc] is the action the npc takes during its turn in a
     round *)

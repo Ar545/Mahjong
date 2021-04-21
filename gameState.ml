@@ -5,31 +5,27 @@ type t = {
   round_num : int;
   termination_distance : int;
   mutable scores : int array;
-  players : player array;
-  current : int;
+  players : player list;
+  current_onhouse : int;
   mutable round : RoundState.t;
 }
 
 let current_round t = t.round
 
-type move =
-  | Legal
-  | Illegal
-
 let seating_order () = []
 
 let termination_distance = 8
 
-let players = basic_npc
+let init_players is_adv = if is_adv then adv_players else basic_players
 
-let current = 0
-
-let init_game () : t =
+let init_game (distance : int) (is_adv : bool) : t =
+  let init_players = init_players is_adv in
+  let current = 0 in
   {
     round_num = 0;
-    termination_distance;
+    termination_distance = distance;
     scores = [| 0; 0; 0; 0 |];
-    players;
-    current;
-    round = init_round players.(current) players;
+    players = init_players;
+    current_onhouse = current;
+    round = init_round (List.nth init_players current) init_players;
   }
