@@ -15,23 +15,7 @@ type t = {
   mutable current_discard : Tiles.tile;
 }
 
-type round_end_message = {
-  winner : player option;
-  losers : player option;
-  score : int;
-}
-
 exception End_of_tiles
-
-exception Quit_game
-
-exception Restart_round
-
-exception Help_needed of t
-
-exception Invalid of string
-
-exception Winning of round_end_message
 
 let rec kong_draw_one state (konger_index : int) : unit =
   match state.tiles_left with
@@ -65,6 +49,16 @@ let rec draw_one state =
           h :: state.hands.(state.current_drawer);
         state.current_drawer <- (state.current_drawer + 1) mod 4;
         ())
+
+exception Quit_game
+
+exception Restart_round
+
+exception Help_needed of t
+
+exception Invalid of string
+
+exception Winning of (player * int)
 
 let view_played () = failwith "unimplemented"
 
@@ -242,7 +236,7 @@ let rec start_rounds input_house input_players =
     | exception Quit_game -> raise Quit_game
     | exception Restart_round -> start_rounds state.house state.players
     | exception End_of_tiles -> raise End_of_tiles
-    | exception Winning message -> raise (Winning message)
+    | exception Winning (a, b) -> raise (Winning (a, b))
     | _ -> ()
   in
   start_rounds_loop init_state
