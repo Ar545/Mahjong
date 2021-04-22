@@ -21,6 +21,9 @@ type round_end_message = {
   score : int;
 }
 
+let end_with_draw : round_end_message =
+  { winner = None; losers = None; score = 0 }
+
 exception End_of_tiles
 
 exception Quit_game
@@ -32,6 +35,16 @@ exception Help_needed of t
 exception Invalid of string
 
 exception Winning of round_end_message
+
+type result =
+  | Quit_game
+  | Round_end of round_end_message
+
+let is_draw (res : result) : bool =
+  match res with
+  | Quit_game -> false
+  | Round_end t -> (
+      match t.winner with None -> true | Some t -> false)
 
 let rec kong_draw_one state (konger_index : int) : unit =
   match state.tiles_left with
@@ -66,7 +79,19 @@ let rec draw_one state =
         state.current_drawer <- (state.current_drawer + 1) mod 4;
         ())
 
-let view_played () = failwith "unimplemented"
+let view_played (state : t) : unit =
+  print_endline "Here are all the tiles played:";
+  print_str_list (tiles_to_str state.tiles_played);
+  Unix.sleep 2;
+  print_endline "Here are player's open hand:";
+  print_string "Ian:[";
+  print_str_list (tiles_to_str state.hands_open.(1));
+  print_string "]; Leo:[";
+  print_str_list (tiles_to_str state.hands_open.(2));
+  print_string "]; Andrew:[";
+  print_str_list (tiles_to_str state.hands_open.(3));
+  print_string "].";
+  ()
 
 let discard state (index : int) =
   let discard = List.nth state.hands.(0) index in
@@ -85,8 +110,10 @@ let ankong state = failwith "unimplemented"
 
 let chow state index_1 index_2 = failwith "unimplemented"
 
-let win_round (state : t) (player : Players.player) (from_wall : bool) :
-    unit =
+let win_round
+    (state : t)
+    (player : Players.player)
+    (from_player : Players.player) : unit =
   failwith "unimplemented"
 
 let take_command state command =
@@ -96,19 +123,21 @@ let take_command state command =
   | Quit -> raise Quit_game
   | Restart -> raise Restart_round
   | Help -> raise (Help_needed state)
-  | Played -> view_played ()
+  | Played -> view_played state
   (* anytime, check *)
   | Mahjong ->
       let user = List.hd state.players in
       if is_users_turn then
         if winning_valid state.hands.(0) state.hands_open.(0) None then
-          win_round state user true
+          win_round state user (List.nth state.players 0)
         else
           raise (Invalid "your hand does not meet mahjong requirement")
       else if
         winning_valid state.hands.(0) state.hands_open.(0)
           (Some state.current_discard)
-      then win_round state user false
+      then
+        win_round state user
+          (List.nth state.players (state.current_drawer - 1))
       else raise (Invalid "this discard is not valid to hu")
   | Kong ->
       if is_users_turn then
@@ -175,28 +204,31 @@ let hand index t = tiles_to_str t.hands.(index)
 let tiles_left t = tiles_to_str t.tiles_left
 
 let discard_hint state =
-  let kong_possible = failwith "unimplemented" in
-  let hu_possible = failwith "unimplemented" in
+  (* let kong_possible is implemented in tiles.ml *)
+  (* let hu_possible is implemented in tiles.ml *)
   (* check hu *)
-  if hu_possible then print_endline "you may hu now"
+  if hu_possible state.hands.(0) then print_endline "you may hu now"
   else if (* check kong *)
-          kong_possible then print_endline "you may kong now"
+          kong_possible state.hands.(0) then
+    print_endline "you may kong now"
   else
-    let discard_suggestion = failwith "unimplemented" in
+    let discard_suggestion_tile = discard_suggestion state.hands.(0) in
     (* give discard suggestions *)
     print_string "you may discard now. we suggest,";
-    discard_suggestion
+    print_endline (tile_string_converter discard_suggestion_tile)
 
 let continue_hint state =
-  let pung_possible = failwith "unimplemented" in
+  (* let pung_possible is implemented in tiles.ml *)
   let continue_prompt = print_endline "no work to do. enter continue" in
   (* check pung *)
-  if pung_possible then print_endline "you may pung now"
+  if pung_possible state.hands.(0) state.current_discard then
+    print_endline "you may pung now"
   else continue_prompt;
   (* check chow *)
   if state.current_drawer = 0 then
-    let chow_possible = failwith "unimplemented" in
-    if chow_possible then print_endline "you may try chow now"
+    (* let chow_possible is implemented in tiles.ml *)
+    if chow_possible state.hands.(0) state.current_discard then
+      print_endline "you may try chow now"
     else continue_prompt
   else continue_prompt
 
@@ -234,16 +266,16 @@ and npc_int_round state npc_int : unit =
 
 let rec start_rounds input_house input_players =
   let init_state = init_round input_house input_players in
-  let start_rounds_loop state : unit =
+  let start_rounds_loop state : result =
     let index = state.house_seat in
     match
       if index = 0 then user_round state else npc_int_round state index
     with
-    | exception Quit_game -> raise Quit_game
+    | exception Quit_game -> Quit_game
     | exception Restart_round -> start_rounds state.house state.players
-    | exception End_of_tiles -> raise End_of_tiles
-    | exception Winning message -> raise (Winning message)
-    | _ -> ()
+    | exception End_of_tiles -> Round_end end_with_draw
+    | exception Winning message -> Round_end message
+    | _ -> failwith "precondition vilation at start_round of roundstate"
   in
   start_rounds_loop init_state
 

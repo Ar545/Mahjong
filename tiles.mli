@@ -82,6 +82,8 @@ val index_to_tiles : int list -> t
 
 val index_tile_converter : int -> tile
 
+val tile_string_converter : tile -> string
+
 (** true if tile is a bonus *)
 val is_bonus : tile -> bool
 
@@ -109,3 +111,20 @@ val separate_last_tile : t -> t * tile
 
 (** separate a random tile from the list of tiles *)
 val separate_random_tile : t -> t * tile
+
+val print_str_list : string list -> unit
+
+(** suggest a tile t from list of tile, hand, to be the best to discard *)
+val discard_suggestion : t -> tile
+
+(** determine if a hand is possible to hu *)
+val hu_possible : t -> bool
+
+(** determine if a hand is possible to pung *)
+val kong_possible : t -> bool
+
+(** determine if a hand is possible to chow *)
+val chow_possible : t -> tile -> bool
+
+(** determine if a hand is possible to pung *)
+val pung_possible : t -> tile -> bool

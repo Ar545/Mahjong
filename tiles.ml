@@ -426,3 +426,28 @@ let separate_last_tile hand =
   match rev with
   | h :: t -> (sort_hand t, h)
   | [] -> failwith "precondition violation"
+
+let print_str_list_by_ian hand =
+  ignore (List.map (fun x -> print_string (x ^ " ")) hand);
+  ()
+
+let rec print_str_list = function
+  | fst :: snd :: t ->
+      print_string (fst ^ " ");
+      print_str_list (snd :: t)
+  | h :: t -> print_string h
+  | [] -> failwith "precondition violation at print str at tiles"
+
+(* TODO - leave to Ian *)
+(*********************************************)
+
+(** suggest a tile t from list of tile, hand, to be the best to discard *)
+let discard_suggestion (hand : t) : tile = failwith "unimplemented"
+
+let hu_possible hand = failwith "unimplemented"
+
+let kong_possible hand = failwith "unimplemented"
+
+let pung_possible hand tile = failwith "unimplemented"
+
+let chow_possible hand tile = failwith "unimplemented"

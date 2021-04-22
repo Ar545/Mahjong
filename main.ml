@@ -8,10 +8,6 @@ let new_round () = failwith "TODO"
 
 let initalize () = failwith "TODO"
 
-let print_str_list hand =
-  ignore (List.map (fun x -> print_string (x ^ " ")) hand);
-  ()
-
 let tutorial () = Tutorial.tutorial_start ()
 
 let quit_game () =
