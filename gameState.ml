@@ -14,16 +14,17 @@ let current_round t = t.round
 
 let seating_order () = []
 
-let termination_distance = 8
+(* let termination_distance rounds = print_string "Please choose to play
+   4, 8, or 12 games"; *)
 
 let init_players is_adv = if is_adv then adv_players else basic_players
 
-let init_game (is_adv : bool) : t =
+let init_game (distance : int) (is_adv : bool) : t =
   let init_players = init_players is_adv in
   let current = 0 in
   {
     round_num = 0;
-    termination_distance;
+    termination_distance = distance;
     scores = [| 0; 0; 0; 0 |];
     players = init_players;
     current_onhouse = current;
