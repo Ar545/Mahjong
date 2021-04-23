@@ -6,7 +6,6 @@ type t = {
   termination_round : int;
   scores : int array;
   players : player list;
-  house : player;
   house_streak : int;
   house_index : int;
   round : RoundState.t;
@@ -42,17 +41,16 @@ let init_game (distance : int) (is_advanced : bool) : t =
     termination_round = distance;
     scores = [| 5000; 5000; 5000; 5000 |];
     players;
-    house;
     house_index;
     house_streak = 0;
     round = init_round house players;
   }
 
 (****************************************************)
+
 (* Functions for deciding whether the game continues or end after a
    round terminated. Updating game state accordingly if game hasn't
    ended *)
-(****************************************************)
 
 let calculate_score t house winner =
   let base_score = 3 in
@@ -93,7 +91,6 @@ let continue_or_quit t house house_wins =
         t with
         round_num = new_round_number;
         house_index = new_house_index;
-        house = new_house;
         house_streak = new_house_wins;
         round = init_round new_house t.players;
       }
