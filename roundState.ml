@@ -447,4 +447,4 @@ let rec start_rounds input_house input_players =
 
 (* type move = | Legal | Illegal *)
 
-(**to do: kong draw one; player after chow pung discard*)
+(**to do: kong draw one; player after chow pung discard *)

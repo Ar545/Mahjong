@@ -5,25 +5,16 @@ open Tiles
 open Tutorial
 open Players
 
-let new_round () = failwith "TODO"
-
-let initalize () = failwith "TODO"
-
-let tutorial () = Tutorial.tutorial_start ()
-
 let quit_game () =
   print_endline "Game Over.";
   Stdlib.exit 0
-
-let test () = print_string "\n\n\n"
 
 let welcome_text () =
   ANSITerminal.print_string [ ANSITerminal.Bold ]
     "\n\nWelcome to Mahjong! \n";
   Unix.sleep 1;
-  print_endline "Ian Presents!"
+  print_endline "Clarkson Presents!"
 
-(* ; Unix.sleep 3 *)
 let print_str_list lst =
   ignore (List.map (fun x -> print_string (x ^ " ")) lst);
   ()
