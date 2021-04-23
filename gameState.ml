@@ -132,10 +132,7 @@ let string_of_scores t =
 let rec update t =
   match start_rounds t.house t.players with
   | Quit_game -> Quit t
-  | Round_end winning_message -> (
-      match update_game_state t winning_message with
-      | Continue new_state -> update new_state
-      | Quit t -> Quit t)
+  | Round_end winning_message -> update_game_state t winning_message
   | Unknown_exception str ->
       print_endline str;
       Quit t
