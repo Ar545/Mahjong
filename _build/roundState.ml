@@ -39,7 +39,6 @@ exception Winning of round_end_message
 
 type result =
   | Quit_game
-  | Unknown_exception of string
   | Round_end of round_end_message
 
 let is_draw (res : result) : bool =
@@ -47,7 +46,6 @@ let is_draw (res : result) : bool =
   | Quit_game -> false
   | Round_end t -> (
       match t.winner with None -> true | Some t -> false)
-  | Unknown_exception _ -> false
 
 let rec kong_draw_one state (konger_index : int) : unit =
   match state.tiles_left with
@@ -127,21 +125,9 @@ let user_kong state =
   state.hands.(user_index) <- remove state.hands.(user_index) kong 3;
   state.current_discard <- Blank;
   state.kong_records.(user_index) <- state.kong_records.(user_index) + 1;
-  kong_draw_one state 0;
   ()
 
-let user_selfkong state =
-  let user_index = 0 in
-  let self_kong =
-    selfkong_tile state.hands_open.(user_index) state.hands.(user_index)
-  in
-  state.hands_open.(user_index) <-
-    self_kong :: state.hands_open.(user_index);
-  state.hands.(user_index) <-
-    remove state.hands.(user_index) self_kong 1;
-  state.kong_records.(user_index) <- state.kong_records.(user_index) + 1;
-  kong_draw_one state 0;
-  ()
+let user_selfkong state = ()
 
 let user_ankong state =
   let ankong =
@@ -156,7 +142,6 @@ let user_ankong state =
     ankong :: ankong :: ankong :: ankong
     :: state.hands_open.(user_index);
   state.kong_records.(user_index) <- state.kong_records.(user_index) + 2;
-  kong_draw_one state 0;
   ()
 
 let user_chow state index_1 index_2 =
@@ -178,17 +163,8 @@ let user_chow state index_1 index_2 =
 let win_round
     (state : t)
     (player : Players.player)
-    (from_player : Players.player)
-    (dekong_score : int) : unit =
-  let same_player = player = from_player in
-  let winning_round_end_message =
-    {
-      winner = Some player;
-      losers = (if same_player then None else Some from_player);
-      score = dekong_score + state.kong_records.(0);
-    }
-  in
-  raise (Winning winning_round_end_message)
+    (from_player : Players.player) : unit =
+  failwith "unimplemented"
 
 let take_command state command =
   let is_users_turn = state.current_drawer = 1 in
@@ -203,9 +179,7 @@ let take_command state command =
       let user = List.hd state.players in
       if is_users_turn then
         if winning_valid state.hands.(0) state.hands_open.(0) None then
-          win_round state user
-            (List.nth state.players 0)
-            (scoring state.hands.(0) state.hands_open.(0) None)
+          win_round state user (List.nth state.players 0)
         else
           raise (Invalid "your hand does not meet mahjong requirement")
       else if
@@ -214,8 +188,6 @@ let take_command state command =
       then
         win_round state user
           (List.nth state.players (state.current_drawer - 1))
-          (scoring state.hands.(0) state.hands_open.(0)
-             (Some state.current_discard))
       else raise (Invalid "this discard is not valid to hu")
   | Kong ->
       if is_users_turn then
@@ -318,64 +290,17 @@ let resolve_help state =
   else (* current player is npc *)
     continue_hint state
 
-(** scan input line. de - exception and parse into command *)
-let rec scan () =
-  match parse (read_line ()) with
-  | exception Command.Invalid str ->
-      print_endline str;
-      scan ()
-  | exception _ ->
-      print_endline "/unkown exception was caught. retry:";
-      scan ()
-  | t -> t
+type move =
+  | Legal
+  | Illegal
 
-let rec player_discard state : unit =
-  match take_command state (scan ()) with
-  | exception Tiles.Invalid_index -> player_discard state
-  | exception Invalid str ->
-      print_endline str;
-      player_discard state
-  | exception t ->
-      print_endline "debug: exception passby";
-      raise t
-  | () ->
-      Unix.sleep 1;
-      ()
+let player_discard state : unit = failwith "unimplemented"
 
-let npc_response state : unit =
-  print_endline "No player responded to your discard.";
-  Unix.sleep 1;
-  ()
+let npc_response state : unit = failwith "unimplemented"
 
-let npc_discard state index : unit =
-  let assoc =
-    if index = 2 then separate_last_tile state.hands.(index)
-    else separate_random_tile state.hands.(index)
-  in
-  let discard = snd assoc in
-  state.hands.(index) <- fst assoc;
-  state.current_discard <- discard;
-  print_string "player ";
-  print_string (string_of_int index);
-  print_string " has discarded: ";
-  print_endline (tile_string_converter discard);
-  Unix.sleep 1;
-  ()
+let npc_discard state int : unit = failwith "unimplemented"
 
-let rec player_response state index : unit =
-  print_string "Please respond to player ";
-  print_endline (string_of_int index);
-  match take_command state (scan ()) with
-  | exception Tiles.Invalid_index -> player_response state index
-  | exception Invalid str ->
-      print_endline str;
-      player_response state index
-  | exception t ->
-      print_endline "debug: exception passby";
-      raise t
-  | () ->
-      Unix.sleep 1;
-      ()
+let player_response state int : unit = failwith "unimplemented"
 
 let rec user_round state : unit =
   draw_one state;
@@ -401,10 +326,7 @@ let rec start_rounds input_house input_players =
     | exception Restart_round -> start_rounds state.house state.players
     | exception End_of_tiles -> Round_end end_with_draw
     | exception Winning message -> Round_end message
-    | exception _ -> Unknown_exception "unknown exception caught"
-    | () ->
-        Unknown_exception
-          "precondition vilation at start_round of roundstate"
+    | _ -> failwith "precondition vilation at start_round of roundstate"
   in
   start_rounds_loop init_state
 
@@ -420,7 +342,3 @@ let rec start_rounds input_house input_players =
    = hands}) *)
 
 (* let next_turn t : t = failwith "TODO" *)
-
-(* type move = | Legal | Illegal *)
-
-(**to do: kong draw one; player after chow pung discard*)

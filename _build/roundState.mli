@@ -18,7 +18,6 @@ type round_end_message = {
 type result =
   | Quit_game
   | Round_end of round_end_message
-  | Unknown_exception of string
 
 (** initialize a state of t list of players while t is the house player.
     return state *)
