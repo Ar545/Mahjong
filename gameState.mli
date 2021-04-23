@@ -10,6 +10,7 @@ type t = {
   termination_round : int;
   scores : int array;
   players : Players.player list;
+  house : Players.player;
   house_streak : int;
   house_index : int;
   round : RoundState.t;
