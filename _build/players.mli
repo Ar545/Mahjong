@@ -1,13 +1,31 @@
 (** Representation of the npc of the mahjong game *)
 
 (** [t] is a player of the game*)
-type player
+type npc =
+  | One
+  | Two
+  | Three
 
-type user
+type advance =
+  | One
+  | Two
+  | Three
 
-type npc
+type player =
+  | Basic of npc
+  | Adv of advance
+  | User
 
-val player_list : player list
+type t = player list
+
+val player_to_string : player -> string
+
+val npc_list_to_string : t -> string
+
+val basic_players : t
+
+val adv_players : t
+
 (** [execute_round npc] is the action the npc takes during its turn in a
     round *)
 val execute_round : player -> unit

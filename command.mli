@@ -1,20 +1,22 @@
 (** Parsing Player's Commands *)
 
-(** The type [player_command] is a player command phrase where each
-    element is word within the phrase. A word is defined to be a
-    sequence of non-space characters *)
-type player_command = string list
-
 (** The type [command] is a parsed player command that is composed of a
     verb and, depending on the command, followed by a player command *)
 type command =
-  | Continue
+  (* anytime, valid *)
+  | Quit
+  | Restart
+  | Played
   | Help
-  | Pung
-  | Chow of player_command
+  (* anytime, check *)
   | Kong
   | Mahjong
-  | Quit
+  (* player only, check *)
+  | Discard of int
+  (* npc only, check *)
+  | Continue
+  | Pung
+  | Chow of (int * int)
 
 (** [Invalid] is an exception that is raised when a command is invalid
     and can not be parsed *)

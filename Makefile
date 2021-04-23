@@ -1,6 +1,6 @@
 # credits to CS3110 Professor MRC
 
-MODULES= command roundState gameState main players tiles move
+MODULES= command roundState gameState main players tiles tutorial
 OBJECTS=$(MODULES:=.cmo)
 MLS=$(MODULES:=.ml)
 MLIS=$(MODULES:=.mli)
@@ -27,21 +27,21 @@ finalcheck:
 	@bash check.sh final
 
 zip:
-	zip adventure.zip *.ml* *.json *.sh _tags .merlin .ocamlformat .ocamlinit LICENSE Makefile	
+	zip mahjong.zip *.ml* *.json *.sh _tags .merlin .ocamlformat .ocamlinit .md LICENSE Makefile	
 	
 docs: docs-public docs-private
 	
 docs-public: build
 	mkdir -p _doc.public
-	ocamlfind ocamldoc -I _build -package yojson,ANSITerminal \
+	ocamlfind ocamldoc -I _build -package ANSITerminal \
 		-html -stars -d _doc.public $(MLIS)
 
 docs-private: build
 	mkdir -p _doc.private
-	ocamlfind ocamldoc -I _build -package yojson,ANSITerminal \
+	ocamlfind ocamldoc -I _build -package ANSITerminal \
 		-html -stars -d _doc.private \
 		-inv-merge-ml-mli -m A $(MLIS) $(MLS)
 
 clean:
 	ocamlbuild -clean
-	rm -rf _doc.public _doc.private adventure.zip
+	rm -rf _doc.public _doc.private mahjong.zip
