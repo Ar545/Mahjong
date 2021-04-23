@@ -9,11 +9,11 @@ type t = {
   house : player;
   house_streak : int;
   house_index : int;
-  round : result;
+  round : RoundState.t;
 }
 
 type game_progress =
-  | Quit
+  | Quit of t
   | Continue of t
 
 let current_round t = t.round
@@ -45,7 +45,7 @@ let init_game (distance : int) (is_advanced : bool) : t =
     house;
     house_index;
     house_streak = 0;
-    round = start_rounds house players;
+    round = init_round house players;
   }
 
 (****************************************************)
@@ -59,9 +59,9 @@ let calculate_score t house winner =
   let house_bonus = if house = winner then t.house_streak + 1 else 0 in
   (base_score + house_bonus) * 100
 
-let update_score t house winner losers tile_score =
+let update_score t house winner losers =
   let winner_index = index_of_player t.players winner in
-  let score = calculate_score t house winner + tile_score in
+  let score = calculate_score t house winner in
   t.scores.(winner_index) <- t.scores.(winner_index) + score;
   match losers with
   | None ->
@@ -78,7 +78,7 @@ let reached_termination t house_wins =
   t.round_num = t.termination_round && not house_wins
 
 let continue_or_quit t house house_wins =
-  if reached_termination t house_wins then Quit
+  if reached_termination t house_wins then Quit t
   else
     let new_round_number =
       if house_wins then t.round_num else t.round_num + 1
@@ -95,7 +95,7 @@ let continue_or_quit t house house_wins =
         house_index = new_house_index;
         house = new_house;
         house_streak = new_house_wins;
-        round = start_rounds new_house t.players;
+        round = init_round new_house t.players;
       }
 
 let update_game_state t winning_message =
@@ -105,20 +105,14 @@ let update_game_state t winning_message =
       let house_wins = false in
       continue_or_quit t house house_wins
   | Some winner ->
-      let tile_score = winning_message.score in
       let house_wins = house = winner in
-      update_score t house winner winning_message.losers tile_score;
+      update_score t house winner winning_message.losers;
       continue_or_quit t house house_wins
 
-let get_score t = t.scores
-
-let rec update t =
-  match t.round with
-  | Quit_game -> get_score t
-  | Round_end winning_message -> (
-      match update_game_state t winning_message with
-      | Continue new_state -> update new_state
-      | Quit -> get_score t)
+let update_round_results (t : t) (result : result) =
+  match result with
+  | Quit_game -> Quit t
+  | Round_end winning_message -> update_game_state t winning_message
   | Unknown_exception str ->
       print_endline str;
-      get_score t
+      Quit t

@@ -104,6 +104,11 @@ let test () =
   print_string "\nExample Round 2\n\n";
   example_game ()
 
+let welcome_text () =
+  ANSITerminal.print_string [ ANSITerminal.Bold ]
+    "\n\nWelcome to Mahjong!";
+  sleep_and_endline ()
+
 let rec match_input () : unit =
   print_endline "Please select from 1 to 5:";
   print_string "> ";

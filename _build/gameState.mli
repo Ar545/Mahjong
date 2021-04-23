@@ -36,4 +36,4 @@ val init_game : int -> bool -> t
 (** [update_round_results t results] takes in the current game state [t]
     and the results of the last round [results] and return whether the
     game will continue and initializa a new round or end the game *)
-val update : t -> t
+val update_round_results : t -> RoundState.result -> game_progress
