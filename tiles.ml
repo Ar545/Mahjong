@@ -488,3 +488,9 @@ let kong_possible hand = failwith "unimplemented"
 let pung_possible hand tile = failwith "unimplemented"
 
 let chow_possible hand tile = failwith "unimplemented"
+
+let rec add_tile_to_hand tile = function
+  | tile' :: t as hand ->
+      if compare tile tile' <= 0 then tile :: hand
+      else tile' :: add_tile_to_hand tile t
+  | [] -> [ tile ]

@@ -132,6 +132,8 @@ val separate_last_tile : t -> t * tile
 (** separate a random tile from the list of tiles *)
 val separate_random_tile : t -> t * tile
 
+val add_tile_to_hand : tile -> t -> t
+
 (****************************************************)
 (* help and suggestion *)
 (****************************************************)

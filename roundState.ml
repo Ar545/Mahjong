@@ -58,7 +58,7 @@ let rec kong_draw_one state (konger_index : int) : unit =
       if Tiles.is_bonus h then (
         (* redraw a tile when the draw is bonus *)
         state.hands_open.(konger_index) <-
-          h :: state.hands_open.(konger_index);
+          add_tile_to_hand h state.hands_open.(konger_index);
         kong_draw_one state konger_index;
         ())
       else state.hands.(konger_index) <- h :: state.hands.(konger_index);
@@ -73,12 +73,12 @@ let rec draw_one state =
       if Tiles.is_bonus h then (
         (* redraw a tile when the draw is bonus *)
         state.hands_open.(state.current_drawer) <-
-          h :: state.hands_open.(state.current_drawer);
+          add_tile_to_hand h state.hands_open.(state.current_drawer);
         draw_one state;
         ())
       else (
         state.hands.(state.current_drawer) <-
-          h :: state.hands.(state.current_drawer);
+          add_tile_to_hand h state.hands.(state.current_drawer);
         state.current_drawer <- (state.current_drawer + 1) mod 4;
         ())
 
