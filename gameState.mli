@@ -13,7 +13,6 @@ type t = {
   house : Players.player;
   house_streak : int;
   house_index : int;
-  round : RoundState.t;
 }
 
 (** [game_progress] is a wrapper of the game states that indicates
@@ -22,9 +21,8 @@ type game_progress =
   | Quit of t
   | Continue of t
 
-(** [current_round t] is the state of the current round of the game
-    state [t] *)
-val current_round : t -> RoundState.t
+(* (** [current_round t] is the state of the current round of the game
+   state [t] *) val current_round : t -> RoundState.t *)
 
 (** [init_game distance is_advanced] starts a new game state that
     represent the entirety of the mahjong game. [distance] is the amount
@@ -33,7 +31,15 @@ val current_round : t -> RoundState.t
     level npc or three basic level npc*)
 val init_game : int -> bool -> t
 
+val get_score : t -> int array
+
+val get_round : t -> int
+
+val get_house : t -> Players.player
+
+val string_of_scores : t -> string
+
 (** [update_round_results t results] takes in the current game state [t]
     and the results of the last round [results] and return whether the
     game will continue and initializa a new round or end the game *)
-val update_round_results : t -> RoundState.result -> game_progress
+val update : t -> game_progress

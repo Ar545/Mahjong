@@ -71,4 +71,4 @@ let parse str =
       | _ -> raise_invalid "enter discard and a index")
   | "restart" :: t | "new" :: "round" :: t -> (
       match t with [] -> Restart | _ -> raise_invalid "new round")
-  | _ -> raise_invalid "??"
+  | _ -> raise_invalid " "

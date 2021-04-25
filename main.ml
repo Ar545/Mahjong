@@ -50,6 +50,18 @@ let not_ready () =
   print_string "\nModule Not Ready Yet. Return to Main Menu.\n\n";
   main_menu ()
 
+let rec play_game game =
+  print_endline
+    ("Begin Round "
+    ^ (get_round game |> ( + ) 1 |> string_of_int)
+    ^ ": ");
+  print_endline ("Scores:\n\n" ^ string_of_scores game ^ "\n\n");
+  match update game with
+  | Continue new_game -> play_game new_game
+  | Quit new_game ->
+      print_endline "Final Results: ";
+      print_endline ("Scores:\n\n" ^ string_of_scores new_game)
+
 let start_game play_advanced =
   let total_rounds = 8 in
   let game = init_game total_rounds play_advanced in
@@ -60,7 +72,8 @@ let start_game play_advanced =
     ^ string_of_int total_rounds
     ^ " rounds!\n");
   sleep_and_endline ();
-  not_ready ()
+  play_game game;
+  main_menu ()
 
 let play_advanced () =
   print_string "\nYou have selected Advanced Level!\n\n";
@@ -80,7 +93,7 @@ let quit_game () =
 
 let example_game () =
   let game = init_game 1 false in
-  let round = current_round game in
+  let round = init_round game.house game.players in
   print_string "player one hand:\n";
   round |> hand 0 |> print_str_list;
   print_string "\n\nplayer two hand:\n";

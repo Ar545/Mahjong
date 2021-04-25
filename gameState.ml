@@ -9,14 +9,11 @@ type t = {
   house : player;
   house_streak : int;
   house_index : int;
-  round : RoundState.t;
 }
 
 type game_progress =
   | Quit of t
   | Continue of t
-
-let current_round t = t.round
 
 let locate_player players index = List.nth players index
 
@@ -45,7 +42,6 @@ let init_game (distance : int) (is_advanced : bool) : t =
     house;
     house_index;
     house_streak = 0;
-    round = init_round house players;
   }
 
 (****************************************************)
@@ -59,9 +55,9 @@ let calculate_score t house winner =
   let house_bonus = if house = winner then t.house_streak + 1 else 0 in
   (base_score + house_bonus) * 100
 
-let update_score t house winner losers =
+let update_score t house winner losers tile_score =
   let winner_index = index_of_player t.players winner in
-  let score = calculate_score t house winner in
+  let score = calculate_score t house winner + tile_score in
   t.scores.(winner_index) <- t.scores.(winner_index) + score;
   match losers with
   | None ->
@@ -95,7 +91,6 @@ let continue_or_quit t house house_wins =
         house_index = new_house_index;
         house = new_house;
         house_streak = new_house_wins;
-        round = init_round new_house t.players;
       }
 
 let update_game_state t winning_message =
@@ -105,12 +100,37 @@ let update_game_state t winning_message =
       let house_wins = false in
       continue_or_quit t house house_wins
   | Some winner ->
+      let tile_score = winning_message.score in
       let house_wins = house = winner in
-      update_score t house winner winning_message.losers;
+      update_score t house winner winning_message.losers tile_score;
       continue_or_quit t house house_wins
 
-let update_round_results (t : t) (result : result) =
-  match result with
+let get_score t = t.scores
+
+let get_round t = t.round_num
+
+let get_house t = t.house
+
+let string_of_scores t =
+  let score = get_score t in
+  player_to_string (locate_player t.players 0)
+  ^ ": "
+  ^ string_of_int score.(0)
+  ^ "\n"
+  ^ player_to_string (locate_player t.players 1)
+  ^ ": "
+  ^ string_of_int score.(1)
+  ^ "\n"
+  ^ player_to_string (locate_player t.players 2)
+  ^ ": "
+  ^ string_of_int score.(2)
+  ^ "\n"
+  ^ player_to_string (locate_player t.players 3)
+  ^ ": "
+  ^ string_of_int score.(3)
+
+let rec update t =
+  match start_rounds t.house t.players with
   | Quit_game -> Quit t
   | Round_end winning_message -> update_game_state t winning_message
   | Unknown_exception str ->

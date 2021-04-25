@@ -431,20 +431,3 @@ let rec start_rounds input_house input_players =
           "precondition vilation at start_round of roundstate"
   in
   start_rounds_loop init_state
-
-(**********************************************)
-(* some shit that ian left behind that leo do not understand *)
-(**********************************************)
-
-(* let hand = { abble: int; } *)
-
-(* | {house;players;current;tiles_count_left;hands;tiles_left} as
-   new_state -> match tiles_left with | [] -> failwith "No More Tiles" |
-   h::t ->( hands.(current) <- h::hands.(current); {new_state with hands
-   = hands}) *)
-
-(* let next_turn t : t = failwith "TODO" *)
-
-(* type move = | Legal | Illegal *)
-
-(**to do: kong draw one; player after chow pung discard *)
