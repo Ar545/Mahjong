@@ -82,6 +82,13 @@ let rec draw_one state =
         state.current_drawer <- (state.current_drawer + 1) mod 4;
         ())
 
+let skip_to_after state player =
+  let rec pos player acc = function
+    | h :: t -> if h = player then acc else pos player (acc + 1) t
+    | [] -> failwith "precondition violation"
+  in
+  state.current_drawer <- pos player 0 state.players + 1
+
 let view_played (state : t) : unit =
   print_endline "Here are all the tiles played:";
   print_str_list (tiles_to_str state.tiles_played);
@@ -131,6 +138,9 @@ let win_round
   raise (Winning winning_round_end_message)
 
 let rec player_discard state : unit =
+  print_string "<";
+  print_str_list (tiles_to_str state.hands.(0));
+  print_endline " >. Must discard one now.";
   match take_command state (scan ()) with
   | exception Tiles.Invalid_index -> player_discard state
   | exception Invalid str ->
@@ -242,7 +252,8 @@ and take_command state command =
   (* player only, check *)
   | Discard int ->
       if is_users_turn then user_discard state int
-      else raise (Invalid "not turn to discard")
+      else user_discard state int;
+      skip_to_after state (List.hd state.players)
   (* npc only, check *)
   | Continue ->
       if not is_users_turn then ()
@@ -387,6 +398,9 @@ let npc_discard state index : unit =
   ()
 
 let rec player_response state index : unit =
+  print_string "<";
+  print_str_list (tiles_to_str state.hands.(0));
+  print_endline " >.";
   print_string "Please respond to player ";
   print_endline (string_of_int index);
   match take_command state (scan ()) with
@@ -403,6 +417,7 @@ let rec player_response state index : unit =
 
 let rec user_round state : unit =
   draw_one state;
+  (* print_str_list (tiles_to_str state.hands.(0)); *)
   player_discard state;
   npc_response state;
   npc_int_round state 1
@@ -417,6 +432,9 @@ and npc_int_round state npc_int : unit =
 let rec start_rounds input_house input_players =
   let init_state = init_round input_house input_players in
   let start_rounds_loop state : result =
+    print_string "Your Initial Hand: <";
+    print_str_list (tiles_to_str state.hands.(0));
+    print_endline " >.";
     let index = state.house_seat in
     match
       if index = 0 then user_round state else npc_int_round state index

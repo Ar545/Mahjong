@@ -31,6 +31,8 @@ let raise_invalid comment =
 let parse str =
   match String.split_on_char ' ' str |> remove_space |> to_lower with
   | [] -> Continue
+  | "continue" :: t | "next" :: t -> (
+      match t with [] -> Continue | _ -> raise_invalid "continue")
   | "help" :: t -> (
       match t with [] -> Help | _ -> raise_invalid "help")
   | "pung" :: t | "peng" :: t -> (
