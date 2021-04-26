@@ -59,7 +59,7 @@ let rec play_game game =
     ^ (get_round game |> ( + ) 1 |> string_of_int)
     ^ ": ");
   print_endline
-    ("Scores:\n" ^ string_of_scores game ^ "\n==================");
+    ("Scores:\n" ^ string_of_scores game ^ "==================");
   match update game with
   | Continue new_game -> play_game new_game
   | Quit new_game ->
