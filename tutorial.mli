@@ -1,5 +1,5 @@
 (** **Depreciated** initial a list by int **may only be used in test **)
-val initial_int_list : unit -> int list
+val initial_int_list : unit -> int list list
 
 (** display toturial from chapter [int] *)
 val tutorial : int -> unit

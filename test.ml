@@ -53,6 +53,17 @@ let chow_valid_index_test
   assert_equal ~printer:string_of_bool expected_output
     (chow_index_valid hand t1 t2 t3)
 
+let chow_valid_depre_test
+    (name : string)
+    (hand : Tiles.t)
+    (t1 : int)
+    (t2 : int)
+    (t3 : Tiles.tile)
+    (expected_output : bool) : test =
+  name >:: fun _ ->
+  assert_equal ~printer:string_of_bool expected_output
+    (chow_index_valid_depre hand t1 t2 t3)
+
 let pung_valid_test
     (name : string)
     (hand : Tiles.t)
@@ -126,6 +137,16 @@ let tiles_tests =
     chow_valid_index_test "c2n1" tiles_list_2 4 5 tile_1_chow_a false;
     chow_valid_index_test "c2n2" tiles_list_2 4 5 tile_1_chow_b false;
     chow_valid_index_test "c2n3" tiles_list_2 4 5 tile_false false;
+    (* chow_depre *)
+    chow_valid_depre_test "c1a" tiles_list_1 1 2 tile_1_chow_a true;
+    chow_valid_depre_test "c1b" tiles_list_1 4 5 tile_1_chow_b true;
+    chow_valid_depre_test "c1n" tiles_list_1 1 2 tile_2_chow_b false;
+    chow_valid_depre_test "c2a" tiles_list_2 1 2 tile_2_chow_a true;
+    chow_valid_depre_test "c2b" tiles_list_2 4 5 tile_2_chow_b true;
+    chow_valid_depre_test "c2c" tiles_list_2 4 5 tile_2_chow_c true;
+    chow_valid_depre_test "c2n1" tiles_list_2 4 5 tile_1_chow_a false;
+    chow_valid_depre_test "c2n2" tiles_list_2 4 5 tile_1_chow_b false;
+    chow_valid_depre_test "c2n3" tiles_list_2 4 5 tile_false false;
     (* pung *)
     pung_valid_test "p1a" tiles_list_1 tile_1_pung_a true;
     pung_valid_test "p1b" tiles_list_1 tile_1_pung_b true;
@@ -149,8 +170,241 @@ let tiles_tests =
     ankong_valid_index_test "ak2n2" tiles_list_2 12 false;
   ]
 
+let random_tests () =
+  (*random generator*)
+  let random_list = initial_int_list () in
+  match random_list with
+  | [ the_list; chow; pung; others ] -> (
+      match chow with
+      | [ chowa; chowb; chowc ] -> (
+          match pung with
+          | [ kong; punga; pungb ] -> (
+              match others with
+              | [ oa; ob; oc ] ->
+                  [
+                    chow_valid_index_test "chow 1 2 random a"
+                      (index_to_tiles the_list)
+                      1 2
+                      (index_tile_converter chowa)
+                      true;
+                    chow_valid_index_test "chow 4 5 random a"
+                      (index_to_tiles the_list)
+                      4 5
+                      (index_tile_converter chowa)
+                      false;
+                    chow_valid_index_test "chow 4 5 random b"
+                      (index_to_tiles the_list)
+                      4 5
+                      (index_tile_converter chowb)
+                      true;
+                    chow_valid_index_test "chow 4 5 random c"
+                      (index_to_tiles the_list)
+                      4 5
+                      (index_tile_converter chowc)
+                      true;
+                    chow_valid_index_test "chow 1 2 random a"
+                      (index_to_tiles the_list)
+                      1 2
+                      (index_tile_converter chowc)
+                      false;
+                    chow_valid_index_test "chow 6 7 random a"
+                      (index_to_tiles the_list)
+                      6 7
+                      (index_tile_converter chowa)
+                      false;
+                    chow_valid_index_test "chow 7 8 random a"
+                      (index_to_tiles the_list)
+                      7 8
+                      (index_tile_converter chowb)
+                      false;
+                    chow_valid_index_test "chow 8 9 random a"
+                      (index_to_tiles the_list)
+                      8 9
+                      (index_tile_converter chowc)
+                      false;
+                    chow_valid_index_test "chow 2 3 random a"
+                      (index_to_tiles the_list)
+                      2 3
+                      (index_tile_converter chowa)
+                      false;
+                    chow_valid_index_test "chow 3 4 random a"
+                      (index_to_tiles the_list)
+                      3 4
+                      (index_tile_converter chowb)
+                      false;
+                    chow_valid_index_test "chow 9 10 random a"
+                      (index_to_tiles the_list)
+                      9 10
+                      (index_tile_converter chowc)
+                      false;
+                    chow_valid_index_test "chow false random a"
+                      (index_to_tiles the_list)
+                      1 2
+                      (index_tile_converter oa)
+                      false;
+                    chow_valid_index_test "chow false random a"
+                      (index_to_tiles the_list)
+                      1 2
+                      (index_tile_converter ob)
+                      false;
+                    chow_valid_index_test "chow false random a"
+                      (index_to_tiles the_list)
+                      1 2
+                      (index_tile_converter oc)
+                      false;
+                    chow_valid_index_test "chow false random a"
+                      (index_to_tiles the_list)
+                      4 5
+                      (index_tile_converter oa)
+                      false;
+                    chow_valid_index_test "chow false random a"
+                      (index_to_tiles the_list)
+                      4 5
+                      (index_tile_converter ob)
+                      false;
+                    chow_valid_index_test "chow false random a"
+                      (index_to_tiles the_list)
+                      4 5
+                      (index_tile_converter oc)
+                      false;
+                    chow_valid_depre_test "chow 1 2 random a"
+                      (index_to_tiles the_list)
+                      1 2
+                      (index_tile_converter chowa)
+                      true;
+                    chow_valid_depre_test "chow 4 5 random a"
+                      (index_to_tiles the_list)
+                      4 5
+                      (index_tile_converter chowa)
+                      false;
+                    chow_valid_depre_test "chow 4 5 random b"
+                      (index_to_tiles the_list)
+                      4 5
+                      (index_tile_converter chowb)
+                      true;
+                    chow_valid_depre_test "chow 4 5 random c"
+                      (index_to_tiles the_list)
+                      4 5
+                      (index_tile_converter chowc)
+                      true;
+                    chow_valid_depre_test "chow 1 2 random a"
+                      (index_to_tiles the_list)
+                      1 2
+                      (index_tile_converter chowc)
+                      false;
+                    chow_valid_depre_test "chow 6 7 random a"
+                      (index_to_tiles the_list)
+                      6 7
+                      (index_tile_converter chowa)
+                      false;
+                    chow_valid_depre_test "chow 7 8 random a"
+                      (index_to_tiles the_list)
+                      7 8
+                      (index_tile_converter chowb)
+                      false;
+                    chow_valid_depre_test "chow 8 9 random a"
+                      (index_to_tiles the_list)
+                      8 9
+                      (index_tile_converter chowc)
+                      false;
+                    chow_valid_depre_test "chow 2 3 random a"
+                      (index_to_tiles the_list)
+                      2 3
+                      (index_tile_converter chowa)
+                      false;
+                    chow_valid_depre_test "chow 3 4 random a"
+                      (index_to_tiles the_list)
+                      3 4
+                      (index_tile_converter chowb)
+                      false;
+                    chow_valid_depre_test "chow 9 10 random a"
+                      (index_to_tiles the_list)
+                      9 10
+                      (index_tile_converter chowc)
+                      false;
+                    chow_valid_depre_test "chow false random a"
+                      (index_to_tiles the_list)
+                      1 2
+                      (index_tile_converter oa)
+                      false;
+                    chow_valid_depre_test "chow false random a"
+                      (index_to_tiles the_list)
+                      1 2
+                      (index_tile_converter ob)
+                      false;
+                    chow_valid_depre_test "chow false random a"
+                      (index_to_tiles the_list)
+                      1 2
+                      (index_tile_converter oc)
+                      false;
+                    chow_valid_depre_test "chow false random a"
+                      (index_to_tiles the_list)
+                      4 5
+                      (index_tile_converter oa)
+                      false;
+                    chow_valid_depre_test "chow false random a"
+                      (index_to_tiles the_list)
+                      4 5
+                      (index_tile_converter ob)
+                      false;
+                    chow_valid_depre_test "chow false random a"
+                      (index_to_tiles the_list)
+                      4 5
+                      (index_tile_converter oc)
+                      false;
+                    pung_valid_test "pung a random"
+                      (index_to_tiles the_list)
+                      (index_tile_converter punga)
+                      true;
+                    pung_valid_test "pung b random"
+                      (index_to_tiles the_list)
+                      (index_tile_converter pungb)
+                      true;
+                    pung_valid_test "pung false b random"
+                      (index_to_tiles the_list)
+                      (index_tile_converter ob)
+                      false;
+                    pung_valid_test "pung false a random"
+                      (index_to_tiles the_list)
+                      (index_tile_converter oa)
+                      false;
+                    kong_valid_test "kong random"
+                      (index_to_tiles the_list)
+                      (index_tile_converter kong)
+                      true;
+                    kong_valid_test "kong false a random"
+                      (index_to_tiles the_list)
+                      (index_tile_converter oa)
+                      false;
+                    kong_valid_test "kong false b random"
+                      (index_to_tiles the_list)
+                      (index_tile_converter ob)
+                      false;
+                    kong_valid_test "kong false c random"
+                      (index_to_tiles the_list)
+                      (index_tile_converter oc)
+                      false;
+                  ]
+              | _ -> failwith "precondition violation")
+          | _ -> failwith "precondition violation")
+      | _ -> failwith "precondition violation")
+  | _ -> failwith "precondition violation"
+
+let possibility_test = []
+
+let win_test = []
+
 let suite =
   "Mahjong test suite"
-  >::: List.flatten [ tiles_tests (* Insert Tests Here*) ]
+  >::: List.flatten
+         [
+           random_tests ();
+           possibility_test;
+           random_tests ();
+           tiles_tests;
+           random_tests ();
+           win_test;
+           random_tests ();
+         ]
 
 let _ = run_test_tt_main suite

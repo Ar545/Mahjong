@@ -169,5 +169,7 @@ val ankong_valid : t -> tile -> bool
     **Depreciated**)
 val chow_valid_alternative : t -> tile -> tile -> tile -> bool
 
-(**if exception unknown is raise, then there is bug in the code *)
-exception Unknown
+(** **Depreciated** [chow_valid_index_Depre hand t1 t2 t3] is true when
+    t1 t2 is valid position of hand and t1's tile and t2's tile and t3
+    is a valid chow. Otherwise, false*)
+val chow_index_valid_depre : t -> int -> int -> tile -> bool

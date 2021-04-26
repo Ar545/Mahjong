@@ -158,7 +158,7 @@ let chow_valid (hand : t) t1 t2 t3 =
 
 let chow_valid_alternative (hand : t) t1 t2 (t3 : tile) =
   let (index_list : int list) = tiles_to_index [ t1; t2; t3 ] in
-  match index_list with
+  match List.sort_uniq Stdlib.compare index_list with
   | [ a; b; c ] -> if a + 1 == b && b + 1 == c then true else false
   | _ -> false
 
@@ -180,6 +180,18 @@ let chow_index_valid (hand : t) (index1 : int) (index2 : int) t3 =
   then raise Invalid_index
   else
     chow_valid_alternative hand
+      (List.nth hand (index1 - 1))
+      (List.nth hand (index2 - 1))
+      t3
+
+let chow_index_valid_depre (hand : t) (index1 : int) (index2 : int) t3 =
+  let hand_length = List.length hand in
+  if
+    index1 < 1 || index2 < 1 || index1 > hand_length
+    || index2 > hand_length
+  then raise Invalid_index
+  else
+    chow_valid hand
       (List.nth hand (index1 - 1))
       (List.nth hand (index2 - 1))
       t3
@@ -244,7 +256,7 @@ let winning_hand_standard hand open_hand =
 let rec check_seven = function
   | t1 :: t2 :: tail -> if t1 = t2 then check_seven tail else false
   | [] -> true
-  | _ -> raise Unknown
+  | [ h ] -> false
 
 (**the compare function to compare tiles is not yet implemented*)
 let winning_hand_seven hand =
@@ -257,7 +269,7 @@ let rec check_thirteen = function
   | t1 :: t2 :: tail ->
       if 2 < t1 - t2 then check_thirteen (t2 :: tail) else false
   | t1 :: tail -> true
-  | _ -> raise Unknown
+  | [] -> false
 
 let winning_hand_thirteen (hand : t) =
   if check_size_13 hand then
@@ -298,7 +310,7 @@ let tile_string_converter = function
       | 7 -> "🀟"
       | 8 -> "🀠"
       | 9 -> "🀡"
-      | _ -> raise Unknown)
+      | _ -> failwith "precondition violation at converter tiles.ml")
   | Bamboo int -> (
       match int with
       | 1 -> "🀐"
@@ -310,7 +322,7 @@ let tile_string_converter = function
       | 7 -> "🀖"
       | 8 -> "🀗"
       | 9 -> "🀘"
-      | _ -> raise Unknown)
+      | _ -> failwith "precondition violation at converter tiles.ml")
   | Characters int -> (
       match int with
       | 1 -> "🀇"
@@ -322,7 +334,7 @@ let tile_string_converter = function
       | 7 -> "🀍"
       | 8 -> "🀎"
       | 9 -> "🀏"
-      | _ -> raise Unknown)
+      | _ -> failwith "precondition violation at converter tiles.ml")
   | Blank -> " 🀫 "
   | East -> "🀀"
   | South -> "🀁"
@@ -383,7 +395,7 @@ let index_tile_converter (i : int) =
   else if i = 866 then Summer
   else if i = 877 then Autumn
   else if i = 888 then Winter
-  else raise Unknown
+  else failwith "precondition violation at converter tiles.ml"
 
 let index_to_tiles hand = List.map index_tile_converter hand
 
@@ -489,7 +501,7 @@ let discard_suggestion (hand : t) : tile =
 
 let hu_possible hand = failwith "unimplemented"
 
-let kong_possible hand = failwith "unimplemented"
+let kong_possible hand = ankong_valid_new hand
 
 let pung_possible hand tile = failwith "unimplemented"
 

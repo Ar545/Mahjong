@@ -82,6 +82,13 @@ let rec draw_one state =
         state.current_drawer <- (state.current_drawer + 1) mod 4;
         ())
 
+let skip_to_after state player =
+  let rec pos player acc = function
+    | h :: t -> if h = player then acc else pos player (acc + 1) t
+    | [] -> failwith "precondition violation"
+  in
+  state.current_drawer <- pos player 0 state.players + 1
+
 let view_played (state : t) : unit =
   print_endline "Here are all the tiles played:";
   print_str_list (tiles_to_str state.tiles_played);
@@ -131,14 +138,18 @@ let win_round
   raise (Winning winning_round_end_message)
 
 let rec player_discard state : unit =
+  print_string "<";
+  print_str_list (tiles_to_str state.hands.(0));
+  print_endline " >. Must discard one now.";
   match take_command state (scan ()) with
   | exception Tiles.Invalid_index -> player_discard state
   | exception Invalid str ->
       print_endline str;
       player_discard state
-  | exception t ->
+  | exception exn ->
       print_endline "debug: exception passby";
-      raise t
+
+      raise exn
   | () ->
       Unix.sleep 1;
       ()
@@ -234,6 +245,7 @@ and take_command state command =
             state.kong_records.(user_index) + 1;
           kong_draw_one state 0;
           player_discard state;
+          skip_to_after state (List.hd state.players);
           ()
         in
 
@@ -242,7 +254,8 @@ and take_command state command =
   (* player only, check *)
   | Discard int ->
       if is_users_turn then user_discard state int
-      else raise (Invalid "not turn to discard")
+      else user_discard state int;
+      skip_to_after state (List.hd state.players)
   (* npc only, check *)
   | Continue ->
       if not is_users_turn then ()
@@ -263,6 +276,7 @@ and take_command state command =
             remove state.hands.(user_index) pung 2;
           state.current_discard <- Blank;
           player_discard state;
+          skip_to_after state (List.hd state.players);
           ()
         in
 
@@ -273,8 +287,15 @@ and take_command state command =
       if not is_upper_turn then
         raise (Invalid "you can only chow your upper hand's tiles")
       else if
-        chow_index_valid state.hands.(0) index_1 index_2
-          state.current_discard
+        match
+          chow_index_valid state.hands.(0) index_1 index_2
+            state.current_discard
+        with
+        | exception Tiles.Invalid_index ->
+            raise
+              (Invalid
+                 "index must be positive and bounded by hand length")
+        | t -> t
       then
         let user_chow state index_1 index_2 =
           let chow = state.current_discard in
@@ -292,6 +313,7 @@ and take_command state command =
             chow_remove state.hands.(user_index) index_1 index_2;
           state.current_discard <- Blank;
           player_discard state;
+          skip_to_after state (List.hd state.players);
           ()
         in
 
@@ -387,6 +409,9 @@ let npc_discard state index : unit =
   ()
 
 let rec player_response state index : unit =
+  print_string "<";
+  print_str_list (tiles_to_str state.hands.(0));
+  print_endline " >.";
   print_string "Please respond to player ";
   print_endline (string_of_int index);
   match take_command state (scan ()) with
@@ -403,23 +428,32 @@ let rec player_response state index : unit =
 
 let rec user_round state : unit =
   draw_one state;
+  (* print_str_list (tiles_to_str state.hands.(0)); *)
   player_discard state;
   npc_response state;
-  npc_int_round state 1
+  find_round state
 
 and npc_int_round state npc_int : unit =
   draw_one state;
   npc_discard state npc_int;
   player_response state npc_int;
-  if npc_int = 3 then user_round state
-  else npc_int_round state (npc_int + 1)
+  find_round state
+
+and find_round state : unit =
+  if state.current_drawer = 0 then user_round state
+  else npc_int_round state state.current_drawer
 
 let rec start_rounds input_house input_players =
   let init_state = init_round input_house input_players in
   let start_rounds_loop state : result =
-    let index = state.house_seat in
+    print_string "Your Initial Hand: <";
+    print_str_list (tiles_to_str state.hands.(0));
+    print_endline " >.";
+    (* let index = state.house_seat in *)
     match
-      if index = 0 then user_round state else npc_int_round state index
+      (* if index = 0 then user_round state else npc_int_round state
+         index *)
+      find_round state
     with
     | exception Quit_game -> Quit_game
     | exception Restart_round -> start_rounds state.house state.players

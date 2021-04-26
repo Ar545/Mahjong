@@ -32,7 +32,7 @@ let random_d () =
 
 let random_e () =
   let i = 100000. *. Unix.gettimeofday () in
-  let bound = int_of_float i mod 3 in
+  let bound = int_of_float i mod 2 in
   bound + 5
 
 let initial_int_list () =
@@ -44,19 +44,24 @@ let initial_int_list () =
       let d = random_d () in
       let e = random_e () in
       [
-        ah + a;
-        ah + a + 2;
-        ah + 9;
-        bh + b;
-        bh + b + 1;
-        ch + 1;
-        ch + c;
-        ch + c;
-        600 + (11 * d);
-        600 + (11 * d);
-        600 + (11 * e);
-        600 + (11 * e);
-        600 + (11 * e);
+        [
+          ah + a;
+          ah + a + 2;
+          ah + 9;
+          bh + b;
+          bh + b + 1;
+          ch + 1;
+          ch + c;
+          ch + c;
+          600 + (11 * d);
+          600 + (11 * d);
+          600 + (11 * e);
+          600 + (11 * e);
+          600 + (11 * e);
+        ];
+        [ ah + a + 1; bh + b - 1; bh + b + 2 ];
+        [ 600 + (11 * e); ch + c; 600 + (11 * d) ];
+        [ ah + 9; ch + 1; 677 ];
       ]
   | _ -> []
 

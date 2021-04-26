@@ -38,7 +38,7 @@ let main_menu () =
   ANSITerminal.print_string [ ANSITerminal.green ] "3. Display Tutorial";
   (* Unix.sleep 1; *)
   sleep_and_endline ();
-  ANSITerminal.print_string [ ANSITerminal.yellow ] "4. Test";
+  ANSITerminal.print_string [ ANSITerminal.yellow ] "4. Game Settings";
   (* Unix.sleep 1; *)
   sleep_and_endline ();
   ANSITerminal.print_string
@@ -47,7 +47,10 @@ let main_menu () =
   sleep_and_endline ()
 
 let not_ready () =
-  print_string "\nModule Not Ready Yet. Return to Main Menu.\n\n";
+  print_endline "===================================";
+  print_endline
+    "Module Not Ready Yet. Return to Main Menu. Enter 0 to test.\n";
+  Unix.sleep 1;
   main_menu ()
 
 let rec play_game game =
@@ -55,12 +58,13 @@ let rec play_game game =
     ("Begin Round "
     ^ (get_round game |> ( + ) 1 |> string_of_int)
     ^ ": ");
-  print_endline ("Scores:\n\n" ^ string_of_scores game ^ "\n\n");
+  print_endline
+    ("Scores:\n" ^ string_of_scores game ^ "==================");
   match update game with
   | Continue new_game -> play_game new_game
   | Quit new_game ->
       print_endline "Final Results: ";
-      print_endline ("Scores:\n\n" ^ string_of_scores new_game)
+      print_endline ("Scores:\n" ^ string_of_scores new_game)
 
 let start_game play_advanced =
   let total_rounds = 8 in
@@ -76,11 +80,15 @@ let start_game play_advanced =
   main_menu ()
 
 let play_advanced () =
-  print_string "\nYou have selected Advanced Level!\n\n";
+  print_endline "===================================";
+  print_string "You have selected Advanced Level!\n";
+  Unix.sleep 1;
   start_game true
 
 let play_basic () =
-  print_string "\nYou have selected Basic Level!\n\n";
+  print_endline "===================================";
+  print_string "You have selected Basic Level!\n";
+  Unix.sleep 1;
   start_game false
 
 (* let initalize () = failwith "TODO" *)
@@ -88,7 +96,7 @@ let play_basic () =
 let tutorial () = Tutorial.tutorial_start ()
 
 let quit_game () =
-  print_endline "\nGame Over. Thank You!\n";
+  print_endline "Game Over. Thank You!\n";
   Stdlib.exit 0
 
 let example_game () =
@@ -136,10 +144,11 @@ let rec match_input () : unit =
             tutorial ();
             print_endline
               "Tutorial Ends. Return to Main Menu in 5 seconds.";
-            Unix.sleep 5;
+            Unix.sleep 3;
             main_menu ())
-          else if integer = 4 then test ()
+          else if integer = 4 then not_ready ()
           else if integer = 5 then quit_game ()
+          else if integer = 0 then test ()
           else print_string "Invalid Index.";
           match_input ())
 
