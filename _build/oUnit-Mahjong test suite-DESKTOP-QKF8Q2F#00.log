@@ -1,0 +1,846 @@
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Runner: sequential
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Chooser: simple
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Configuration suite_name = "Mahjong test suite"
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Configuration cache_filename = "/home/lz527/3110/final/final_project/_build/oUnit-$(suite_name).cache"
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Configuration run_gc_full_major = "true"
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Configuration display = "true"
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Configuration results_style_1_X = "false"
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Configuration testdata_dir = "none"
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Configuration health_check_interval = "1."
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Configuration verbose = "false"
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Configuration chooser = "simple"
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Configuration output_html_dir = "none"
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Configuration processes_kill_period = "5."
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Configuration runner = "sequential"
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Configuration shards = "2"
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Configuration processes_grace_period = "5."
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Configuration log_encoding = "utf-8"
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Configuration output_junit_file = "none"
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Configuration ci = "false"
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Configuration output_file = "/home/lz527/3110/final/final_project/_build/oUnit-$(suite_name)-$(shard_id).log"
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:0:chow 1 2 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:0:chow 1 2 random a is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:0:chow 1 2 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:1:chow 4 5 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:1:chow 4 5 random a is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:1:chow 4 5 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:2:chow 4 5 random b.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:2:chow 4 5 random b is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:2:chow 4 5 random b.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:3:chow 4 5 random c.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:3:chow 4 5 random c is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:3:chow 4 5 random c.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:4:chow 1 2 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:4:chow 1 2 random a is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:4:chow 1 2 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:5:chow 6 7 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:5:chow 6 7 random a is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:5:chow 6 7 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:6:chow 7 8 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:6:chow 7 8 random a is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:6:chow 7 8 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:7:chow 8 9 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:7:chow 8 9 random a is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:7:chow 8 9 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:8:chow 2 3 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:8:chow 2 3 random a is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:8:chow 2 3 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:9:chow 3 4 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:9:chow 3 4 random a is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:9:chow 3 4 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:10:chow 9 10 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:10:chow 9 10 random a is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:10:chow 9 10 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:11:chow false random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:11:chow false random a is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:11:chow false random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:12:chow false random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:12:chow false random a is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:12:chow false random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:13:chow false random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:13:chow false random a is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:13:chow false random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:14:chow false random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:14:chow false random a is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:14:chow false random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:15:chow false random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:15:chow false random a is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:15:chow false random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:16:chow false random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:16:chow false random a is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:16:chow false random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:17:chow 1 2 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:17:chow 1 2 random a is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:17:chow 1 2 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:18:chow 4 5 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:18:chow 4 5 random a is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:18:chow 4 5 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:19:chow 4 5 random b.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:19:chow 4 5 random b is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:19:chow 4 5 random b.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:20:chow 4 5 random c.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:20:chow 4 5 random c is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:20:chow 4 5 random c.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:21:chow 1 2 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:21:chow 1 2 random a is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:21:chow 1 2 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:22:chow 6 7 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:22:chow 6 7 random a is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:22:chow 6 7 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:23:chow 7 8 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:23:chow 7 8 random a is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:23:chow 7 8 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:24:chow 8 9 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:24:chow 8 9 random a is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:24:chow 8 9 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:25:chow 2 3 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:25:chow 2 3 random a is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:25:chow 2 3 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:26:chow 3 4 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:26:chow 3 4 random a is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:26:chow 3 4 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:27:chow 9 10 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:27:chow 9 10 random a is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:27:chow 9 10 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:28:chow false random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:28:chow false random a is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:28:chow false random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:29:chow false random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:29:chow false random a is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:29:chow false random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:30:chow false random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:30:chow false random a is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:30:chow false random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:31:chow false random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:31:chow false random a is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:31:chow false random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:32:chow false random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:32:chow false random a is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:32:chow false random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:33:chow false random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:33:chow false random a is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:33:chow false random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:34:pung a random.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:34:pung a random is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:34:pung a random.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:35:pung b random.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:35:pung b random is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:35:pung b random.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:36:pung false b random.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:36:pung false b random is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:36:pung false b random.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:37:pung false a random.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:37:pung false a random is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:37:pung false a random.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:38:kong random.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:38:kong random is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:38:kong random.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:39:kong false a random.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:39:kong false a random is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:39:kong false a random.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:40:kong false b random.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:40:kong false b random is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:40:kong false b random.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:41:kong false c random.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:41:kong false c random is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:41:kong false c random.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:42:chow 1 2 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:42:chow 1 2 random a is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:42:chow 1 2 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:43:chow 4 5 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:43:chow 4 5 random a is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:43:chow 4 5 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:44:chow 4 5 random b.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:44:chow 4 5 random b is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:44:chow 4 5 random b.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:45:chow 4 5 random c.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:45:chow 4 5 random c is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:45:chow 4 5 random c.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:46:chow 1 2 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:46:chow 1 2 random a is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:46:chow 1 2 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:47:chow 6 7 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:47:chow 6 7 random a is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:47:chow 6 7 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:48:chow 7 8 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:48:chow 7 8 random a is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:48:chow 7 8 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:49:chow 8 9 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:49:chow 8 9 random a is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:49:chow 8 9 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:50:chow 2 3 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:50:chow 2 3 random a is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:50:chow 2 3 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:51:chow 3 4 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:51:chow 3 4 random a is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:51:chow 3 4 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:52:chow 9 10 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:52:chow 9 10 random a is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:52:chow 9 10 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:53:chow false random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:53:chow false random a is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:53:chow false random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:54:chow false random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:54:chow false random a is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:54:chow false random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:55:chow false random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:55:chow false random a is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:55:chow false random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:56:chow false random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:56:chow false random a is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:56:chow false random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:57:chow false random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:57:chow false random a is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:57:chow false random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:58:chow false random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:58:chow false random a is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:58:chow false random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:59:chow 1 2 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:59:chow 1 2 random a is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:59:chow 1 2 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:60:chow 4 5 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:60:chow 4 5 random a is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:60:chow 4 5 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:61:chow 4 5 random b.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:61:chow 4 5 random b is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:61:chow 4 5 random b.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:62:chow 4 5 random c.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:62:chow 4 5 random c is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:62:chow 4 5 random c.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:63:chow 1 2 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:63:chow 1 2 random a is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:63:chow 1 2 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:64:chow 6 7 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:64:chow 6 7 random a is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:64:chow 6 7 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:65:chow 7 8 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:65:chow 7 8 random a is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:65:chow 7 8 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:66:chow 8 9 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:66:chow 8 9 random a is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:66:chow 8 9 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:67:chow 2 3 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:67:chow 2 3 random a is successful.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:67:chow 2 3 random a.
+2021-04-26T03:04:42+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:68:chow 3 4 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:68:chow 3 4 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:68:chow 3 4 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:69:chow 9 10 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:69:chow 9 10 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:69:chow 9 10 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:70:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:70:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:70:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:71:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:71:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:71:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:72:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:72:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:72:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:73:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:73:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:73:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:74:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:74:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:74:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:75:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:75:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:75:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:76:pung a random.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:76:pung a random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:76:pung a random.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:77:pung b random.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:77:pung b random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:77:pung b random.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:78:pung false b random.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:78:pung false b random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:78:pung false b random.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:79:pung false a random.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:79:pung false a random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:79:pung false a random.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:80:kong random.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:80:kong random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:80:kong random.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:81:kong false a random.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:81:kong false a random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:81:kong false a random.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:82:kong false b random.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:82:kong false b random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:82:kong false b random.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:83:kong false c random.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:83:kong false c random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:83:kong false c random.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:84:c1a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:84:c1a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:84:c1a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:85:c1b.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:85:c1b is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:85:c1b.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:86:c1n.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:86:c1n is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:86:c1n.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:87:c2a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:87:c2a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:87:c2a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:88:c2b.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:88:c2b is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:88:c2b.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:89:c2c.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:89:c2c is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:89:c2c.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:90:c2n1.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:90:c2n1 is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:90:c2n1.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:91:c2n2.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:91:c2n2 is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:91:c2n2.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:92:c2n3.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:92:c2n3 is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:92:c2n3.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:93:c1a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:93:c1a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:93:c1a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:94:c1b.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:94:c1b is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:94:c1b.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:95:c1n.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:95:c1n is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:95:c1n.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:96:c2a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:96:c2a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:96:c2a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:97:c2b.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:97:c2b is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:97:c2b.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:98:c2c.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:98:c2c is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:98:c2c.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:99:c2n1.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:99:c2n1 is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:99:c2n1.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:100:c2n2.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:100:c2n2 is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:100:c2n2.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:101:c2n3.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:101:c2n3 is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:101:c2n3.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:102:p1a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:102:p1a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:102:p1a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:103:p1b.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:103:p1b is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:103:p1b.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:104:p1n1.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:104:p1n1 is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:104:p1n1.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:105:p1n2.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:105:p1n2 is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:105:p1n2.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:106:p2a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:106:p2a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:106:p2a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:107:p2b.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:107:p2b is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:107:p2b.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:108:p2n1.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:108:p2n1 is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:108:p2n1.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:109:p2n2.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:109:p2n2 is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:109:p2n2.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:110:k1.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:110:k1 is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:110:k1.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:111:k1n1.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:111:k1n1 is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:111:k1n1.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:112:k1n2.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:112:k1n2 is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:112:k1n2.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:113:k2.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:113:k2 is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:113:k2.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:114:k2n1.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:114:k2n1 is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:114:k2n1.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:115:k2n2.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:115:k2n2 is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:115:k2n2.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:116:ak1n1.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:116:ak1n1 is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:116:ak1n1.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:117:ak1n2.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:117:ak1n2 is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:117:ak1n2.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:118:ak2n1.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:118:ak2n1 is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:118:ak2n1.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:119:ak2n2.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:119:ak2n2 is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:119:ak2n2.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:120:chow 1 2 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:120:chow 1 2 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:120:chow 1 2 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:121:chow 4 5 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:121:chow 4 5 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:121:chow 4 5 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:122:chow 4 5 random b.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:122:chow 4 5 random b is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:122:chow 4 5 random b.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:123:chow 4 5 random c.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:123:chow 4 5 random c is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:123:chow 4 5 random c.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:124:chow 1 2 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:124:chow 1 2 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:124:chow 1 2 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:125:chow 6 7 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:125:chow 6 7 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:125:chow 6 7 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:126:chow 7 8 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:126:chow 7 8 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:126:chow 7 8 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:127:chow 8 9 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:127:chow 8 9 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:127:chow 8 9 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:128:chow 2 3 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:128:chow 2 3 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:128:chow 2 3 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:129:chow 3 4 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:129:chow 3 4 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:129:chow 3 4 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:130:chow 9 10 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:130:chow 9 10 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:130:chow 9 10 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:131:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:131:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:131:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:132:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:132:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:132:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:133:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:133:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:133:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:134:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:134:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:134:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:135:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:135:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:135:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:136:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:136:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:136:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:137:chow 1 2 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:137:chow 1 2 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:137:chow 1 2 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:138:chow 4 5 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:138:chow 4 5 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:138:chow 4 5 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:139:chow 4 5 random b.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:139:chow 4 5 random b is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:139:chow 4 5 random b.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:140:chow 4 5 random c.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:140:chow 4 5 random c is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:140:chow 4 5 random c.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:141:chow 1 2 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:141:chow 1 2 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:141:chow 1 2 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:142:chow 6 7 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:142:chow 6 7 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:142:chow 6 7 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:143:chow 7 8 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:143:chow 7 8 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:143:chow 7 8 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:144:chow 8 9 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:144:chow 8 9 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:144:chow 8 9 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:145:chow 2 3 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:145:chow 2 3 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:145:chow 2 3 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:146:chow 3 4 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:146:chow 3 4 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:146:chow 3 4 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:147:chow 9 10 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:147:chow 9 10 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:147:chow 9 10 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:148:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:148:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:148:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:149:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:149:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:149:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:150:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:150:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:150:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:151:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:151:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:151:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:152:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:152:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:152:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:153:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:153:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:153:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:154:pung a random.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:154:pung a random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:154:pung a random.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:155:pung b random.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:155:pung b random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:155:pung b random.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:156:pung false b random.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:156:pung false b random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:156:pung false b random.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:157:pung false a random.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:157:pung false a random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:157:pung false a random.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:158:kong random.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:158:kong random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:158:kong random.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:159:kong false a random.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:159:kong false a random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:159:kong false a random.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:160:kong false b random.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:160:kong false b random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:160:kong false b random.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:161:kong false c random.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:161:kong false c random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:161:kong false c random.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:162:chow 1 2 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:162:chow 1 2 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:162:chow 1 2 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:163:chow 4 5 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:163:chow 4 5 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:163:chow 4 5 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:164:chow 4 5 random b.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:164:chow 4 5 random b is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:164:chow 4 5 random b.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:165:chow 4 5 random c.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:165:chow 4 5 random c is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:165:chow 4 5 random c.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:166:chow 1 2 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:166:chow 1 2 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:166:chow 1 2 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:167:chow 6 7 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:167:chow 6 7 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:167:chow 6 7 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:168:chow 7 8 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:168:chow 7 8 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:168:chow 7 8 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:169:chow 8 9 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:169:chow 8 9 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:169:chow 8 9 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:170:chow 2 3 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:170:chow 2 3 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:170:chow 2 3 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:171:chow 3 4 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:171:chow 3 4 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:171:chow 3 4 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:172:chow 9 10 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:172:chow 9 10 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:172:chow 9 10 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:173:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:173:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:173:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:174:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:174:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:174:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:175:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:175:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:175:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:176:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:176:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:176:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:177:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:177:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:177:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:178:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:178:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:178:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:179:chow 1 2 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:179:chow 1 2 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:179:chow 1 2 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:180:chow 4 5 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:180:chow 4 5 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:180:chow 4 5 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:181:chow 4 5 random b.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:181:chow 4 5 random b is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:181:chow 4 5 random b.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:182:chow 4 5 random c.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:182:chow 4 5 random c is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:182:chow 4 5 random c.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:183:chow 1 2 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:183:chow 1 2 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:183:chow 1 2 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:184:chow 6 7 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:184:chow 6 7 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:184:chow 6 7 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:185:chow 7 8 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:185:chow 7 8 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:185:chow 7 8 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:186:chow 8 9 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:186:chow 8 9 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:186:chow 8 9 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:187:chow 2 3 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:187:chow 2 3 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:187:chow 2 3 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:188:chow 3 4 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:188:chow 3 4 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:188:chow 3 4 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:189:chow 9 10 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:189:chow 9 10 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:189:chow 9 10 random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:190:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:190:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:190:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:191:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:191:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:191:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:192:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:192:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:192:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:193:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:193:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:193:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:194:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:194:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:194:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:195:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:195:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:195:chow false random a.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:196:pung a random.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:196:pung a random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:196:pung a random.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:197:pung b random.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:197:pung b random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:197:pung b random.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:198:pung false b random.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:198:pung false b random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:198:pung false b random.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:199:pung false a random.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:199:pung false a random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:199:pung false a random.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:200:kong random.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:200:kong random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:200:kong random.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:201:kong false a random.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:201:kong false a random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:201:kong false a random.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:202:kong false b random.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:202:kong false b random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:202:kong false b random.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Start test Mahjong test suite:203:kong false c random.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:203:kong false c random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: End test Mahjong test suite:203:kong false c random.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: ==============
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Summary:
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:203:kong false c random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:202:kong false b random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:201:kong false a random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:200:kong random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:199:pung false a random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:198:pung false b random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:197:pung b random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:196:pung a random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:195:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:194:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:193:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:192:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:191:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:190:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:189:chow 9 10 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:188:chow 3 4 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:187:chow 2 3 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:186:chow 8 9 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:185:chow 7 8 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:184:chow 6 7 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:183:chow 1 2 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:182:chow 4 5 random c is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:181:chow 4 5 random b is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:180:chow 4 5 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:179:chow 1 2 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:178:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:177:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:176:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:175:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:174:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:173:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:172:chow 9 10 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:171:chow 3 4 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:170:chow 2 3 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:169:chow 8 9 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:168:chow 7 8 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:167:chow 6 7 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:166:chow 1 2 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:165:chow 4 5 random c is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:164:chow 4 5 random b is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:163:chow 4 5 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:162:chow 1 2 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:161:kong false c random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:160:kong false b random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:159:kong false a random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:158:kong random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:157:pung false a random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:156:pung false b random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:155:pung b random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:154:pung a random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:153:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:152:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:151:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:150:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:149:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:148:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:147:chow 9 10 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:146:chow 3 4 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:145:chow 2 3 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:144:chow 8 9 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:143:chow 7 8 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:142:chow 6 7 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:141:chow 1 2 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:140:chow 4 5 random c is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:139:chow 4 5 random b is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:138:chow 4 5 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:137:chow 1 2 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:136:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:135:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:134:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:133:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:132:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:131:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:130:chow 9 10 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:129:chow 3 4 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:128:chow 2 3 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:127:chow 8 9 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:126:chow 7 8 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:125:chow 6 7 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:124:chow 1 2 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:123:chow 4 5 random c is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:122:chow 4 5 random b is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:121:chow 4 5 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:120:chow 1 2 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:119:ak2n2 is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:118:ak2n1 is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:117:ak1n2 is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:116:ak1n1 is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:115:k2n2 is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:114:k2n1 is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:113:k2 is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:112:k1n2 is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:111:k1n1 is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:110:k1 is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:109:p2n2 is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:108:p2n1 is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:107:p2b is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:106:p2a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:105:p1n2 is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:104:p1n1 is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:103:p1b is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:102:p1a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:101:c2n3 is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:100:c2n2 is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:99:c2n1 is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:98:c2c is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:97:c2b is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:96:c2a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:95:c1n is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:94:c1b is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:93:c1a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:92:c2n3 is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:91:c2n2 is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:90:c2n1 is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:89:c2c is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:88:c2b is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:87:c2a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:86:c1n is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:85:c1b is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:84:c1a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:83:kong false c random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:82:kong false b random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:81:kong false a random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:80:kong random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:79:pung false a random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:78:pung false b random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:77:pung b random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:76:pung a random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:75:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:74:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:73:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:72:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:71:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:70:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:69:chow 9 10 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:68:chow 3 4 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:67:chow 2 3 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:66:chow 8 9 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:65:chow 7 8 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:64:chow 6 7 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:63:chow 1 2 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:62:chow 4 5 random c is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:61:chow 4 5 random b is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:60:chow 4 5 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:59:chow 1 2 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:58:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:57:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:56:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:55:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:54:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:53:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:52:chow 9 10 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:51:chow 3 4 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:50:chow 2 3 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:49:chow 8 9 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:48:chow 7 8 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:47:chow 6 7 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:46:chow 1 2 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:45:chow 4 5 random c is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:44:chow 4 5 random b is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:43:chow 4 5 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:42:chow 1 2 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:41:kong false c random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:40:kong false b random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:39:kong false a random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:38:kong random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:37:pung false a random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:36:pung false b random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:35:pung b random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:34:pung a random is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:33:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:32:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:31:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:30:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:29:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:28:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:27:chow 9 10 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:26:chow 3 4 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:25:chow 2 3 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:24:chow 8 9 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:23:chow 7 8 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:22:chow 6 7 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:21:chow 1 2 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:20:chow 4 5 random c is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:19:chow 4 5 random b is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:18:chow 4 5 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:17:chow 1 2 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:16:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:15:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:14:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:13:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:12:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:11:chow false random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:10:chow 9 10 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:9:chow 3 4 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:8:chow 2 3 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:7:chow 8 9 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:6:chow 7 8 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:5:chow 6 7 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:4:chow 1 2 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:3:chow 4 5 random c is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:2:chow 4 5 random b is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:1:chow 4 5 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Test Mahjong test suite:0:chow 1 2 random a is successful.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Ran: 204 tests in: 1.01 seconds.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Cases: 204.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Tried: 204.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Errors: 0.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Failures: 0.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Skip: 0.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Todo: 0.
+2021-04-26T03:04:43+00:00 DESKTOP-QKF8Q2F#00 I: Timeout: 0.
