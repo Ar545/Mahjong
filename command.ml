@@ -63,7 +63,9 @@ let parse str =
       match t with [] -> Mahjong | _ -> raise_invalid "mahjong")
   | "quit" :: t -> (
       match t with [] -> Quit | _ -> raise_invalid "quit")
-  | "discard" :: t | "play" :: t -> (
+  | "restart" :: t | "new" :: "round" :: t -> (
+      match t with [] -> Restart | _ -> raise_invalid "new round")
+  | "discard" :: t | "play" :: t | t -> (
       match t with
       | [] -> raise_invalid "discard with a index"
       | [ index_str ] -> (
@@ -71,6 +73,3 @@ let parse str =
           | None -> raise_invalid "non valid index"
           | Some index -> Discard index)
       | _ -> raise_invalid "enter discard and a index")
-  | "restart" :: t | "new" :: "round" :: t -> (
-      match t with [] -> Restart | _ -> raise_invalid "new round")
-  | _ -> raise_invalid " "

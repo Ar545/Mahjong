@@ -147,8 +147,7 @@ let rec player_discard state : unit =
       print_endline str;
       player_discard state
   | exception exn ->
-      print_endline "debug: exception passby";
-
+      print_endline "= Game Paused (at discard). =";
       raise exn
   | () ->
       Unix.sleep 1;
@@ -301,10 +300,10 @@ and take_command state command =
           let chow = state.current_discard in
           let user_index = 0 in
           let first_tile =
-            List.nth state.hands_open.(user_index) (index_1 - 1)
+            List.nth state.hands.(user_index) (index_1 - 1)
           in
           let second_tile =
-            List.nth state.hands_open.(user_index) (index_2 - 1)
+            List.nth state.hands.(user_index) (index_2 - 1)
           in
           state.hands_open.(user_index) <-
             first_tile :: second_tile :: chow
@@ -419,9 +418,9 @@ let rec player_response state index : unit =
   | exception Invalid str ->
       print_endline str;
       player_response state index
-  | exception t ->
-      print_endline "debug: exception passby";
-      raise t
+  | exception exn ->
+      print_endline "= Game Paused (at response). =";
+      raise exn
   | () ->
       Unix.sleep 1;
       ()
@@ -446,7 +445,7 @@ and find_round state : unit =
 let rec start_rounds input_house input_players =
   let init_state = init_round input_house input_players in
   let start_rounds_loop state : result =
-    print_string "Your Initial Hand: <";
+    print_string "Good luck with your draw: <";
     print_str_list (tiles_to_str state.hands.(0));
     print_endline " >.";
     (* let index = state.house_seat in *)
@@ -459,7 +458,10 @@ let rec start_rounds input_house input_players =
     | exception Restart_round -> start_rounds state.house state.players
     | exception End_of_tiles -> Round_end end_with_draw
     | exception Winning message -> Round_end message
-    | exception _ -> Unknown_exception "unknown exception caught"
+    | exception _ ->
+        Unknown_exception
+          "Unknown Fatal Exception Caught. Please report this \
+           exception to the authors. Return to Main Menu. "
     | () ->
         Unknown_exception
           "precondition vilation at start_round of roundstate"

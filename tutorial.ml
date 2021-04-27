@@ -211,6 +211,25 @@ let rec tutorial (chapter : int) : unit =
          Pong is a set of three identical tiles. Kong is a set of four \
          identical tiles.";
       Unix.sleep 3;
+      print_endline
+        "There are two ways of forming such melds, either by drawing \
+         them sequencely at the wall, or utilize other's discard. \
+         Inthe second case, you will have to declear the type of the \
+         meld.";
+      Unix.sleep 3;
+      print_endline
+        "As for this reason, each time 1. you draw a tile; 2. other \
+         player discard a tile; we will wait for you to input a \
+         command before the game could continue. When you draw a card, \
+         simply hit discard + index or index to discard the tile at \
+         such index.";
+      Unix.sleep 3;
+      print_endline
+        "When another player discard a tile, you may commit no action, \
+         and simply hit enter, or continue. Or, you can declear the \
+         meld you wish to form using the discard. Here we give you \
+         several example of Chow and Pung.";
+      Unix.sleep 3;
       print_endline "example - chow 1";
       Unix.sleep 3;
       print_endline "example - chow 2";
@@ -220,6 +239,13 @@ let rec tutorial (chapter : int) : unit =
       print_endline "example - kong";
       Unix.sleep 3;
       print_endline "example - eyes - HU";
+      Unix.sleep 3;
+      print_endline
+        "You may, at any time, enter help in the command line to \
+         request for hint to continue game. You may enter quit to quit \
+         to main menu. You may enter restart round to restart the \
+         current round. The command line will give you active feedback \
+         to help you form you command.";
       Unix.sleep 3;
       print_endline
         "Pro-tip: experienced players do not win every round. They \
@@ -236,6 +262,7 @@ let rec tutorial (chapter : int) : unit =
   else if chapter = 4 then
     let chapter_4 () =
       ANSITerminal.print_string [ ANSITerminal.yellow ] "4. Scoring\n";
+      print_endline "Chapter 4 has not yet been implemented.";
       print_endline
         "That's it. Press enter to end tutorial. Enter \"Replay\" to \
          replay from the beginning.";
