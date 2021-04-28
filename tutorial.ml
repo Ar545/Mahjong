@@ -108,12 +108,12 @@ let rec tutorial (chapter : int) : unit =
       ANSITerminal.print_string [ ANSITerminal.blue ] "1. Basics\n";
       print_endline
         "Mahjong (Not Mahjong Solitaire!) is a tile-based game that \
-         was developed in China around the 1600s.  ";
+         was developed in China around the 1600s.";
       Unix.sleep 3;
       print_endline
         "It is played with four players. Like the card game rummy, the \
          players sequencely draw and discard tiles, and compete to be \
-         the  first one to met the winning goals.";
+         the first one to met the winning goals.";
       Unix.sleep 2;
       print_endline
         "However, in our implementation of the game, you will play \
@@ -125,8 +125,8 @@ let rec tutorial (chapter : int) : unit =
          AIs.";
       Unix.sleep 2;
       print_endline
-        "Now, you are good to go to the next Chapter. Press enter to \
-         continue. Enter \"Quit\" to return to Main Menu";
+        "Now, you are good to go to the next Chapter. Press \"Enter\" \
+         to continue. Enter \"Quit\" to return to Main Menu";
       print_string "> ";
       match read_line () with
       | exception End_of_file ->

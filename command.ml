@@ -26,7 +26,7 @@ let to_lower (lst : player_command) : player_command =
   List.map String.lowercase_ascii lst
 
 let raise_invalid comment =
-  raise (Invalid ("Invalid" ^ comment ^ "command"))
+  raise (Invalid ("Invalid " ^ comment ^ " command"))
 
 let parse str =
   match String.split_on_char ' ' str |> remove_space |> to_lower with
@@ -39,8 +39,8 @@ let parse str =
       match t with [] -> Pung | _ -> raise_invalid "pung")
   | "chow" :: t | "chi" :: t -> (
       match t with
-      | [] -> raise_invalid "chow need two int"
-      | [ hd ] -> raise_invalid "chow need two int, not one"
+      | [] -> raise_invalid "chow: need two int"
+      | [ hd ] -> raise_invalid "chow: need two int, not one"
       | [ fst; snd ] -> (
           match int_of_string_opt fst with
           | None -> raise_invalid "chow '_->int' '_'"
@@ -48,7 +48,7 @@ let parse str =
               match int_of_string_opt snd with
               | None -> raise_invalid "chow '_' '_->int'"
               | Some index_2 -> Chow (index_1, index_2)))
-      | _ -> raise_invalid "chow only two int, not more")
+      | _ -> raise_invalid "chow: only two int, not more")
   | "kong" :: t
   | "gang" :: t
   | "angang" :: t
