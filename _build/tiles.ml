@@ -460,7 +460,7 @@ let rec print_str_list = function
       print_string (fst ^ " ");
       print_str_list (snd :: t)
   | h :: t -> print_string h
-  | [] -> ()
+  | [] -> failwith "precondition violation at print str at tiles"
 
 let rec remove hand tile (amount : int) : t =
   if amount < 1 then hand
