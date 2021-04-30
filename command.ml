@@ -26,7 +26,8 @@ let to_lower (lst : player_command) : player_command =
   List.map String.lowercase_ascii lst
 
 let raise_invalid comment =
-  raise (Invalid ("Invalid " ^ comment ^ " command"))
+  raise
+    (Invalid ("Invalid: " ^ comment ^ ". Seek tutorial for details."))
 
 let parse str =
   match String.split_on_char ' ' str |> remove_space |> to_lower with
@@ -90,8 +91,10 @@ let parse str =
           match int_of_string_opt index_str with
           | None ->
               raise_invalid
-                "This is a non valid discard index. Please use discard \
-                 with integer from 1 to 14."
+                "This is a non valid discard index. \n\
+                \ Please use discard with integer from 1 to 14. \n\
+                \ For other command, please begin with Chow, Pung, \
+                 Kong, Quit, Help, Restart, Mahjong, and Played."
           | Some index ->
               if index < 0 then
                 raise_invalid
@@ -105,4 +108,6 @@ let parse str =
       | _ ->
           raise_invalid
             "This command is not understood. Refer to tutorial for \
-             help.")
+             help. To phrase a command, please begin with Discard, \
+             Continue, Chow, Pung, Kong, Quit, Help, Restart, Mahjong, \
+             and Played.")

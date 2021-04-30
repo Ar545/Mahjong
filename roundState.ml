@@ -262,8 +262,9 @@ and take_command state command =
           state.kong_records.(user_index) <-
             state.kong_records.(user_index) + 1;
           kong_draw_one state 0;
-          player_discard state;
+
           skip_to_after state (List.hd state.players);
+          player_discard state;
           ()
         in
 
@@ -272,8 +273,11 @@ and take_command state command =
   (* player only, check *)
   | Discard int ->
       if is_users_turn then user_discard state int
-      else user_discard state int;
-      skip_to_after state (List.hd state.players)
+      else
+        raise
+          (Invalid
+             "It is not your turn to discard. this bug has been fixed.")
+  (* user_discard state int; skip_to_after state (List.hd state.players) *)
   (* npc only, check *)
   | Continue ->
       if not is_users_turn then ()
@@ -293,8 +297,9 @@ and take_command state command =
           state.hands.(user_index) <-
             remove state.hands.(user_index) pung 2;
           state.current_discard <- Blank;
-          player_discard state;
+
           skip_to_after state (List.hd state.players);
+          player_discard state;
           ()
         in
 
@@ -330,8 +335,9 @@ and take_command state command =
           state.hands.(user_index) <-
             chow_remove state.hands.(user_index) index_1 index_2;
           state.current_discard <- Blank;
-          player_discard state;
+
           skip_to_after state (List.hd state.players);
+          player_discard state;
           ()
         in
 
@@ -400,6 +406,9 @@ let continue_hint state =
   else continue_prompt
 
 let resolve_help state =
+  print_endline
+    "To phrase a command, please begin with Discard, Continue, Chow, \
+     Pung, Kong, Quit, Help, Restart, Mahjong, and Played.";
   if state.current_drawer = 1 then
     (* current player is user *)
     discard_hint state
@@ -464,6 +473,15 @@ and find_round state : unit =
 let rec start_rounds input_house input_players =
   let init_state = init_round input_house input_players in
   let start_rounds_loop state : result =
+    ANSITerminal.print_string
+      [ ANSITerminal.red; ANSITerminal.Bold ]
+      "Remerber, to phrase a command, please begin with Discard, \
+       Continue, Chow, Pung, Kong, Quit, Help, Restart, Mahjong, and \
+       Played. \n\
+      \ If you choose to not to respond to other's discard, simply hit \
+       enter. To discard a tile at your turn, simply enter the index \
+       of the tile. \n\
+      \ ";
     print_string "Good luck with your draw: <";
     print_player_hand state;
     print_endline " >.";
