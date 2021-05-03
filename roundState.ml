@@ -178,6 +178,7 @@ and take_command state command =
   | Restart -> raise Restart_round
   | Help -> raise (Help_needed state)
   | Played -> view_played state
+  | Next -> raise End_of_tiles
   (* anytime, check *)
   | Mahjong ->
       let user = List.hd state.players in

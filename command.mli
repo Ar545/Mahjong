@@ -8,6 +8,7 @@ type command =
   | Restart
   | Played
   | Help
+  | Next
   (* anytime, check *)
   | Kong
   | Mahjong

@@ -233,12 +233,41 @@ let rec add_tile_to_hand tile = function
       else tile' :: add_tile_to_hand tile t
   | [] -> [ tile ]
 
-let check_size_13 hand = if 13 == List.length hand then true else false
+let check_size_14 hand = if 14 == List.length hand then true else false
 
-let rec find_trio = function
+(** depreciated function. await testing*)
+let rec find_trio_old = function
   | t1 :: t2 :: t3 :: tail ->
       if (t1 = t2 && t2 = t3) || (t1 + 1 = t2 && t2 + 1 = t3) then
-        find_trio tail
+        find_trio_old tail
+      else false
+  | [] -> true
+  | _ -> false
+
+let rec int_list_remove_once tile = function
+  | h :: t -> if h = tile then t else h :: int_list_remove_once tile t
+  | [] ->
+      failwith "precondition violation at int list remove at win trio"
+
+let rec find_trio_chow tile hand =
+  if List.mem (tile + 1) hand && List.mem (tile + 2) hand then
+    let new_hand =
+      hand
+      |> int_list_remove_once (tile + 1)
+      |> int_list_remove_once (tile + 2)
+    in
+    find_trio new_hand
+  else false
+
+and find_trio_pung t1 t2 t3 hand =
+  if t1 = t2 && t2 = t3 then find_trio hand else false
+
+and find_trio = function
+  | t1 :: t2 :: t3 :: tail ->
+      if
+        find_trio_pung t1 t2 t3 tail
+        || find_trio_chow t1 (t2 :: t3 :: tail)
+      then true
       else false
   | [] -> true
   | _ -> false
@@ -246,8 +275,8 @@ let rec find_trio = function
 let rec find_trump checked_hand = function
   | t1 :: t2 :: tail ->
       if t1 = t2 then find_trio (checked_hand @ tail)
-      else find_trump (t1 :: t2 :: checked_hand) tail
-  | t1 :: tail -> false
+      else find_trump (t1 :: checked_hand) (t2 :: tail)
+  | [ t1 ] -> false
   | [] -> false
 
 let winning_hand_standard hand open_hand =
@@ -260,7 +289,7 @@ let rec check_seven = function
 
 (**the compare function to compare tiles is not yet implemented*)
 let winning_hand_seven hand =
-  if check_size_13 hand then
+  if check_size_14 hand then
     let sorted_together = List.sort compare hand in
     check_seven sorted_together
   else false
@@ -272,7 +301,7 @@ let rec check_thirteen = function
   | [] -> false
 
 let winning_hand_thirteen (hand : t) =
-  if check_size_13 hand then
+  if check_size_14 hand then
     let sorted_together = List.sort compare hand in
     check_thirteen (tiles_to_index sorted_together)
   else false

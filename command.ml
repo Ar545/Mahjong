@@ -8,6 +8,7 @@ type command =
   | Restart
   | Played
   | Help
+  | Next
   | Kong
   | Mahjong
   | Discard of int
@@ -82,6 +83,10 @@ let parse str =
       match t with
       | [] -> Restart
       | _ -> raise_invalid "Please try 'new round'.")
+  | "test" :: "draw" :: t | "test" :: "next" :: t -> (
+      match t with
+      | [] -> Next
+      | _ -> raise_invalid "Please try 'next'.")
   | "discard" :: t | "play" :: t | t -> (
       match t with
       | [] ->
