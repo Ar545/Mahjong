@@ -3,7 +3,7 @@ open RoundState
 
 type t = {
   round_num : int;
-  termination_round : int;
+  termination_distance : int;
   scores : int array;
   players : player list;
   house : player;
@@ -15,8 +15,12 @@ type game_progress =
   | Quit of t
   | Continue of t
 
+(** [locate_player players index] is the player at the [index] in a list
+    of four players [players]*)
 let locate_player players index = List.nth players index
 
+(** [index_of_player player_list player] is the index of the [player] in
+    a list of four players [players]*)
 let index_of_player player_list player =
   let rec helper players_list acc =
     match players_list with
@@ -25,6 +29,7 @@ let index_of_player player_list player =
   in
   helper player_list 0
 
+(** [random_house_index] is a random interger from 0 to 3 *)
 let random_house_index = (Unix.time () |> int_of_float) mod 4
 
 let players is_advanced =
@@ -35,8 +40,8 @@ let init_game (distance : int) (is_advanced : bool) : t =
   let house_index = random_house_index in
   let house = locate_player players house_index in
   {
-    round_num = 0;
-    termination_round = distance;
+    round_num = 1;
+    termination_distance = distance;
     scores = [| 5000; 5000; 5000; 5000 |];
     players;
     house;
@@ -50,11 +55,15 @@ let init_game (distance : int) (is_advanced : bool) : t =
    ended *)
 (****************************************************)
 
+(** [calculate_score t house winner] is the score that will be added to
+    the winner and subtracted from the loser(s) of the last round *)
 let calculate_score t house winner =
   let base_score = 3 in
   let house_bonus = if house = winner then t.house_streak + 1 else 0 in
   (base_score + house_bonus) * 100
 
+(** [update_score t house winner losers tile_score] is the game state
+    [t] with updated player scores *)
 let update_score t house winner losers tile_score =
   let winner_index = index_of_player t.players winner in
   let score = calculate_score t house winner + tile_score in
@@ -70,14 +79,20 @@ let update_score t house winner losers tile_score =
       let loser_index = index_of_player t.players loser in
       t.scores.(loser_index) <- t.scores.(loser_index) - score
 
+(** [reached_termination t house_wins] is whether the current game state
+    is at termination or not *)
 let reached_termination t house_wins =
-  t.round_num = t.termination_round && not house_wins
+  t.termination_distance <= 1 && not house_wins
 
+(** [continue_or_quit t house house_wins] returns the updated wrapped
+    game state in Quit or Continue *)
 let continue_or_quit t house house_wins =
   if reached_termination t house_wins then Quit t
   else
-    let new_round_number =
-      if house_wins then t.round_num else t.round_num + 1
+    let new_round_number = t.round_num + 1 in
+    let new_termination_distance =
+      if house_wins then t.termination_distance
+      else t.termination_distance - 1
     in
     let new_house_index =
       if house_wins then t.house_index else (t.house_index + 1) mod 4
@@ -88,11 +103,15 @@ let continue_or_quit t house house_wins =
       {
         t with
         round_num = new_round_number;
+        termination_distance = new_termination_distance;
         house_index = new_house_index;
         house = new_house;
         house_streak = new_house_wins;
       }
 
+(** [update_game_state t winning_message] is the updated game state
+    after a round has ended. It is wrapped by [game_progress] to
+    indicate the updated state should quit or continue next *)
 let update_game_state t winning_message =
   let house = locate_player t.players t.house_index in
   match winning_message.winner with
@@ -110,9 +129,11 @@ let rec update t =
   | Quit_game -> Quit t
   | Round_end winning_message -> update_game_state t winning_message
   | Unknown_exception str ->
-      print_endline str;
+      print_endline ("Unknown Exception Caught" ^ str);
       Quit t
 
+(** [get_score t] is the scores of the four player in the current game
+    state [t]*)
 let get_score t = t.scores
 
 let get_round t = t.round_num

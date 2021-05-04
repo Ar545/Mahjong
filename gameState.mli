@@ -7,7 +7,7 @@
 (** [t] is the state of the entire games *)
 type t = {
   round_num : int;
-  termination_round : int;
+  termination_distance : int;
   scores : int array;
   players : Players.player list;
   house : Players.player;
@@ -31,12 +31,14 @@ type game_progress =
     level npc or three basic level npc*)
 val init_game : int -> bool -> t
 
-val get_score : t -> int array
-
+(** [get_round t] is current round number of the current game state [t]*)
 val get_round : t -> int
 
+(** [get_houset] is current house of the current game state [t]*)
 val get_house : t -> Players.player
 
+(** [get_score t] is the pretty formatted string of scores of the four
+    player in the current game state [t]*)
 val string_of_scores : t -> string
 
 (** [update_round_results t results] takes in the current game state [t]

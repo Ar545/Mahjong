@@ -55,9 +55,7 @@ let not_ready () =
 
 let rec play_game game =
   print_endline
-    ("Begin Round "
-    ^ (get_round game |> ( + ) 1 |> string_of_int)
-    ^ ": ");
+    ("Begin Round " ^ (get_round game |> string_of_int) ^ ": ");
   print_endline
     ("Scores:\n" ^ string_of_scores game ^ "\n==================");
   match update game with
