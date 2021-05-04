@@ -27,8 +27,7 @@ let to_lower (lst : player_command) : player_command =
   List.map String.lowercase_ascii lst
 
 let raise_invalid comment =
-  raise
-    (Invalid ("Invalid: " ^ comment ^ ". Seek tutorial for details."))
+  raise (Invalid ("⚠ Invalid: " ^ comment ^ " ⚠"))
 
 let parse str =
   match String.split_on_char ' ' str |> remove_space |> to_lower with
@@ -36,15 +35,19 @@ let parse str =
   | "continue" :: t | "next" :: t -> (
       match t with
       | [] -> Continue
-      | _ -> raise_invalid "Please try 'continue'.")
+      | _ ->
+          raise_invalid
+            "Please try 'continue'. Seek tutorial for details.")
   | "help" :: t -> (
       match t with
       | [] -> Help
-      | _ -> raise_invalid "Please try 'help'.")
+      | _ ->
+          raise_invalid "Please try 'help'. Seek tutorial for details.")
   | "pung" :: t | "peng" :: t -> (
       match t with
       | [] -> Pung
-      | _ -> raise_invalid "Please try 'pung'.")
+      | _ ->
+          raise_invalid "Please try 'pung'. Seek tutorial for details.")
   | "chow" :: t | "chi" :: t -> (
       match t with
       | [] -> raise_invalid "Chow: need two int"
@@ -66,50 +69,68 @@ let parse str =
   | "an" :: "gong" :: t -> (
       match t with
       | [] -> Kong
-      | _ -> raise_invalid "Please try 'kong'.")
+      | _ ->
+          raise_invalid "Please try 'kong'. Seek tutorial for details.")
   | "played" :: t | "view" :: "played" :: t -> (
       match t with
       | [] -> Played
-      | _ -> raise_invalid "Please try 'played'.")
+      | _ ->
+          raise_invalid
+            "Please try 'played'. Seek tutorial for details.")
   | "mahjong" :: t | "hu" :: t -> (
       match t with
       | [] -> Mahjong
-      | _ -> raise_invalid "Please try 'mahjong'.")
+      | _ ->
+          raise_invalid
+            "Please try 'mahjong'. Seek tutorial for details.")
   | "quit" :: t -> (
       match t with
       | [] -> Quit
-      | _ -> raise_invalid "Please try 'quit'.")
+      | _ ->
+          raise_invalid "Please try 'quit'. Seek tutorial for details.")
   | "restart" :: t | "new" :: "round" :: t -> (
       match t with
       | [] -> Restart
-      | _ -> raise_invalid "Please try 'new round'.")
+      | _ ->
+          raise_invalid
+            "Please try 'new round'. Seek tutorial for details.")
   | "test" :: "draw" :: t | "test" :: "next" :: t -> (
       match t with
       | [] -> Next
-      | _ -> raise_invalid "Please try 'next'.")
+      | _ ->
+          raise_invalid "Please try 'next'. Seek tutorial for details.")
   | "discard" :: t | "play" :: t | t -> (
       match t with
       | [] ->
           raise_invalid
             "Please discard a tile, indicate with its index as 1 to 14."
       | [ index_str ] -> (
-          match int_of_string_opt index_str with
-          | None ->
-              raise_invalid
-                "This is a non valid discard index. \n\
-                \ Please use discard with integer from 1 to 14. \n\
-                \ For other command, please begin with Chow, Pung, \
-                 Kong, Quit, Help, Restart, Mahjong, and Played."
-          | Some index ->
-              if index < 0 then
+          if index_str = "ian" then
+            raise_invalid "🤢ian is just sad☠"
+          else if index_str = "matcha" then
+            raise_invalid "🐕matcha🐕 is so cute"
+          else if index_str = "joy" then
+            raise_invalid
+              "🐖🐖🐖🐖🐖🐖🐖🐖🐷🐖🐖🐽🐖🐖🐖🐖🐖🐖🐖🐖🐖"
+          else
+            match int_of_string_opt index_str with
+            | None ->
                 raise_invalid
-                  "Discard index has to be positive (1 for the left \
-                   most tile)"
-              else if index > 14 then
-                raise_invalid
-                  "Discard index has to be smaller than 15 (1 for the \
-                   left most tile)"
-              else Discard index)
+                  ("What do you mean by, '" ^ index_str
+                 ^ "'? \n\
+                   \ To discard a tile, enter a corresponding index. \n\
+                   \ For other command, please begin with Chow, Pung, \
+                    Kong, Quit, Help, Restart, Mahjong, and Played.")
+            | Some index ->
+                if index < 0 then
+                  raise_invalid
+                    "Discard index has to be positive (1 for the left \
+                     most tile)"
+                else if index > 14 then
+                  raise_invalid
+                    "Discard index has to be smaller than 15 (1 for \
+                     the left most tile)"
+                else Discard index)
       | _ ->
           raise_invalid
             "This command is not understood. Refer to tutorial for \

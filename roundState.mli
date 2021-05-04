@@ -39,3 +39,7 @@ val start_rounds : Players.player -> Players.t -> result
 
 (** return true is the result means that the game is draw *)
 val is_draw : result -> bool
+
+(** [locate_player players index] is the player at the [index] in a list
+    of four players [players]*)
+val locate_player : Players.t -> int -> Players.player

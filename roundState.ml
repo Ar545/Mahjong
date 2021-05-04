@@ -49,6 +49,13 @@ let is_draw (res : result) : bool =
       match t.winner with None -> true | Some t -> false)
   | Unknown_exception _ -> false
 
+(** [locate_player players index] is the player at the [index] in a list
+    of four players [players]*)
+let locate_player players index = List.nth players index
+
+let player_int state (index : int) =
+  player_to_string (locate_player state.players index)
+
 let rec kong_draw_one state (konger_index : int) : unit =
   match state.tiles_left with
   | [] -> raise End_of_tiles
@@ -111,6 +118,7 @@ let print_player_hand state : unit =
 
 (** scan input line. de - exception and parse into command *)
 let rec scan () =
+  print_string "> ";
   match parse (read_line ()) with
   | exception Command.Invalid str ->
       print_endline str;
@@ -177,7 +185,9 @@ and take_command state command =
   | Quit -> raise Quit_game
   | Restart -> raise Restart_round
   | Help -> raise (Help_needed state)
-  | Played -> view_played state
+  | Played ->
+      view_played state;
+      raise (Invalid "\n====================")
   | Next -> raise End_of_tiles
   (* anytime, check *)
   | Mahjong ->
@@ -393,7 +403,10 @@ let discard_hint state =
 
 let continue_hint state =
   (* let pung_possible is implemented in tiles.ml *)
-  let continue_prompt = print_endline "no work to do. enter continue" in
+  let continue_prompt =
+    print_endline
+      "Nothing you can do for this turn. Enter 'continue' to continue."
+  in
   (* check pung *)
   if pung_possible state.hands.(0) state.current_discard then
     print_endline "you may pung now"
@@ -429,8 +442,8 @@ let npc_discard state index : unit =
   let discard = snd assoc in
   state.hands.(index) <- fst assoc;
   state.current_discard <- discard;
-  print_string "player ";
-  print_string (string_of_int index);
+  (* print_string ("Player " ^ string_of_int index ^ " "); *)
+  print_string ("'" ^ player_int state index ^ "'");
   print_string " has discarded: ";
   print_endline (tile_string_converter discard);
   Unix.sleep 1;
@@ -440,12 +453,20 @@ let rec player_response state index : unit =
   print_string "<";
   print_player_hand state;
   print_endline " >.";
-  print_string "Please respond to player ";
-  print_endline (string_of_int index);
+  print_string "Please respond to ";
+  (* print_string "player "; print_string (string_of_int index); *)
+  print_endline ("'" ^ player_int state index ^ "'");
   match take_command state (scan ()) with
-  | exception Tiles.Invalid_index -> player_response state index
+  | exception Tiles.Invalid_index ->
+      print_endline
+        "Invalid Index to use. Please check your length of hand.";
+      player_response state index
   | exception Invalid str ->
       print_endline str;
+      player_response state index
+  | exception Help_needed t ->
+      print_endline "Help is on the way!";
+      resolve_help t;
       player_response state index
   | exception exn ->
       print_endline "= Game Paused (at response). =";
@@ -498,8 +519,8 @@ let rec start_rounds input_house input_players =
     | exception Winning message -> Round_end message
     | exception _ ->
         Unknown_exception
-          "Unknown Fatal Exception Caught. Please report this \
-           exception to the authors. Return to Main Menu. "
+          "☣ Unknown Fatal Exception Caught. ☣ Please report this \
+           exception to the authors. ☣ Return to Main Menu. ☣ "
     | () ->
         Unknown_exception
           "precondition vilation at start_round of roundstate"

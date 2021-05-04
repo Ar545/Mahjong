@@ -22,7 +22,7 @@ let player_to_string = function
       match adv with
       | One -> "Master Ian"
       | Two -> "Professor Andrew"
-      | Three -> "Wizard Leo")
+      | Three -> "Wizard Leo 🐒")
   | User -> "You"
 
 let npc_list_to_string lst =

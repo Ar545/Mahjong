@@ -1,9 +1,6 @@
-open Command
 open GameState
-open RoundState
-open Tiles
 open Tutorial
-open Players
+(* open Players *)
 
 let quit_game () =
   print_endline "Game Over.";
@@ -11,53 +8,58 @@ let quit_game () =
 
 let welcome_text () =
   ANSITerminal.print_string [ ANSITerminal.Bold ]
-    "\n\nWelcome to Mahjong! \n";
+    "\n\nWelcome to Mahjong!  \n";
   Unix.sleep 1;
-  print_endline "Clarkson Presents!"
+  print_endline "🎮 Clarkson Inc. Presents 🔮!"
 
 let print_str_list lst =
   ignore (List.map (fun x -> print_string (x ^ " ")) lst);
   ()
 
 let sleep_and_endline () =
-  Unix.sleep 1;
-  print_endline "\n"
+  Unix.sleepf 0.4;
+  print_endline "";
+  print_endline "-------------------------------"
 
 let main_menu () =
   ANSITerminal.print_string
     [ ANSITerminal.red; ANSITerminal.Bold ]
-    "MAIN MENU - Mahjong Game v.beta";
+    "🃏 MAIN MENU - Mahjong Game v.beta 🀄";
   (* Unix.sleep 1; *)
   sleep_and_endline ();
-  ANSITerminal.print_string [ ANSITerminal.blue ] "1. Play Easy Mode";
+  ANSITerminal.print_string [ ANSITerminal.blue ]
+    "1. Play Easy Mode 📍";
   (* Unix.sleep 1; *)
   sleep_and_endline ();
-  ANSITerminal.print_string [ ANSITerminal.cyan ] "2. Play Hard Mode";
+  ANSITerminal.print_string [ ANSITerminal.cyan ]
+    "2. Play Hard Mode ⚔";
   (* Unix.sleep 1; *)
   sleep_and_endline ();
-  ANSITerminal.print_string [ ANSITerminal.green ] "3. Display Tutorial";
+  ANSITerminal.print_string [ ANSITerminal.green ]
+    "3. Display Tutorial 📋";
   (* Unix.sleep 1; *)
   sleep_and_endline ();
-  ANSITerminal.print_string [ ANSITerminal.yellow ] "4. Game Settings";
+  ANSITerminal.print_string [ ANSITerminal.yellow ]
+    "4. Game Settings ⚙";
   (* Unix.sleep 1; *)
   sleep_and_endline ();
   ANSITerminal.print_string
     [ ANSITerminal.magenta; ANSITerminal.Underlined ]
-    "5. Quit Game";
+    "5. Quit Game 🦟";
   sleep_and_endline ()
 
 let not_ready () =
   print_endline "===================================";
   print_endline
-    "Module Not Ready Yet. Return to Main Menu. Enter 0 to test.\n";
+    "Module Not Ready Yet. Return to Main Menu. Enter 0 to test. 🕹 \n";
   Unix.sleep 1;
   main_menu ()
 
 let rec play_game game =
   print_endline
-    ("Begin Round " ^ (get_round game |> string_of_int) ^ ": ");
+    ("🎯 Begin Round " ^ (get_round game |> string_of_int) ^ ": ");
   print_endline
-    ("Scores:\n" ^ string_of_scores game ^ "\n==================");
+    ("🎰 Scores:\n" ^ string_of_scores game ^ "\n==================");
   match update game with
   | Continue new_game -> play_game new_game
   | Quit new_game ->
@@ -69,10 +71,11 @@ let start_game play_advanced =
   let game = init_game total_rounds play_advanced in
   let npc = game.players in
   print_string
-    ("\nYou will be playing with " ^ npc_list_to_string npc
-   ^ " for a total of "
+    ("\nYou will be playing with "
+    ^ Players.npc_list_to_string npc
+    ^ " for a total of "
     ^ string_of_int total_rounds
-    ^ " rounds!\n");
+    ^ " rounds! 🎲\n");
   sleep_and_endline ();
   play_game game;
   main_menu ()
@@ -99,24 +102,24 @@ let quit_game () =
 
 let example_game () =
   let game = init_game 1 false in
-  let round = init_round game.house game.players in
+  let round = RoundState.init_round game.house game.players in
   print_string "player one hand:\n";
-  round |> hand 0 |> print_str_list;
+  round |> RoundState.hand 0 |> print_str_list;
   print_string "\n\nplayer two hand:\n";
-  round |> hand 1 |> print_str_list;
+  round |> RoundState.hand 1 |> print_str_list;
   print_string "\n\nplayer three hand:\n";
-  round |> hand 2 |> print_str_list;
+  round |> RoundState.hand 2 |> print_str_list;
   print_string "\n\nplayer four hand:\n";
-  round |> hand 3 |> print_str_list;
+  round |> RoundState.hand 3 |> print_str_list;
   print_string "\n\ntiles left after initial distribution:";
-  round |> tiles_left |> print_str_list;
+  round |> RoundState.tiles_left |> print_str_list;
   print_string "\n\n\n"
 
 let test () =
   print_string "\nHere are all the tiles\n";
-  all_tiles |> tiles_to_str |> print_str_list;
+  Tiles.all_tiles |> Tiles.tiles_to_str |> print_str_list;
   print_string "\n\nHere are the randomized tiles!\n\n\n";
-  init_tiles () |> tiles_to_str |> print_str_list;
+  Tiles.init_tiles () |> Tiles.tiles_to_str |> print_str_list;
   print_string "\n\n";
   print_string "\nExample Round 1\n\n";
   example_game ();
@@ -124,8 +127,8 @@ let test () =
   example_game ()
 
 let rec match_input () : unit =
-  print_endline "Please select from 1 to 5:";
-  print_string "> ";
+  print_endline "🔢 Please select from 1 to 5: ";
+  print_string "🔢 ➡> ";
   match read_line () with
   | exception End_of_file ->
       print_string "Invalid Input.";
@@ -133,7 +136,7 @@ let rec match_input () : unit =
   | anystring -> (
       match int_of_string_opt anystring with
       | None ->
-          print_string "Invalid Command.";
+          print_string "Please use integer.";
           match_input ()
       | Some integer ->
           if integer = 1 then play_basic ()

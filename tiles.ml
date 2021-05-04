@@ -287,7 +287,7 @@ let rec check_seven = function
   | [] -> true
   | [ h ] -> false
 
-(**the compare function to compare tiles is not yet implemented*)
+(** return true if the hands constitutes 7 eyes *)
 let winning_hand_seven hand =
   if check_size_14 hand then
     let sorted_together = List.sort compare hand in
@@ -459,6 +459,10 @@ let ankong_tile_opt hand = List.find_opt (ankong_valid hand) hand
 let ankong_valid_new hand =
   match ankong_tile_opt hand with None -> false | Some t -> true
 
+(*********************************************)
+(* New add Functions - Not Tested *)
+(*********************************************)
+
 let sort_hand hand =
   index_to_tiles (List.sort Stdlib.compare (tiles_to_index hand))
 
@@ -512,25 +516,19 @@ let rec chow_remove hand index_1 index_2 : t =
   if index_1 > index_2 then chow_remove hand index_2 index_1
   else remove_index (remove_index hand index_2) index_1
 
-(*********************************************)
-(* TODO - leave to Ian *)
-(*********************************************)
-
-(** suggest a tile t from list of tile, hand, to be the best to discard *)
-let discard_suggestion (hand : t) : tile =
-  failwith "unimplemented by ian"
-
-(*********************************************)
-(* TODO - leave to Leo *)
-(*********************************************)
-
 (** temperory discard suggestion - discard the first one *)
 let discard_suggestion (hand : t) : tile =
-  match hand with [] -> Blank | h :: t -> h
+  match hand with
+  | [] -> Blank
+  | h :: t -> snd (separate_last_tile (h :: t))
 
-let hu_possible hand = winning_valid hand [] None
+let hu_possible hand =
+  match winning_valid hand [] None with
+  | exception exn -> false
+  | t -> t
 
-let kong_possible hand = ankong_valid_new hand
+let kong_possible hand =
+  match ankong_valid_new hand with exception exn -> false | t -> t
 
 let pung_possible hand tile = pung_valid hand tile
 
@@ -547,3 +545,11 @@ let rec add_tile_to_hand tile = function
       if compare tile tile' <= 0 then tile :: hand
       else tile' :: add_tile_to_hand tile t
   | [] -> [ tile ]
+
+(*********************************************)
+(* TODO - leave to Ian *)
+(*********************************************)
+
+(** suggest a tile t from list of tile, hand, to be the best to discard *)
+let discard_suggestion_new (hand : t) : tile =
+  failwith "unimplemented by ian"

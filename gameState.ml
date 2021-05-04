@@ -15,10 +15,6 @@ type game_progress =
   | Quit of t
   | Continue of t
 
-(** [locate_player players index] is the player at the [index] in a list
-    of four players [players]*)
-let locate_player players index = List.nth players index
-
 (** [index_of_player player_list player] is the index of the [player] in
     a list of four players [players]*)
 let index_of_player player_list player =
