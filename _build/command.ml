@@ -1,0 +1,108 @@
+(** The type [player_command] is a player command phrase where each
+    element is word within the phrase. A word is defined to be a
+    sequence of non-space characters Do not expose to outside, mli. *)
+type player_command = string list
+
+type command =
+  | Quit
+  | Restart
+  | Played
+  | Help
+  | Kong
+  | Mahjong
+  | Discard of int
+  | Continue
+  | Pung
+  | Chow of (int * int)
+
+exception Invalid of string
+
+let remove_space (str_list : player_command) : player_command =
+  List.fold_left
+    (fun acc str -> if str = "" then acc else str :: acc)
+    [] (List.rev str_list)
+
+let to_lower (lst : player_command) : player_command =
+  List.map String.lowercase_ascii lst
+
+let raise_invalid comment =
+  raise (Invalid ("Invalid " ^ comment ^ " command"))
+
+let parse str =
+  match String.split_on_char ' ' str |> remove_space |> to_lower with
+  | [] -> Continue
+  | "continue" :: t | "next" :: t -> (
+      match t with
+      | [] -> Continue
+      | _ -> raise_invalid "Please try 'continue'.")
+  | "help" :: t -> (
+      match t with
+      | [] -> Help
+      | _ -> raise_invalid "Please try 'help'.")
+  | "pung" :: t | "peng" :: t -> (
+      match t with
+      | [] -> Pung
+      | _ -> raise_invalid "Please try 'pung'.")
+  | "chow" :: t | "chi" :: t -> (
+      match t with
+      | [] -> raise_invalid "Chow: need two int"
+      | [ hd ] -> raise_invalid "Chow: need two int, not one"
+      | [ fst; snd ] -> (
+          match int_of_string_opt fst with
+          | None -> raise_invalid "Chow: '_->int' '_'"
+          | Some index_1 -> (
+              match int_of_string_opt snd with
+              | None -> raise_invalid "chow '_' '_->int'"
+              | Some index_2 -> Chow (index_1, index_2)))
+      | _ -> raise_invalid "Chow: only two int, not more")
+  | "kong" :: t
+  | "gang" :: t
+  | "angang" :: t
+  | "hiddenkong" :: t
+  | "ankong" :: t
+  | "hidden" :: "kong" :: t
+  | "an" :: "gong" :: t -> (
+      match t with
+      | [] -> Kong
+      | _ -> raise_invalid "Please try 'kong'.")
+  | "played" :: t | "view" :: "played" :: t -> (
+      match t with
+      | [] -> Played
+      | _ -> raise_invalid "Please try 'played'.")
+  | "mahjong" :: t | "hu" :: t -> (
+      match t with
+      | [] -> Mahjong
+      | _ -> raise_invalid "Please try 'mahjong'.")
+  | "quit" :: t -> (
+      match t with
+      | [] -> Quit
+      | _ -> raise_invalid "Please try 'quit'.")
+  | "restart" :: t | "new" :: "round" :: t -> (
+      match t with
+      | [] -> Restart
+      | _ -> raise_invalid "Please try 'new round'.")
+  | "discard" :: t | "play" :: t | t -> (
+      match t with
+      | [] ->
+          raise_invalid
+            "Please discard a tile, indicate with its index as 1 to 14."
+      | [ index_str ] -> (
+          match int_of_string_opt index_str with
+          | None ->
+              raise_invalid
+                "This is a non valid discard index. Please use discard \
+                 with integer from 1 to 14."
+          | Some index ->
+              if index < 0 then
+                raise_invalid
+                  "Discard index has to be positive (1 for the left \
+                   most tile)"
+              else if index > 14 then
+                raise_invalid
+                  "Discard index has to be smaller than 15 (1 for the \
+                   left most tile)"
+              else Discard index)
+      | _ ->
+          raise_invalid
+            "This command is not understood. Refer to tutorial for \
+             help.")

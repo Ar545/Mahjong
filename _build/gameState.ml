@@ -129,7 +129,7 @@ let rec update t =
   | Quit_game -> Quit t
   | Round_end winning_message -> update_game_state t winning_message
   | Unknown_exception str ->
-      print_endline ("Unknown Exception Caught" ^ str);
+      print_endline str;
       Quit t
 
 (** [get_score t] is the scores of the four player in the current game
