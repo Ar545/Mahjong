@@ -1,9 +1,11 @@
 #require "ounit2";;
 #require "ANSITerminal";;
+#require "graphics";;
 #directory "_build";;
 #load "command.cmo";;
-#load "state.cmo";;
-#load "move.cmo";;
-#load "npc.cmo";;
-#load "gameState.cmo";;
+#load "tiles.cmo";;
+#load "players.cmo";;
+#load "tutorial.cmo";;
 #load "roundState.cmo";;
+#load "gameState.cmo";;
+
