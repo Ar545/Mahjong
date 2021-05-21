@@ -123,40 +123,7 @@ let init_tiles () : t = shuffle all_tiles
 (***********************************************************************
   init hand - end - c,p,kong - start*)
 
-let get_index_of_tile = function
-  | Dots int -> int
-  | Bamboo int -> int
-  | Characters int -> int
-  | _ -> 0
-
-let get_shape_of_tile = function
-  | Dots int -> 1
-  | Bamboo int -> 2
-  | Characters int -> 3
-  | _ -> 0
-
-(** [chow_valid hand t1 t2 t3] is true if t1 t2 t3 is a chow. \n AF: the
-    (hand : tile list) must already contain t1 and t2, otherwise it is
-    not a valid chow. In other words, if a person chow 1 2 to 3 without
-    having 1 2, system will retrun 'invalid command, no such 1 and 2'.
-    else, here to determine if 1 2 3 forms a valid chow, and if not
-    return 'invalid chow, 1 2 3 is not a chow'*)
-let chow_valid (hand : t) t1 t2 t3 =
-  let list_shape = List.map get_shape_of_tile [ t1; t2; t3 ] in
-  match list_shape with
-  | [ a; b; c ] ->
-      if a == b && b == c then
-        let sorted_index =
-          List.map get_index_of_tile [ t1; t2; t3 ] |> List.sort compare
-        in
-        match sorted_index with
-        | [ a; b; c ] ->
-            if a + 1 == b && b + 1 == c then true else false
-        | _ -> false
-      else false
-  | _ -> false
-
-let chow_valid_alternative (hand : t) t1 t2 (t3 : tile) =
+let chow_valid (hand : t) t1 t2 (t3 : tile) =
   let (index_list : int list) = tiles_to_index [ t1; t2; t3 ] in
   match List.sort_uniq Stdlib.compare index_list with
   | [ a; b; c ] -> if a + 1 == b && b + 1 == c then true else false
@@ -173,18 +140,6 @@ exception Unknown
    tile t3 to chow and two index of the hand t. Assert index 1 and 2 are
    valid position of the tile, meaning, for a standard hand, 1 to 13. *)
 let chow_index_valid (hand : t) (index1 : int) (index2 : int) t3 =
-  let hand_length = List.length hand in
-  if
-    index1 < 1 || index2 < 1 || index1 > hand_length
-    || index2 > hand_length
-  then raise Invalid_index
-  else
-    chow_valid_alternative hand
-      (List.nth hand (index1 - 1))
-      (List.nth hand (index2 - 1))
-      t3
-
-let chow_index_valid_depre (hand : t) (index1 : int) (index2 : int) t3 =
   let hand_length = List.length hand in
   if
     index1 < 1 || index2 < 1 || index1 > hand_length
@@ -275,7 +230,7 @@ and find_trio = function
 let rec find_trump checked_hand = function
   | t1 :: t2 :: tail ->
       if t1 = t2 then find_trio (checked_hand @ tail)
-      else find_trump (t1 :: checked_hand) (t2 :: tail)
+      else find_trump (checked_hand @ [ t1 ]) (t2 :: tail)
   | [ t1 ] -> false
   | [] -> false
 
@@ -308,7 +263,9 @@ let winning_hand_thirteen (hand : t) =
 
 let winning_hand (hand : t) (open_hand : t) (current : tile option) =
   let complete_hand =
-    match current with None -> hand | Some tile -> tile :: hand
+    match current with
+    | None -> hand
+    | Some tile -> add_tile_to_hand tile hand
   in
   if winning_hand_standard complete_hand open_hand then 1
   else if winning_hand_seven complete_hand then 2
@@ -463,15 +420,12 @@ let ankong_valid_new hand =
 (* New add Functions - Not Tested *)
 (*********************************************)
 
+(** sort a list of tile by the standard order *)
 let sort_hand hand =
   index_to_tiles (List.sort Stdlib.compare (tiles_to_index hand))
 
+(** sort a list of tile by the reverse of standard order *)
 let rev_sort_hand hand = List.rev (sort_hand hand)
-
-let separate_first_tile hand =
-  match sort_hand hand with
-  | h :: t -> (t, h)
-  | [] -> failwith "precondition violation"
 
 let separate_random_tile hand =
   match shuffle hand with
@@ -483,10 +437,6 @@ let separate_last_tile hand =
   match rev with
   | h :: t -> (sort_hand t, h)
   | [] -> failwith "precondition violation"
-
-let print_str_list_by_ian hand =
-  ignore (List.map (fun x -> print_string (x ^ " ")) hand);
-  ()
 
 let rec print_str_list = function
   | fst :: snd :: t ->
@@ -537,19 +487,20 @@ let rec chow_possible hand tile =
   | [] -> false
   | [ h ] -> false
   | fst :: snd :: t ->
-      if chow_valid_alternative hand fst snd tile then true
+      if chow_valid hand fst snd tile then true
       else chow_possible (snd :: t) tile
 
-let rec add_tile_to_hand tile = function
-  | tile' :: t as hand ->
-      if compare tile tile' <= 0 then tile :: hand
-      else tile' :: add_tile_to_hand tile t
-  | [] -> [ tile ]
-
 (*********************************************)
-(* TODO - leave to Ian *)
+(* NPC optimization moves: *)
+(* - tile to play at current round *)
+(* - chow, pung, kong when appropriate *)
+(* - hu when valid *)
 (*********************************************)
 
 (** suggest a tile t from list of tile, hand, to be the best to discard *)
-let discard_suggestion_new (hand : t) : tile =
-  failwith "unimplemented by ian"
+let discard_suggestion_new (hand : t) (left : t) : tile =
+  failwith "TODO"
+
+(* remove all tiles that alreay fulfill pung, chow, or kong *)
+(* determine the amount of tiles left in [left] that can match each tile
+   or tile pair*)

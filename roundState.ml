@@ -97,22 +97,24 @@ let skip_to_after state player =
   state.current_drawer <- pos player 0 state.players + 1
 
 let view_played (state : t) : unit =
-  print_endline "Here are all the tiles played:";
+  Unix.sleep 1;
+  print_endline "Here is the current discard:";
+  print_string (tile_string_converter state.current_discard);
+  print_endline "\nHere are all the tiles played:";
   print_str_list (tiles_to_str state.tiles_played);
-  Unix.sleep 2;
-  print_endline "Here are player's open hand:";
-  print_string "Ian:[";
+  print_endline "\nHere are player's open hand:";
+  print_string "Ian:[ ";
   print_str_list (tiles_to_str state.hands_open.(1));
-  print_string "]; Leo:[";
+  print_string " ];\nLeo:[ ";
   print_str_list (tiles_to_str state.hands_open.(2));
-  print_string "]; Andrew:[";
+  print_string " ];\nAndrew:[ ";
   print_str_list (tiles_to_str state.hands_open.(3));
-  print_string "].";
+  print_string " ].";
   ()
 
 let print_player_hand state : unit =
   print_str_list (tiles_to_str state.hands.(0));
-  print_string " >:<";
+  print_string " }:  { ";
   print_str_list (tiles_to_str state.hands_open.(0));
   ()
 
@@ -163,9 +165,9 @@ let win_round
   raise (Winning winning_round_end_message)
 
 let rec player_discard state : unit =
-  print_string "<";
+  print_string "{ ";
   print_player_hand state;
-  print_endline " >. Must discard one now.";
+  print_endline " } Must discard one now.";
   match take_command state (scan ()) with
   | exception Tiles.Invalid_index -> player_discard state
   | exception Invalid str ->
@@ -244,10 +246,8 @@ and take_command state command =
             state.hands.(user_index) <-
               remove state.hands.(user_index) ankong 4;
             state.hands_open.(user_index) <-
-              ankong
-              ::
-              ankong
-              :: ankong :: ankong :: state.hands_open.(user_index);
+              ankong :: ankong :: ankong :: ankong
+              :: state.hands_open.(user_index);
             state.kong_records.(user_index) <-
               state.kong_records.(user_index) + 2;
             kong_draw_one state 0;
@@ -265,8 +265,8 @@ and take_command state command =
           let kong = state.current_discard in
           let user_index = 0 in
           state.hands_open.(user_index) <-
-            kong
-            :: kong :: kong :: kong :: state.hands_open.(user_index);
+            kong :: kong :: kong :: kong
+            :: state.hands_open.(user_index);
           state.hands.(user_index) <-
             remove state.hands.(user_index) kong 3;
           state.current_discard <- Blank;
@@ -341,8 +341,8 @@ and take_command state command =
             List.nth state.hands.(user_index) (index_2 - 1)
           in
           state.hands_open.(user_index) <-
-            first_tile
-            :: second_tile :: chow :: state.hands_open.(user_index);
+            first_tile :: second_tile :: chow
+            :: state.hands_open.(user_index);
           state.hands.(user_index) <-
             chow_remove state.hands.(user_index) index_1 index_2;
           state.current_discard <- Blank;
@@ -442,20 +442,20 @@ let npc_discard state index : unit =
   let discard = snd assoc in
   state.hands.(index) <- fst assoc;
   state.current_discard <- discard;
+  state.tiles_played <- discard :: state.tiles_played;
   (* print_string ("Player " ^ string_of_int index ^ " "); *)
-  print_string ("'" ^ player_int state index ^ "'");
+  print_string (player_int state index);
   print_string " has discarded: ";
   print_endline (tile_string_converter discard);
-  Unix.sleep 1;
   ()
 
 let rec player_response state index : unit =
-  print_string "<";
+  print_string "{ ";
   print_player_hand state;
-  print_endline " >.";
+  print_endline " }";
   print_string "Please respond to ";
   (* print_string "player "; print_string (string_of_int index); *)
-  print_endline ("'" ^ player_int state index ^ "'");
+  print_endline (player_int state index);
   match take_command state (scan ()) with
   | exception Tiles.Invalid_index ->
       print_endline
@@ -492,6 +492,21 @@ and find_round state : unit =
   if state.current_drawer = 0 then user_round state
   else npc_int_round state state.current_drawer
 
+(* [round_end_message message] prints the appropriate post round message
+   according to [message] *)
+let round_end_message message =
+  match message.winner with
+  | None -> print_string "\n\nRan out of Tiles! Game end in Draw\n\n"
+  | Some player -> (
+      let verb = if player = User then " are" else " is" in
+      print_string
+        ("\n\n" ^ player_to_string player ^ verb
+       ^ " this Round's Winner!\n\n");
+      match message.losers with
+      | None -> print_string "Everyone Else Loses!\n\n"
+      | Some loser ->
+          print_string (player_to_string loser ^ " Loses!\n\n"))
+
 let rec start_rounds input_house input_players =
   let init_state = init_round input_house input_players in
   let start_rounds_loop state : result =
@@ -499,24 +514,41 @@ let rec start_rounds input_house input_players =
       [ ANSITerminal.red; ANSITerminal.Bold ]
       "Remerber, to phrase a command, please begin with Discard, \
        Continue, Chow, Pung, Kong, Quit, Help, Restart, Mahjong, and \
-       Played. \n\
-      \ If you choose to not to respond to other's discard, simply hit \
-       enter. To discard a tile at your turn, simply enter the index \
-       of the tile. \n\
-      \ ";
-    print_string "Good luck with your draw: <";
+       Played.\n\n";
+    ANSITerminal.print_string
+      [ ANSITerminal.red; ANSITerminal.Bold ]
+      "If you choose to not to respond to other's discard, simply hit \
+       enter.\n\n";
+    ANSITerminal.print_string
+      [ ANSITerminal.red; ANSITerminal.Bold ]
+      "To discard a tile at your turn, simply enter the index of the \
+       tile (starting at 1).\n\n";
+    print_endline ("The House is: " ^ player_to_string input_house);
+    print_string "\nGood luck with your draw:\n{ ";
     print_player_hand state;
-    print_endline " >.";
+    print_endline " }\n";
     (* let index = state.house_seat in *)
     match
       (* if index = 0 then user_round state else npc_int_round state
          index *)
       find_round state
     with
-    | exception Quit_game -> Quit_game
-    | exception Restart_round -> start_rounds state.house state.players
-    | exception End_of_tiles -> Round_end end_with_draw
-    | exception Winning message -> Round_end message
+    | exception Quit_game ->
+        print_string "\nGame Quit!\n\n";
+        Unix.sleep 2;
+        Quit_game
+    | exception Restart_round ->
+        print_string "\nRestart Game!\n\n";
+        Unix.sleep 2;
+        start_rounds state.house state.players
+    | exception End_of_tiles ->
+        round_end_message end_with_draw;
+        Unix.sleep 2;
+        Round_end end_with_draw
+    | exception Winning message ->
+        round_end_message message;
+        Unix.sleep 2;
+        Round_end message
     | exception _ ->
         Unknown_exception
           "☣ Unknown Fatal Exception Caught. ☣ Please report this \

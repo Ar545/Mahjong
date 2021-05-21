@@ -1,30 +1,31 @@
 open GameState
 open Tutorial
-(* open Players *)
+open Tiles
 
+(* [quit_game ()] ends the program *)
 let quit_game () =
   print_endline "Game Over.";
   Stdlib.exit 0
 
+(* [welcome_text ()] prints the welcome texts when the program is
+   launched *)
 let welcome_text () =
   ANSITerminal.print_string [ ANSITerminal.Bold ]
-    "\n\nWelcome to Mahjong!  \n";
-  Unix.sleep 1;
-  print_endline "🎮 Clarkson Inc. Presents 🔮!"
+    "\n\nWelcome to Mahjong! 🎮\n\n";
+  Unix.sleep 1
 
-let print_str_list lst =
-  ignore (List.map (fun x -> print_string (x ^ " ")) lst);
-  ()
-
+(* [sleep_and_endline ()] halts (aka sleep) the program for 0.4 seconds
+   and prints a separation border for new text to follow*)
 let sleep_and_endline () =
   Unix.sleepf 0.4;
   print_endline "";
   print_endline "-------------------------------"
 
+(* [main_menu ()] prints the menu of the mahjong game*)
 let main_menu () =
   ANSITerminal.print_string
     [ ANSITerminal.red; ANSITerminal.Bold ]
-    "🃏 MAIN MENU - Mahjong Game v.beta 🀄";
+    "MAIN MENU - Mahjong Game";
   (* Unix.sleep 1; *)
   sleep_and_endline ();
   ANSITerminal.print_string [ ANSITerminal.blue ]
@@ -45,9 +46,11 @@ let main_menu () =
   sleep_and_endline ();
   ANSITerminal.print_string
     [ ANSITerminal.magenta; ANSITerminal.Underlined ]
-    "5. Quit Game 🦟";
+    "5. Quit Game";
   sleep_and_endline ()
 
+(* [not_ready ()] prints text informing user that the current feature
+   has not been fully implemented. It then returns to main menu *)
 let not_ready () =
   print_endline "===================================";
   print_endline
@@ -55,17 +58,21 @@ let not_ready () =
   Unix.sleep 1;
   main_menu ()
 
+(* [play_game game] helps prompt the beginning of the mahjong game play *)
 let rec play_game game =
   print_endline
     ("🎯 Begin Round " ^ (get_round game |> string_of_int) ^ ": ");
   print_endline
-    ("🎰 Scores:\n" ^ string_of_scores game ^ "\n==================");
+    ("🎰 Scores:\n" ^ string_of_scores game ^ "\n==================\n");
   match update game with
   | Continue new_game -> play_game new_game
   | Quit new_game ->
       print_endline "Final Results: ";
-      print_endline ("Scores:\n" ^ string_of_scores new_game)
+      print_endline ("Scores:\n" ^ string_of_scores new_game ^ "\n")
 
+(* [start_game advanced] initialized a mahjong with three basic npc or
+   advanced npc depending on [advanced]. It prompts the beginning of the
+   mahjong game play*)
 let start_game play_advanced =
   let total_rounds = 8 in
   let game = init_game total_rounds play_advanced in
@@ -80,26 +87,29 @@ let start_game play_advanced =
   play_game game;
   main_menu ()
 
+(* [play_advanced ()] prints and prompt the user that the advanced level
+   is selected *)
 let play_advanced () =
   print_endline "===================================";
+  Unix.sleepf 0.5;
   print_string "You have selected Advanced Level!\n";
   Unix.sleep 1;
   start_game true
 
+(* [play_basic ()] prints and prompt the user that the basic level is
+   selected *)
 let play_basic () =
   print_endline "===================================";
+  Unix.sleepf 0.5;
   print_string "You have selected Basic Level!\n";
   Unix.sleep 1;
   start_game false
 
-(* let initalize () = failwith "TODO" *)
-
+(* [tutorial ()] begins the tutorial for the user *)
 let tutorial () = Tutorial.tutorial_start ()
 
-let quit_game () =
-  print_endline "Game Over. Thank You!\n";
-  Stdlib.exit 0
-
+(* [example_game ()] shows an example starting condition and play hands
+   of a mahjong round*)
 let example_game () =
   let game = init_game 1 false in
   let round = RoundState.init_round game.house game.players in
@@ -115,6 +125,8 @@ let example_game () =
   round |> RoundState.tiles_left |> print_str_list;
   print_string "\n\n\n"
 
+(* [test ()] tests and prints the result of the basic functionality of
+   the mahjong game features*)
 let test () =
   print_string "\nHere are all the tiles\n";
   Tiles.all_tiles |> Tiles.tiles_to_str |> print_str_list;
@@ -126,9 +138,10 @@ let test () =
   print_string "\nExample Round 2\n\n";
   example_game ()
 
+(* [match_input ()] listen for user input and respond correspondingly *)
 let rec match_input () : unit =
-  print_endline "🔢 Please select from 1 to 5: ";
-  print_string "🔢 ➡> ";
+  print_endline "Please select from 1 to 5: ";
+  print_string "-> ";
   match read_line () with
   | exception End_of_file ->
       print_string "Invalid Input.";
@@ -153,6 +166,7 @@ let rec match_input () : unit =
           else print_string "Invalid Index.";
           match_input ())
 
+(*[main ()] is the main program called when program initialized *)
 let main () =
   welcome_text ();
   main_menu ();

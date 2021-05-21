@@ -62,7 +62,7 @@ let chow_valid_depre_test
     (expected_output : bool) : test =
   name >:: fun _ ->
   assert_equal ~printer:string_of_bool expected_output
-    (chow_index_valid_depre hand t1 t2 t3)
+    (chow_index_valid hand t1 t2 t3)
 
 let pung_valid_test
     (name : string)
@@ -90,6 +90,15 @@ let ankong_valid_index_test
   name >:: fun _ ->
   assert_equal ~printer:string_of_bool expected_output
     (ankong_index_valid hand tile)
+
+let hu_test
+    (name : string)
+    (hand : Tiles.t)
+    (tile_option : tile option)
+    (expected_output : bool) : test =
+  name >:: fun _ ->
+  assert_equal ~printer:string_of_bool expected_output
+    (winning_valid hand [] tile_option)
 
 (* end tiles test *)
 
@@ -124,6 +133,67 @@ let tile_2_pung_a = index_tile_converter 304
 let tile_false = index_tile_converter 611
 
 let tile_2_kong = index_tile_converter 666
+
+let hu_hand_1 =
+  index_to_tiles
+    [
+      108;
+      108;
+      107;
+      108;
+      109;
+      201;
+      202;
+      203;
+      304;
+      305;
+      306;
+      307;
+      308;
+      309;
+    ]
+
+let hu_hand_2 =
+  index_to_tiles
+    [
+      101;
+      102;
+      103;
+      104;
+      105;
+      106;
+      107;
+      108;
+      109;
+      101;
+      102;
+      103;
+      666;
+      666;
+    ]
+
+let hu_hand_3 =
+  index_to_tiles
+    [
+      108;
+      108;
+      109;
+      109;
+      109;
+      206;
+      206;
+      206;
+      304;
+      305;
+      306;
+      307;
+      308;
+      309;
+    ]
+
+let hu_hand_3_option =
+  index_to_tiles
+    [ 108; 108; 109; 109; 109; 206; 206; 304; 305; 306; 307; 308; 309 ]
 
 let tiles_tests =
   [
@@ -392,7 +462,15 @@ let random_tests () =
 
 let possibility_test = []
 
-let win_test = []
+let win_test =
+  [
+    hu_test "hu_test_1" hu_hand_1 None true;
+    hu_test "hu_test_2" hu_hand_2 None true;
+    hu_test "hu_test_3" hu_hand_3 None true;
+    hu_test "hu_test_3_option" hu_hand_3_option
+      (Some (index_tile_converter 206))
+      true;
+  ]
 
 let suite =
   "Mahjong test suite"

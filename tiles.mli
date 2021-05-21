@@ -45,9 +45,12 @@ val is_bonus : tile -> bool
 (* validity of action and winning *)
 (****************************************************)
 
-(** [chow_valid hand t1 t2 t3] is true when t1 t2 is valid position of
-    hand and t1's tile and t2's tile and t3 is a valid chow. Otherwise,
-    false*)
+(** [chow_index_valid hand t1 t2 t3] is true if t1 t2 t3 is a chow. \n
+    AF: the (hand : tile list) must already contain t1 and t2, otherwise
+    it is not a valid chow. In other words, if a person chow 1 2 to 3
+    without having 1 2, system will retrun 'invalid command, no such 1
+    and 2'. else, here to determine if 1 2 3 forms a valid chow, and if
+    not return 'invalid chow, 1 2 3 is not a chow'*)
 val chow_index_valid : t -> int -> int -> tile -> bool
 
 (** [pung_valid hand tile] is true when [tile] can form a pung
@@ -93,38 +96,48 @@ exception Invalid_index
 (* converter: tiles, string, and int *)
 (****************************************************)
 
+(** [tiles_to_str t] is the string list that represents the tile list
+    [t] *)
 val tiles_to_str : t -> string list
 
+(** [tiles_to_index t] is the int index list that represents the tile
+    list [t] *)
 val tiles_to_index : t -> int list
 
+(** [tile_index_converter tile] is the int index that represents the
+    tile [tile]*)
 val tile_index_converter : tile -> int
 
+(** [index_to_tiles t] is the tile list that represents the tile index
+    list [t] *)
 val index_to_tiles : int list -> t
 
+(** [index_tile_converter n] is the tile that represents the tile index
+    [n] *)
 val index_tile_converter : int -> tile
 
+(** [tile_string_converter tile] is the unicode string that represents
+    [tile]*)
 val tile_string_converter : tile -> string
 
+(** [print_str_list lst] prints the string list [lst] and returns unit *)
 val print_str_list : string list -> unit
 
 (****************************************************)
 (* sort, spearate, and remove *)
 (****************************************************)
 
+(** [remove hand tile amount] is the tile list [t] with [amount] [tile]
+    removed *)
 val remove : t -> tile -> int -> t
 
+(** [remove_index hand n] is the tile list [hand] with the [n]th tile
+    removed*)
 val remove_index : t -> int -> t
 
+(** [chow_remove hand n1 n2] is the tile list [hand] where the indeces
+    [n1] and [n2] are removed. *)
 val chow_remove : t -> int -> int -> t
-
-(** sort a list of tile by the standard order *)
-val sort_hand : t -> t
-
-(** sort a list of tile by the reverse of standard order *)
-val rev_sort_hand : t -> t
-
-(** separate the first tile from the list of tiles *)
-val separate_first_tile : t -> t * tile
 
 (** separate the last tile from the list of tiles *)
 val separate_last_tile : t -> t * tile
@@ -152,24 +165,3 @@ val chow_possible : t -> tile -> bool
 
 (** determine if a hand is possible to pung *)
 val pung_possible : t -> tile -> bool
-
-(****************************************************)
-(* dicard and deappreciated functions *)
-(****************************************************)
-
-(* val init_hand : t -> *)
-
-(** **Depreciated** [kong_valid hand tile] is true when [tile] can form
-    a kong combination with the tile [tile] and tile [tile] is within
-    the tile list [hand] and false otherwise **Depreciated* *)
-val ankong_valid : t -> tile -> bool
-
-(** **Depreciated** [chow_valid hand t1 t2 t3] is true when t1 t2 t3 is
-    a valid chow and t1 and t2 are both in hand. Otherwise, false.
-    **Depreciated**)
-val chow_valid_alternative : t -> tile -> tile -> tile -> bool
-
-(** **Depreciated** [chow_valid_index_Depre hand t1 t2 t3] is true when
-    t1 t2 is valid position of hand and t1's tile and t2's tile and t3
-    is a valid chow. Otherwise, false*)
-val chow_index_valid_depre : t -> int -> int -> tile -> bool

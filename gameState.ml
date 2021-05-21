@@ -56,13 +56,13 @@ let init_game (distance : int) (is_advanced : bool) : t =
 let calculate_score t house winner =
   let base_score = 3 in
   let house_bonus = if house = winner then t.house_streak + 1 else 0 in
-  (base_score + house_bonus) * 100
+  base_score + house_bonus
 
 (** [update_score t house winner losers tile_score] is the game state
     [t] with updated player scores *)
 let update_score t house winner losers tile_score =
   let winner_index = index_of_player t.players winner in
-  let score = calculate_score t house winner + tile_score in
+  let score = (calculate_score t house winner + tile_score) * 100 in
   t.scores.(winner_index) <- t.scores.(winner_index) + score;
   match losers with
   | None ->

@@ -21,9 +21,6 @@ type game_progress =
   | Quit of t
   | Continue of t
 
-(* (** [current_round t] is the state of the current round of the game
-   state [t] *) val current_round : t -> RoundState.t *)
-
 (** [init_game distance is_advanced] starts a new game state that
     represent the entirety of the mahjong game. [distance] is the amount
     of rounds that will be passed before the game terminates.
