@@ -108,37 +108,54 @@ let play_basic () =
 (* [tutorial ()] begins the tutorial for the user *)
 let tutorial () = Tutorial.tutorial_start ()
 
-(* [example_game ()] shows an example starting condition and play hands
-   of a mahjong round*)
-let example_game () =
-  let game = init_game 1 false in
-  let round = RoundState.init_round game.house game.players in
-  print_string "player one hand:\n";
-  round |> RoundState.hand 0 |> print_str_list;
-  print_string "\n\nplayer two hand:\n";
-  round |> RoundState.hand 1 |> print_str_list;
-  print_string "\n\nplayer three hand:\n";
-  round |> RoundState.hand 2 |> print_str_list;
-  print_string "\n\nplayer four hand:\n";
-  round |> RoundState.hand 3 |> print_str_list;
-  print_string "\n\ntiles left after initial distribution:";
-  round |> RoundState.tiles_left |> print_str_list;
-  print_string "\n\n\n"
+(** [Test] This module is for testing features. *)
+module Test = struct
+  (** [example_game ()] shows an example starting condition and play
+      hands of a mahjong round*)
+  let example_game () =
+    let game = init_game 1 false in
+    let round = RoundState.init_round game.house game.players in
+    print_string "player one hand:\n";
+    round |> RoundState.hand 0 |> print_str_list;
+    print_string "\n\nplayer two hand:\n";
+    round |> RoundState.hand 1 |> print_str_list;
+    print_string "\n\nplayer three hand:\n";
+    round |> RoundState.hand 2 |> print_str_list;
+    print_string "\n\nplayer four hand:\n";
+    round |> RoundState.hand 3 |> print_str_list;
+    print_string "\n\ntiles left after initial distribution:";
+    round |> RoundState.tiles_left |> print_str_list;
+    print_string "\n\n\n"
 
-(* [test ()] tests and prints the result of the basic functionality of
-   the mahjong game features*)
-let test () =
-  print_string "\nHere are all the tiles\n";
-  Tiles.all_tiles |> Tiles.tiles_to_str |> print_str_list;
-  print_string "\n\nHere are the randomized tiles!\n\n\n";
-  Tiles.init_tiles () |> Tiles.tiles_to_str |> print_str_list;
-  print_string "\n\n";
-  print_string "\nExample Round 1\n\n";
-  example_game ();
-  print_string "\nExample Round 2\n\n";
-  example_game ()
+  (** [test_start_game ()] tests and prints the result of the basic
+      functionality of the mahjong game features*)
+  let test_start_game () =
+    print_string "\nHere are all the tiles\n";
+    Tiles.all_tiles |> Tiles.tiles_to_str |> print_str_list;
+    print_string "\n\nHere are the randomized tiles!\n\n\n";
+    Tiles.init_tiles () |> Tiles.tiles_to_str |> print_str_list;
+    print_string "\n\n";
+    print_string "\nExample Round 1\n\n";
+    example_game ();
+    print_string "\nExample Round 2\n\n";
+    example_game ()
 
-(* [match_input ()] listen for user input and respond correspondingly *)
+  (** [test_adv ()] tests for advanced npc *)
+  let test_adv () =
+    example_game ();
+    ()
+
+  (** [test ()] tests according to instructive index *)
+  let test inte = if inte = 0 then test_start_game () else test_adv ()
+end
+
+(** [test ()] make automatic playtests *)
+let test int = Test.test int
+
+let quit_game () =
+  print_endline "Game Over. Thank You!\n";
+  Stdlib.exit 0
+
 let rec match_input () : unit =
   print_endline "Please select from 1 to 5: ";
   print_string "-> ";
@@ -162,7 +179,9 @@ let rec match_input () : unit =
             main_menu ())
           else if integer = 4 then not_ready ()
           else if integer = 5 then quit_game ()
-          else if integer = 0 then test ()
+          else if integer = 0 then test 0
+          else if integer = -1 then test 1
+          else if integer = -2 then test 2
           else print_string "Invalid Index.";
           match_input ())
 

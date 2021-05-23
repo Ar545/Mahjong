@@ -297,8 +297,10 @@ and take_command state command =
             state.hands.(user_index) <-
               remove state.hands.(user_index) ankong 4;
             state.hands_open.(user_index) <-
-              ankong :: ankong :: ankong :: ankong
-              :: state.hands_open.(user_index);
+              ankong
+              ::
+              ankong
+              :: ankong :: ankong :: state.hands_open.(user_index);
             state.kong_records.(user_index) <-
               state.kong_records.(user_index) + 2;
             kong_draw_one state 0;
@@ -316,8 +318,8 @@ and take_command state command =
           let kong = state.current_discard in
           let user_index = 0 in
           state.hands_open.(user_index) <-
-            kong :: kong :: kong :: kong
-            :: state.hands_open.(user_index);
+            kong
+            :: kong :: kong :: kong :: state.hands_open.(user_index);
           state.hands.(user_index) <-
             remove state.hands.(user_index) kong 3;
           state.current_discard <- Blank;
@@ -389,8 +391,8 @@ and take_command state command =
             List.nth state.hands.(user_index) (index_2 - 1)
           in
           state.hands_open.(user_index) <-
-            first_tile :: second_tile :: chow
-            :: state.hands_open.(user_index);
+            first_tile
+            :: second_tile :: chow :: state.hands_open.(user_index);
           state.hands.(user_index) <-
             chow_remove state.hands.(user_index) index_1 index_2;
           state.current_discard <- Blank;
@@ -561,6 +563,11 @@ let rec start_rounds input_house input_players =
         round_end_message message;
         Unix.sleep 2;
         Round_end message
+    | exception Failure mes ->
+        print_endline
+          ("☣ Unknown Fatal Exception Caught: " ^ mes
+         ^ " Please report this exception to the authors. ☣");
+        Round_end end_with_draw
     | exception _ ->
         Unknown_exception
           "☣ Unknown Fatal Exception Caught. ☣ Please report this \
