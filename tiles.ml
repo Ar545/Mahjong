@@ -74,8 +74,8 @@ let all_tiles_variety =
 let tile_length tiles = List.length tiles
 
 let tile_index_converter = function
-  | Dots (num : int) -> 200 + num
   | Bamboo (num : int) -> 100 + num
+  | Dots (num : int) -> 200 + num
   | Characters (num : int) -> 300 + num
   | Blank -> 0
   | East -> 611
@@ -123,9 +123,14 @@ let init_tiles () : t = shuffle all_tiles
 (***********************************************************************
   init hand - end - c,p,kong - start*)
 
+let compare (t1 : tile) (t2 : tile) =
+  tile_index_converter t1 - tile_index_converter t2
+
+(** sort a list of tile by the standard order *)
+let sort_hand hand = List.sort compare hand
+
 let chow_valid (hand : t) t1 t2 (t3 : tile) =
-  let (index_list : int list) = tiles_to_index [ t1; t2; t3 ] in
-  match List.sort_uniq Stdlib.compare index_list with
+  match sort_hand [ t1; t2; t3 ] |> tiles_to_index with
   | [ a; b; c ] -> if a + 1 == b && b + 1 == c then true else false
   | _ -> false
 
@@ -178,9 +183,6 @@ let ankong_index_valid hand (pos : int) =
 
 (**************************************************************************
   cpkong - end - winning and scoring - start*)
-
-let compare (t1 : tile) (t2 : tile) =
-  tile_index_converter t1 - tile_index_converter t2
 
 let rec add_tile_to_hand tile = function
   | tile' :: t as hand ->
@@ -420,12 +422,13 @@ let ankong_valid_new hand =
 (* New add Functions - Not Tested *)
 (*********************************************)
 
-(** sort a list of tile by the standard order *)
-let sort_hand hand =
-  index_to_tiles (List.sort Stdlib.compare (tiles_to_index hand))
-
 (** sort a list of tile by the reverse of standard order *)
 let rev_sort_hand hand = List.rev (sort_hand hand)
+
+let separate_first_tile hand =
+  match hand with
+  | h :: t -> (t, h)
+  | [] -> failwith "precondition violation"
 
 let separate_random_tile hand =
   match shuffle hand with
@@ -435,7 +438,7 @@ let separate_random_tile hand =
 let separate_last_tile hand =
   let rev = rev_sort_hand hand in
   match rev with
-  | h :: t -> (sort_hand t, h)
+  | h :: t -> (t, h)
   | [] -> failwith "precondition violation"
 
 let rec print_str_list = function
@@ -445,6 +448,7 @@ let rec print_str_list = function
   | h :: t -> print_string h
   | [] -> ()
 
+(* requires [hand] contain [tile] for at least quantities of [amount] *)
 let rec remove hand tile (amount : int) : t =
   if amount < 1 then hand
   else
@@ -466,11 +470,9 @@ let rec chow_remove hand index_1 index_2 : t =
   if index_1 > index_2 then chow_remove hand index_2 index_1
   else remove_index (remove_index hand index_2) index_1
 
-(** temperory discard suggestion - discard the first one *)
-let discard_suggestion (hand : t) : tile =
-  match hand with
-  | [] -> Blank
-  | h :: t -> snd (separate_last_tile (h :: t))
+(* * temperory discard suggestion - discard the first one let
+   discard_suggestion (hand : t) : tile = match hand with | [] -> Blank
+   | h :: t -> snd (separate_last_tile (h :: t)) *)
 
 let hu_possible hand =
   match winning_valid hand [] None with
@@ -482,13 +484,20 @@ let kong_possible hand =
 
 let pung_possible hand tile = pung_valid hand tile
 
-let rec chow_possible hand tile =
-  match hand with
-  | [] -> false
-  | [ h ] -> false
-  | fst :: snd :: t ->
-      if chow_valid hand fst snd tile then true
-      else chow_possible (snd :: t) tile
+let uniq_lst lst tile = if List.mem tile lst then lst else tile :: lst
+
+(** [chow_possible hand tile] detemines whether [hand] can chow [tile].
+    [hand] must be sorted according to Tiles.compare *)
+let chow_possible hand tile =
+  let rec helper hand tile' =
+    match hand with
+    | [] -> None
+    | [ h ] -> None
+    | fst :: snd :: t ->
+        if chow_valid hand fst snd tile' then Some (fst, snd)
+        else helper (snd :: t) tile'
+  in
+  helper (List.fold_left uniq_lst [] hand |> List.rev) tile
 
 (*********************************************)
 (* NPC optimization moves: *)
@@ -497,10 +506,120 @@ let rec chow_possible hand tile =
 (* - hu when valid *)
 (*********************************************)
 
-(** suggest a tile t from list of tile, hand, to be the best to discard *)
-let discard_suggestion_new (hand : t) (left : t) : tile =
-  failwith "TODO"
+(* [not_orientation tile] checks whether [tile] is an orientation tile *)
+let not_orientation tile =
+  match tile with
+  | East | South | West | North | Red | Green | White -> false
+  | _ -> true
 
-(* remove all tiles that alreay fulfill pung, chow, or kong *)
-(* determine the amount of tiles left in [left] that can match each tile
-   or tile pair*)
+(* [priorities_orientation not_empty hand] is [hand] with tiles that are
+   orientations removed. At least one tile is left in [hand]*)
+let rec priorities_orientations not_empty = function
+  | h1 :: h2 :: t ->
+      if not_orientation h1 then
+        priorities_orientations (false || not_empty) (h2 :: t)
+      else h1 :: priorities_orientations true (h2 :: t)
+  | [ h1 ] as lst -> if not_orientation h1 && not_empty then [] else lst
+  | [] -> failwith "Precondition Violation"
+
+(* [is_middle tile] checks whether [tile] is a middle tile, meaning it
+   is a tile type with int from 2 to 9, inclusive *)
+let is_middle tile =
+  match tile with
+  | Dots n | Characters n | Bamboo n ->
+      if n = 1 || n = 9 then false else true
+  | _ -> false
+
+(* [priorities_middles not_empty hand] is [hand] with tiles that are
+   middles (2 to 9, inclusive) removed. At least one tile is left in
+   [hand]*)
+let rec priorities_middles not_empty = function
+  | h1 :: h2 :: t ->
+      if is_middle h1 then
+        priorities_middles (false || not_empty) (h2 :: t)
+      else h1 :: priorities_middles true (h2 :: t)
+  | [ h1 ] as lst -> if is_middle h1 && not_empty then [] else lst
+  | [] -> failwith "Precondition Violation"
+
+(* [priorities_skip_seq not_empty hand] is [hand] with pair tiles that
+   are in sequence removed. At least one tile is left in [hand] *)
+let rec priorities_skip_seq not_empty = function
+  | h1 :: h2 :: h3 :: t ->
+      if tile_index_converter h1 + 2 = tile_index_converter h2 then
+        priorities_skip_seq (false || not_empty) (h3 :: t)
+      else h1 :: priorities_skip_seq true (h2 :: h3 :: t)
+  | [ h1 ] as lst -> lst
+  | h1 :: h2 :: t as lst ->
+      if
+        tile_index_converter h1 + 2 = tile_index_converter h2
+        && not_empty
+      then []
+      else lst
+  | [] -> failwith "Precondition Violation"
+
+(* [priorities_skip_seq not_empty hand] is [hand] with pair tiles that
+   are in sequence removed. At least one tile is left in [hand] *)
+let rec priorities_seq not_empty = function
+  | h1 :: h2 :: h3 :: t ->
+      if tile_index_converter h1 + 1 = tile_index_converter h2 then
+        priorities_seq (false || not_empty) (h3 :: t)
+      else h1 :: priorities_seq true (h2 :: h3 :: t)
+  | [ h1 ] as lst -> lst
+  | h1 :: h2 :: t as lst ->
+      if
+        tile_index_converter h1 + 1 = tile_index_converter h2
+        && not_empty
+      then []
+      else lst
+  | [] -> failwith "Precondition Violation"
+
+(* [priorities_pair not_empty hand] is [hand] with tiles that are pairs
+   removed. At least one tile is left in [hand] *)
+let rec priorities_pairs not_empty = function
+  | h1 :: h2 :: h3 :: t ->
+      if h1 = h2 then priorities_pairs (false || not_empty) (h3 :: t)
+      else h1 :: priorities_pairs true (h2 :: h3 :: t)
+  | [ h1 ] as lst -> lst
+  | h1 :: h2 :: t as lst -> if h1 = h2 && not_empty then [] else lst
+  | [] -> failwith "Precondition Violation"
+
+(* [priorities_chow_pung hand] is [hand] with tiles that meet chow and
+   pung requirements removed *)
+let rec priorities_chow_pung = function
+  | h :: t as hand -> (
+      let hand_t, tile_h = separate_first_tile hand in
+      if pung_possible hand_t tile_h then
+        priorities_chow_pung (remove hand_t tile_h 2)
+      else
+        match chow_possible hand_t tile_h with
+        | Some (t1, t2) ->
+            let hand_t = remove hand_t t1 1 in
+            let hand_t = remove hand_t t2 1 in
+            priorities_chow_pung hand_t
+        | None -> tile_h :: priorities_chow_pung hand_t)
+  | [] -> []
+
+(* [discard_suggestion hand] suggest a tile t from list of tile, hand,
+   to be the best to discard. Requires the hand to not meet mahjong
+   standards *)
+let discard_suggestion (hand : t) : tile =
+  (* print_endline ""; print_str_list (tiles_to_str hand); print_endline
+     ""; let temp = hand |> priorities_chow_pung in print_str_list
+     (tiles_to_str temp); print_endline ""; let temp = temp |>
+     priorities_pairs false in print_str_list (tiles_to_str temp);
+     print_endline ""; let temp = temp |> priorities_seq false in
+     print_str_list (tiles_to_str temp); print_endline ""; let temp =
+     temp |> priorities_skip_seq false in print_str_list (tiles_to_str
+     temp); print_endline ""; let temp = temp |> priorities_middles
+     false in print_str_list (tiles_to_str temp); print_endline ""; let
+     temp = temp |> priorities_orientations false in print_str_list
+     (tiles_to_str temp); print_endline ""; *)
+  match
+    hand |> priorities_chow_pung |> priorities_pairs false
+    |> priorities_seq false
+    |> priorities_skip_seq false
+    |> priorities_middles false
+    |> priorities_orientations false
+  with
+  | h :: t -> h
+  | [] -> failwith "precondition violation"

@@ -14,6 +14,7 @@ type t = {
   mutable tiles_played : Tiles.t;
   mutable current_discard : Tiles.tile;
   kong_records : int array;
+  mutable turn : int;
 }
 
 type round_end_message = {
@@ -87,6 +88,7 @@ let rec draw_one state =
         state.hands.(state.current_drawer) <-
           add_tile_to_hand h state.hands.(state.current_drawer);
         state.current_drawer <- (state.current_drawer + 1) mod 4;
+        state.turn <- state.turn + 1;
         ())
 
 let skip_to_after state player =
@@ -164,20 +166,69 @@ let win_round
   in
   raise (Winning winning_round_end_message)
 
+let discard_hint state =
+  (* let kong_possible is implemented in tiles.ml *)
+  (* let hu_possible is implemented in tiles.ml *)
+  (* check hu *)
+  if hu_possible state.hands.(0) then print_endline "you may hu now!"
+  else if (* check kong *)
+          kong_possible state.hands.(0) then
+    print_endline "you may kong now"
+  else
+    let discard_suggestion_tile = discard_suggestion state.hands.(0) in
+    (* give discard suggestions *)
+    print_string "We suggest you discard: ";
+    print_endline (tile_string_converter discard_suggestion_tile)
+
+let continue_hint state =
+  (* let pung_possible is implemented in tiles.ml *)
+  let continue_prompt () =
+    print_endline
+      "Nothing you can do for this turn. Enter 'continue' to continue"
+  in
+  if
+    add_tile_to_hand state.current_discard state.hands.(0)
+    |> hu_possible
+  then print_endline "you may hu now!"
+  else if
+    (* check pung *)
+    pung_possible state.hands.(0) state.current_discard
+  then print_endline "you may pung now"
+  else if state.current_drawer = 0 then (
+    (* chow_possible is implemented in tiles.ml *)
+    match chow_possible state.hands.(0) state.current_discard with
+    | None -> continue_prompt ()
+    | Some (tile_s1, tile_s2) ->
+        print_string "you may chow: ";
+        print_string (tile_string_converter tile_s1 ^ " ");
+        print_endline (tile_string_converter tile_s2))
+  else continue_prompt ()
+
+let resolve_help state =
+  ANSITerminal.print_string [ ANSITerminal.red ]
+    "To phrase a command, please begin with Discard, Continue, Chow, \
+     Pung, Kong, Quit, Help, Restart, Mahjong, and Played\n";
+  if state.current_drawer = 1 then
+    (* current player is user *)
+    discard_hint state
+  else (* current player is npc *)
+    continue_hint state
+
 let rec player_discard state : unit =
   print_string "{ ";
   print_player_hand state;
-  print_endline " } Must discard one now.";
+  print_endline " } Must discard one now";
   match take_command state (scan ()) with
+  | exception Help_needed t ->
+      resolve_help t;
+      player_discard state
   | exception Tiles.Invalid_index -> player_discard state
   | exception Invalid str ->
       print_endline str;
       player_discard state
-  | exception exn ->
-      print_endline "= Game Paused (at discard). =";
-      raise exn
+  | exception exn -> raise exn
   | () ->
-      Unix.sleep 1;
+      Unix.sleepf 0.5;
       ()
 
 and take_command state command =
@@ -284,10 +335,7 @@ and take_command state command =
   (* player only, check *)
   | Discard int ->
       if is_users_turn then user_discard state int
-      else
-        raise
-          (Invalid
-             "It is not your turn to discard. this bug has been fixed.")
+      else raise (Invalid "It is not your turn to discard")
   (* user_discard state int; skip_to_after state (List.hd state.players) *)
   (* npc only, check *)
   | Continue ->
@@ -381,57 +429,16 @@ let init_round input_house input_players : t =
       tiles_played = [];
       current_discard = Blank;
       kong_records = [| 0; 0; 0; 0 |];
+      turn = -51;
     }
 
 let hand index t = tiles_to_str t.hands.(index)
 
 let tiles_left t = tiles_to_str t.tiles_left
 
-let discard_hint state =
-  (* let kong_possible is implemented in tiles.ml *)
-  (* let hu_possible is implemented in tiles.ml *)
-  (* check hu *)
-  if hu_possible state.hands.(0) then print_endline "you may hu now"
-  else if (* check kong *)
-          kong_possible state.hands.(0) then
-    print_endline "you may kong now"
-  else
-    let discard_suggestion_tile = discard_suggestion state.hands.(0) in
-    (* give discard suggestions *)
-    print_string "you may discard now. we suggest,";
-    print_endline (tile_string_converter discard_suggestion_tile)
-
-let continue_hint state =
-  (* let pung_possible is implemented in tiles.ml *)
-  let continue_prompt =
-    print_endline
-      "Nothing you can do for this turn. Enter 'continue' to continue."
-  in
-  (* check pung *)
-  if pung_possible state.hands.(0) state.current_discard then
-    print_endline "you may pung now"
-  else continue_prompt;
-  (* check chow *)
-  if state.current_drawer = 0 then
-    (* let chow_possible is implemented in tiles.ml *)
-    if chow_possible state.hands.(0) state.current_discard then
-      print_endline "you may try chow now"
-    else continue_prompt
-  else continue_prompt
-
-let resolve_help state =
-  print_endline
-    "To phrase a command, please begin with Discard, Continue, Chow, \
-     Pung, Kong, Quit, Help, Restart, Mahjong, and Played.";
-  if state.current_drawer = 1 then
-    (* current player is user *)
-    discard_hint state
-  else (* current player is npc *)
-    continue_hint state
-
 let npc_response state : unit =
-  print_endline "No player responded to your discard.";
-  Unix.sleep 1;
+  print_endline "No player responded to your discard";
+  Unix.sleepf 0.5;
   ()
 
 let npc_discard state index : unit =
@@ -459,23 +466,21 @@ let rec player_response state index : unit =
   match take_command state (scan ()) with
   | exception Tiles.Invalid_index ->
       print_endline
-        "Invalid Index to use. Please check your length of hand.";
+        "Invalid Index to use. Please check your length of hand";
       player_response state index
   | exception Invalid str ->
       print_endline str;
       player_response state index
   | exception Help_needed t ->
-      print_endline "Help is on the way!";
       resolve_help t;
       player_response state index
-  | exception exn ->
-      print_endline "= Game Paused (at response). =";
-      raise exn
+  | exception exn -> raise exn
   | () ->
-      Unix.sleep 1;
+      Unix.sleepf 0.5;
       ()
 
 let rec user_round state : unit =
+  print_endline ("\nTurn " ^ string_of_int state.turn);
   draw_one state;
   (* print_str_list (tiles_to_str state.hands.(0)); *)
   player_discard state;
@@ -483,6 +488,7 @@ let rec user_round state : unit =
   find_round state
 
 and npc_int_round state npc_int : unit =
+  print_endline ("\nTurn " ^ string_of_int state.turn);
   draw_one state;
   npc_discard state npc_int;
   player_response state npc_int;
@@ -500,12 +506,12 @@ let round_end_message message =
   | Some player -> (
       let verb = if player = User then " are" else " is" in
       print_string
-        ("\n\n" ^ player_to_string player ^ verb
+        ("\n" ^ player_to_string player ^ verb
        ^ " this Round's Winner!\n\n");
       match message.losers with
       | None -> print_string "Everyone Else Loses!\n\n"
       | Some loser ->
-          print_string (player_to_string loser ^ " Loses!\n\n"))
+          print_string (player_to_string loser ^ " Loses!\n\n\n"))
 
 let rec start_rounds input_house input_players =
   let init_state = init_round input_house input_players in

@@ -128,12 +128,13 @@ let parse str =
                      most tile)"
                 else if index > 14 then
                   raise_invalid
-                    "Discard index has to be smaller than 15 (1 for \
-                     the left most tile)"
+                    "Discard index has to be between 1 and 14, \
+                     inclusive (1 for the left most tile)"
                 else Discard index)
       | _ ->
           raise_invalid
-            "This command is not understood. Refer to tutorial for \
-             help. To phrase a command, please begin with Discard, \
-             Continue, Chow, Pung, Kong, Quit, Help, Restart, Mahjong, \
-             and Played.")
+            "This command is not understood.\n\
+             Refer to tutorial for help.\n\
+             To phrase a command, please begin with Discard, Continue, \
+             Chow, Pung, Kong, Quit, Help, Restart, Mahjong, and \
+             Played.")

@@ -54,7 +54,7 @@ let init_game (distance : int) (is_advanced : bool) : t =
 (** [calculate_score t house winner] is the score that will be added to
     the winner and subtracted from the loser(s) of the last round *)
 let calculate_score t house winner =
-  let base_score = 3 in
+  let base_score = 2 in
   let house_bonus = if house = winner then t.house_streak + 1 else 0 in
   base_score + house_bonus
 
@@ -63,15 +63,16 @@ let calculate_score t house winner =
 let update_score t house winner losers tile_score =
   let winner_index = index_of_player t.players winner in
   let score = (calculate_score t house winner + tile_score) * 100 in
-  t.scores.(winner_index) <- t.scores.(winner_index) + score;
   match losers with
   | None ->
+      t.scores.(winner_index) <- t.scores.(winner_index) + (score * 3);
       Array.iteri
         (fun i s ->
           if i = winner_index then ()
           else t.scores.(i) <- t.scores.(i) - score)
         t.scores
   | Some loser ->
+      t.scores.(winner_index) <- t.scores.(winner_index) + score;
       let loser_index = index_of_player t.players loser in
       t.scores.(loser_index) <- t.scores.(loser_index) - score
 

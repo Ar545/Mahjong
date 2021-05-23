@@ -100,7 +100,61 @@ let hu_test
   assert_equal ~printer:string_of_bool expected_output
     (winning_valid hand [] tile_option)
 
+let discard_suggestion_test
+    (name : string)
+    (hand : Tiles.t)
+    (expected_output : tile) : test =
+  name >:: fun _ ->
+  assert_equal expected_output (discard_suggestion hand)
+
 (* end tiles test *)
+let discard_tiles_1 =
+  [
+    101; 101; 101; 206; 207; 305; 305; 305; 633; 633; 633; 677; 677; 677;
+  ]
+  |> index_to_tiles
+
+let discard_tiles_2 =
+  [
+    101; 101; 101; 205; 205; 207; 305; 306; 633; 633; 633; 677; 677; 677;
+  ]
+  |> index_to_tiles
+
+let discard_tiles_3 =
+  [
+    101; 103; 105; 109; 201; 203; 205; 301; 303; 305; 307; 309; 655; 677;
+  ]
+  |> index_to_tiles
+
+let discard_tiles_4 =
+  [
+    101; 103; 105; 109; 201; 203; 205; 301; 303; 305; 307; 309; 677; 677;
+  ]
+  |> index_to_tiles
+
+let discard_tiles_5 =
+  [
+    101; 104; 106; 108; 108; 205; 301; 301; 302; 302; 303; 303; 666; 666;
+  ]
+  |> index_to_tiles
+
+let discard_tiles_6 =
+  [
+    101; 104; 106; 108; 108; 205; 301; 301; 302; 302; 303; 303; 309; 666;
+  ]
+  |> index_to_tiles
+
+let discard_tiles_7 =
+  [
+    101; 106; 108; 109; 205; 301; 301; 611; 622; 633; 644; 655; 655; 666;
+  ]
+  |> index_to_tiles
+
+let discard_tiles_8 =
+  [
+    103; 108; 202; 205; 206; 207; 302; 303; 304; 305; 309; 611; 611; 677;
+  ]
+  |> index_to_tiles
 
 let tiles_list_1 =
   [ 104; 106; 109; 305; 306; 201; 203; 203; 633; 633; 677; 677; 677 ]
@@ -472,6 +526,28 @@ let win_test =
       true;
   ]
 
+let discard_suggestion_tests =
+  [
+    discard_suggestion_test "discard test 1" hu_hand_2
+      (index_tile_converter 666);
+    discard_suggestion_test "discard test 2" discard_tiles_1
+      (index_tile_converter 207);
+    discard_suggestion_test "discard test 3" discard_tiles_2
+      (index_tile_converter 207);
+    discard_suggestion_test "discard test 4" discard_tiles_3
+      (index_tile_converter 655);
+    discard_suggestion_test "discard test 5" discard_tiles_4
+      (index_tile_converter 309);
+    discard_suggestion_test "discard test 6" discard_tiles_5
+      (index_tile_converter 101);
+    discard_suggestion_test "discard test 7" discard_tiles_6
+      (index_tile_converter 666);
+    discard_suggestion_test "discard test 8" discard_tiles_7
+      (index_tile_converter 611);
+    discard_suggestion_test "discard test 9" discard_tiles_8
+      (index_tile_converter 677);
+  ]
+
 let suite =
   "Mahjong test suite"
   >::: List.flatten
@@ -483,6 +559,7 @@ let suite =
            random_tests ();
            win_test;
            random_tests ();
+           discard_suggestion_tests;
          ]
 
 let _ = run_test_tt_main suite

@@ -154,14 +154,14 @@ val add_tile_to_hand : tile -> t -> t
 (** suggest a tile t from list of tile, hand, to be the best to discard *)
 val discard_suggestion : t -> tile
 
-(** determine if a hand is possible to hu *)
+(** determine if a hand is possible to hu a given tile*)
 val hu_possible : t -> bool
 
-(** determine if a hand is possible to pung *)
+(** determine if a hand is possible to kong a given tile*)
 val kong_possible : t -> bool
 
-(** determine if a hand is possible to chow *)
-val chow_possible : t -> tile -> bool
+(** determine if a hand is possible to chow a given tile*)
+val chow_possible : t -> tile -> (tile * tile) option
 
-(** determine if a hand is possible to pung *)
+(** determine if a hand is possible to pung a given tile*)
 val pung_possible : t -> tile -> bool
