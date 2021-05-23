@@ -170,10 +170,10 @@ let discard_hint state =
   (* let kong_possible is implemented in tiles.ml *)
   (* let hu_possible is implemented in tiles.ml *)
   (* check hu *)
-  if hu_possible state.hands.(0) then print_endline "you may hu now!"
+  if hu_possible state.hands.(0) then print_endline "you can [hu]!"
   else if (* check kong *)
           kong_possible state.hands.(0) then
-    print_endline "you may kong now"
+    print_endline "you can [kong]"
   else
     let discard_suggestion_tile = discard_suggestion state.hands.(0) in
     (* give discard suggestions *)
@@ -184,22 +184,22 @@ let continue_hint state =
   (* let pung_possible is implemented in tiles.ml *)
   let continue_prompt () =
     print_endline
-      "Nothing you can do for this turn. Enter 'continue' to continue"
+      "Nothing you can do for this turn. Enter [continue] to continue"
   in
   if
     add_tile_to_hand state.current_discard state.hands.(0)
     |> hu_possible
-  then print_endline "you may hu now!"
+  then print_endline "you can [hu]!"
   else if
     (* check pung *)
     pung_possible state.hands.(0) state.current_discard
-  then print_endline "you may pung now"
+  then print_endline "you can [pung]"
   else if state.current_drawer = 0 then (
     (* chow_possible is implemented in tiles.ml *)
     match chow_possible state.hands.(0) state.current_discard with
     | None -> continue_prompt ()
     | Some (tile_s1, tile_s2) ->
-        print_string "you may chow: ";
+        print_string "you can [chow]: ";
         print_string (tile_string_converter tile_s1 ^ " ");
         print_endline (tile_string_converter tile_s2))
   else continue_prompt ()
@@ -217,7 +217,7 @@ let resolve_help state =
 let rec player_discard state : unit =
   print_string "{ ";
   print_player_hand state;
-  print_endline " } Must discard one now";
+  print_endline " }\nPlease discard one";
   match take_command state (scan ()) with
   | exception Help_needed t ->
       resolve_help t;
@@ -508,7 +508,7 @@ and find_round state : unit =
    according to [message] *)
 let round_end_message message =
   match message.winner with
-  | None -> print_string "\n\nRan out of Tiles! Game end in Draw\n\n"
+  | None -> print_string "\nRan out of Tiles! Game end in Draw\n\n"
   | Some player -> (
       let verb = if player = User then " are" else " is" in
       print_string
@@ -517,7 +517,7 @@ let round_end_message message =
       match message.losers with
       | None -> print_string "Everyone Else Loses!\n\n"
       | Some loser ->
-          print_string (player_to_string loser ^ " Loses!\n\n\n"))
+          print_string (player_to_string loser ^ " Loses!\n\n"))
 
 let rec start_rounds input_house input_players =
   let init_state = init_round input_house input_players in
@@ -539,12 +539,7 @@ let rec start_rounds input_house input_players =
     print_string "\nGood luck with your draw:\n{ ";
     print_player_hand state;
     print_endline " }\n";
-    (* let index = state.house_seat in *)
-    match
-      (* if index = 0 then user_round state else npc_int_round state
-         index *)
-      find_round state
-    with
+    match find_round state with
     | exception Quit_game ->
         print_string "\nGame Quit!\n\n";
         Unix.sleep 2;

@@ -26,23 +26,18 @@ let main_menu () =
   ANSITerminal.print_string
     [ ANSITerminal.red; ANSITerminal.Bold ]
     "MAIN MENU - Mahjong Game";
-  (* Unix.sleep 1; *)
   sleep_and_endline ();
   ANSITerminal.print_string [ ANSITerminal.blue ]
     "1. Play Easy Mode 📍";
-  (* Unix.sleep 1; *)
   sleep_and_endline ();
   ANSITerminal.print_string [ ANSITerminal.cyan ]
     "2. Play Hard Mode ⚔";
-  (* Unix.sleep 1; *)
   sleep_and_endline ();
   ANSITerminal.print_string [ ANSITerminal.green ]
     "3. Display Tutorial 📋";
-  (* Unix.sleep 1; *)
   sleep_and_endline ();
   ANSITerminal.print_string [ ANSITerminal.yellow ]
     "4. Game Settings ⚙";
-  (* Unix.sleep 1; *)
   sleep_and_endline ();
   ANSITerminal.print_string
     [ ANSITerminal.magenta; ANSITerminal.Underlined ]
@@ -65,7 +60,9 @@ let rec play_game game =
   print_endline
     ("🎰 Scores:\n" ^ string_of_scores game ^ "\n==================\n");
   match update game with
-  | Continue new_game -> play_game new_game
+  | Continue new_game ->
+      Unix.sleep 2;
+      play_game new_game
   | Quit new_game ->
       print_endline "Final Results: ";
       print_endline ("Scores:\n" ^ string_of_scores new_game ^ "\n")

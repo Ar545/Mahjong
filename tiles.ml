@@ -495,10 +495,6 @@ let rec chow_remove hand index_1 index_2 : t =
   if index_1 > index_2 then chow_remove hand index_2 index_1
   else remove_index (remove_index hand index_2) index_1
 
-(* * temperory discard suggestion - discard the first one let
-   discard_suggestion (hand : t) : tile = match hand with | [] -> Blank
-   | h :: t -> snd (separate_last_tile (h :: t)) *)
-
 let hu_possible hand =
   match winning_valid hand [] None with
   | exception exn -> false
