@@ -23,19 +23,29 @@ type round_end_message = {
   score : int;
 }
 
+(* [end_with_draw] is a round end message with draw conditions *)
 let end_with_draw : round_end_message =
   { winner = None; losers = None; score = 0 }
 
+(* exception [End_of_tiles] is thrown when there are no more tiles in
+   the current round *)
 exception End_of_tiles
 
+(* exception [Quit_game] is thrown when the round is quit *)
 exception Quit_game
 
+(* exception [Restart_round] is thrown when the current round is to be
+   restarted *)
 exception Restart_round
 
+(* exception [Help_needed t] is thrown when user asked for help *)
 exception Help_needed of t
 
+(* exception [Invalid s] is thrown when a provided string [s] is invalid *)
 exception Invalid of string
 
+(* exception [Winning message] is thrown when the round terminates and a
+   message is carried to the parent stack *)
 exception Winning of round_end_message
 
 type result =
@@ -50,10 +60,11 @@ let is_draw (res : result) : bool =
       match t.winner with None -> true | Some t -> false)
   | Unknown_exception _ -> false
 
-(** [locate_player players index] is the player at the [index] in a list
-    of four players [players]*)
+(* [locate_player players index] is the player at the [index] in a list
+   of four players [players]*)
 let locate_player players index = List.nth players index
 
+(* [player_int state i] is the player at index [i] in [state] *)
 let player_int state (index : int) =
   player_to_string (locate_player state.players index)
 
@@ -69,7 +80,9 @@ let rec kong_draw_one state (konger_index : int) : unit =
           add_tile_to_hand h state.hands_open.(konger_index);
         kong_draw_one state konger_index;
         ())
-      else state.hands.(konger_index) <- h :: state.hands.(konger_index);
+      else
+        state.hands.(konger_index) <-
+          add_tile_to_hand h state.hands.(konger_index);
       ()
 
 let rec draw_one state =
@@ -272,7 +285,7 @@ and take_command state command =
                 state.hands.(user_index)
             in
             state.hands_open.(user_index) <-
-              self_kong :: state.hands_open.(user_index);
+              add_tile_to_hand self_kong state.hands_open.(user_index);
             state.hands.(user_index) <-
               remove state.hands.(user_index) self_kong 1;
             state.kong_records.(user_index) <-
@@ -485,7 +498,6 @@ let rec user_round state : unit =
   in
   print_endline ("\nTurn " ^ turn);
   draw_one state;
-  (* print_str_list (tiles_to_str state.hands.(0)); *)
   player_discard state;
   npc_response state;
   find_round state
@@ -508,16 +520,21 @@ and find_round state : unit =
    according to [message] *)
 let round_end_message message =
   match message.winner with
-  | None -> print_string "\nRan out of Tiles! Game end in Draw\n\n"
-  | Some player -> (
-      let verb = if player = User then " are" else " is" in
-      print_string
-        ("\n" ^ player_to_string player ^ verb
-       ^ " this Round's Winner!\n\n");
-      match message.losers with
-      | None -> print_string "Everyone Else Loses!\n\n"
-      | Some loser ->
-          print_string (player_to_string loser ^ " Loses!\n\n"))
+  | None ->
+      print_endline "\nRan out of Tiles! Game end in Draw\n";
+      Unix.sleep 2
+  | Some player ->
+      (let verb = if player = User then " are" else " is" in
+       print_endline
+         ("\n" ^ player_to_string player ^ verb
+        ^ " this Round's Winner!\n");
+       match message.losers with
+       | None ->
+           print_endline "Everyone Else Loses!\n";
+           Unix.sleep 2
+       | Some loser ->
+           print_endline (player_to_string loser ^ " Loses!\n"));
+      Unix.sleep 2
 
 let rec start_rounds input_house input_players =
   let init_state = init_round input_house input_players in
@@ -541,11 +558,11 @@ let rec start_rounds input_house input_players =
     print_endline " }\n";
     match find_round state with
     | exception Quit_game ->
-        print_string "\nGame Quit!\n\n";
+        print_endline "\nGame Quit!\n";
         Unix.sleep 2;
         Quit_game
     | exception Restart_round ->
-        print_string "\nRestart Game!\n\n";
+        print_endline "\nRestart Game!\n";
         Unix.sleep 2;
         start_rounds state.house state.players
     | exception End_of_tiles ->

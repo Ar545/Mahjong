@@ -31,9 +31,6 @@ val init_game : int -> bool -> t
 (** [get_round t] is current round number of the current game state [t]*)
 val get_round : t -> int
 
-(** [get_houset] is current house of the current game state [t]*)
-val get_house : t -> Players.player
-
 (** [get_score t] is the pretty formatted string of scores of the four
     player in the current game state [t]*)
 val string_of_scores : t -> string

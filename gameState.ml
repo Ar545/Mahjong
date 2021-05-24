@@ -28,6 +28,8 @@ let index_of_player player_list player =
 (** [random_house_index] is a random interger from 0 to 3 *)
 let random_house_index = (Unix.time () |> int_of_float) mod 4
 
+(** [players is_advanced] is the advanced npc if [is_advanced] is true,
+    else basic npc *)
 let players is_advanced =
   if is_advanced then adv_players else basic_players
 
@@ -134,8 +136,6 @@ let rec update t =
 let get_score t = t.scores
 
 let get_round t = t.round_num
-
-let get_house t = t.house
 
 let string_of_scores t =
   let score = get_score t in
