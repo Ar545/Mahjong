@@ -18,16 +18,18 @@ type command =
 
 exception Invalid of string
 
+(* [remove_space str_list] is [str_list] with all spaces removed *)
 let remove_space (str_list : player_command) : player_command =
   List.fold_left
     (fun acc str -> if str = "" then acc else str :: acc)
     [] (List.rev str_list)
 
+(* [to_lower lst] is [lst] with all capitalized characters lowercased *)
 let to_lower (lst : player_command) : player_command =
   List.map String.lowercase_ascii lst
 
-let raise_invalid comment =
-  raise (Invalid ("⚠ Invalid: " ^ comment ^ " ⚠"))
+(* [raise_invalid comment] raises the Invalid exception with [comment]*)
+let raise_invalid comment = raise (Invalid ("⚠ Invalid: " ^ comment))
 
 let parse str =
   match String.split_on_char ' ' str |> remove_space |> to_lower with

@@ -7,19 +7,19 @@ let quit_game () =
   print_endline "Game Over.";
   Stdlib.exit 0
 
+(* [sleep_and_endline ()] halts (aka sleep) the program for 0.4 seconds
+   and prints a separation border for new text to follow*)
+let sleep_and_endline () =
+  Unix.sleepf 0.3;
+  print_endline "";
+  print_endline "-------------------------------"
+
 (* [welcome_text ()] prints the welcome texts when the program is
    launched *)
 let welcome_text () =
   ANSITerminal.print_string [ ANSITerminal.Bold ]
-    "\n\nWelcome to Mahjong! 🎮\n\n";
-  Unix.sleep 1
-
-(* [sleep_and_endline ()] halts (aka sleep) the program for 0.4 seconds
-   and prints a separation border for new text to follow*)
-let sleep_and_endline () =
-  Unix.sleepf 0.4;
-  print_endline "";
-  print_endline "-------------------------------"
+    "\n\nWelcome to Mahjong! 🎮\n";
+  sleep_and_endline ()
 
 (* [main_menu ()] prints the menu of the mahjong game*)
 let main_menu () =
@@ -58,11 +58,11 @@ let rec play_game game =
   print_endline
     ("🎯 Begin Round " ^ (get_round game |> string_of_int) ^ ": ");
   print_endline
-    ("🎰 Scores:\n" ^ string_of_scores game ^ "\n==================\n");
+    ("🎰 Scores:\n" ^ string_of_scores game
+   ^ "\n==========================\n");
+  Unix.sleep 2;
   match update game with
-  | Continue new_game ->
-      Unix.sleep 2;
-      play_game new_game
+  | Continue new_game -> play_game new_game
   | Quit new_game ->
       print_endline "Final Results: ";
       print_endline ("Scores:\n" ^ string_of_scores new_game ^ "\n")
@@ -89,7 +89,7 @@ let start_game play_advanced =
 let play_advanced () =
   print_endline "===================================";
   Unix.sleepf 0.5;
-  print_string "You have selected Advanced Level!\n";
+  print_endline "You have selected Advanced Level!";
   Unix.sleep 1;
   start_game true
 
@@ -98,7 +98,7 @@ let play_advanced () =
 let play_basic () =
   print_endline "===================================";
   Unix.sleepf 0.5;
-  print_string "You have selected Basic Level!\n";
+  print_endline "You have selected Basic Level!";
   Unix.sleep 1;
   start_game false
 
@@ -170,9 +170,8 @@ let rec match_input () : unit =
           else if integer = 2 then play_advanced ()
           else if integer = 3 then (
             tutorial ();
-            print_endline
-              "Tutorial Ends. Return to Main Menu in 5 seconds.";
-            Unix.sleep 3;
+            print_endline "Tutorial Ends. Return to Main Menu.";
+            Unix.sleep 2;
             main_menu ())
           else if integer = 4 then not_ready ()
           else if integer = 5 then quit_game ()
@@ -182,10 +181,11 @@ let rec match_input () : unit =
           else print_string "Invalid Index.";
           match_input ())
 
-(*[main ()] is the main program called when program initialized *)
+(* [main ()] is the main program called when program initialized *)
 let main () =
   welcome_text ();
   main_menu ();
   match_input ()
 
+(* start program *)
 let () = main ()

@@ -28,9 +28,6 @@ type tile =
     with 144 tiles*)
 type t = tile list
 
-(**randomize the order if a list of tile*)
-val shuffle : t -> t
-
 (** Initialize with 144 tiles*)
 val all_tiles : t
 
@@ -103,18 +100,6 @@ exception Invalid_index
 (* converter: tiles, string, and int *)
 (****************************************************)
 
-(** [tiles_to_str t] is the string list that represents the tile list
-    [t] *)
-val tiles_to_str : t -> string list
-
-(** [tiles_to_index t] is the int index list that represents the tile
-    list [t] *)
-val tiles_to_index : t -> int list
-
-(** [tile_index_converter tile] is the int index that represents the
-    tile [tile]*)
-val tile_index_converter : tile -> int
-
 (** [index_to_tiles t] is the tile list that represents the tile index
     list [t] *)
 val index_to_tiles : int list -> t
@@ -122,6 +107,10 @@ val index_to_tiles : int list -> t
 (** [index_tile_converter n] is the tile that represents the tile index
     [n] *)
 val index_tile_converter : int -> tile
+
+(** [tiles_to_str t] is the string list that represents the tile list
+    [t] *)
+val tiles_to_str : t -> string list
 
 (** [tile_string_converter tile] is the unicode string that represents
     [tile]*)
