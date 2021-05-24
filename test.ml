@@ -6,7 +6,69 @@ open Players
 open Tiles
 open Tutorial
 
-(** Test Plan: *)
+(** This module is for the testing of the Tile-based function. *)
+
+(*****************************************************************)
+(* Test Plan *)
+(*****************************************************************)
+
+(* The testing for this project is divided into two parts: OUnit-based
+   test-case testing and Terminal-based play-test testing *)
+
+(* Main components of this project are divided into four sections.
+   ********** Section I : Tile-based algorithms (Tiles module)
+   ********** Section II: State-based fuctions (Roundstate, Gamestate,
+   Player module) ********** Section III: Command parser (Command
+   module) ********** Section IV: Tutorial Display (Tutorial module) The
+   function of each modules is documented at the coresponding files. *)
+
+(* Noticeably, we employed test-case testing for Section I of the
+   project, because it involved mathmatical computation of the validity.
+   and possibility of different combinations of tiles. *)
+
+(* For the tile module, although sometimes complicated, different
+   compoenets of the tile-based algorithms are separatable. Generally,
+   we, below, separated the testing of algorithm into the validity of
+   chow, peng, kong, corner cases, and winning of game. Additional
+   information are enumrated below as documentation to the test cases. *)
+
+(* This test approch demonstractes the correctness of the system.
+   Tile-based algorithms employed both glassbox testing and blackbox
+   testing. In glass-box testing, we tested if the algorithm may
+   correctly determine the corner cases according to our algorithm. For
+   example in the testing of winning validity of the game, our algorithm
+   have corner cases where the pung meld may bewild the identification
+   of the eyes of the hand. We also employed black-box testing where we
+   generate random chow-valid hands according to mahjongs rules and test
+   the correctness of the algorithm *)
+
+(* We employed play-test for state section, because the module
+   implemented terminal interface. It is not reasonable to test
+   functions that take unit input and output unit and exceptions with
+   OUnit testcases. Moreover, the functions in states are mostly
+   dependent upon each other. That is, the functions involves recursive
+   function calls, which intogether builds a sophisticated system .*)
+
+(* We employed play-test for command section, because a lot of the
+   content we can only obtain by playing the game, since a lot of the
+   game process and functions are based on the command the user enters
+   and observe what is printed out in the terminal.*)
+
+(* We employed play-test for tutorial section, since tutorial is
+   composed of displaying messages for the player to read. There are not
+   mush to test. *)
+
+(* For these section of the game, they are covered by our active
+   play-test, as the playing of the game involves different staetes,
+   commands, and displaying the tutorial. The developer of the project
+   have, together, tested more than 200 rounds of different game play,
+   and identified and fixed numerous bugs. We have also demonstrated
+   this game to other friends and students in order to gain feedback on
+   the clarity of our instructions and checkout unexpected issues. *)
+
+(*****************************************************************)
+(* Test Helper functions *)
+(*****************************************************************)
 
 (** [cmp_set_like_lists lst1 lst2] compares two lists to see whether
     they are equivalent set-like lists. That means checking two things.
@@ -42,8 +104,13 @@ let pp_list pp_elt lst =
    End helper functions.
  ********************************************************************)
 
-(* start tiles test *)
+(********************************************************************
+   Tile-based testing functions.
+ ********************************************************************)
 
+(** [chow_valid_index_test string Tiles.t int int Tiles.tile bool] test
+    if the chow_valid function correctly determine the validility of the
+    hand to chow *)
 let chow_valid_index_test
     (name : string)
     (hand : Tiles.t)
@@ -55,6 +122,9 @@ let chow_valid_index_test
   assert_equal ~printer:string_of_bool expected_output
     (chow_index_valid hand t1 t2 t3)
 
+(** [chow_valid_depre_test string Tiles.t int int Tiles.tile bool] test
+    if the chow_valid_depre function correctly determine the validility
+    of the hand to chow *)
 let chow_valid_depre_test
     (name : string)
     (hand : Tiles.t)
@@ -66,6 +136,9 @@ let chow_valid_depre_test
   assert_equal ~printer:string_of_bool expected_output
     (chow_index_valid hand t1 t2 t3)
 
+(** [pung_valid_test string Tiles.t Tiles.tile bool] test if the
+    pung_valid function correctly determine the validility of the hand
+    to pung *)
 let pung_valid_test
     (name : string)
     (hand : Tiles.t)
@@ -75,6 +148,9 @@ let pung_valid_test
   assert_equal ~printer:string_of_bool expected_output
     (pung_valid hand tile)
 
+(** [kong_valid_index_test string Tiles.t Tiles.tile bool] test if the
+    kong_valid function correctly determine the validility of the hand
+    to kong *)
 let kong_valid_test
     (name : string)
     (hand : Tiles.t)
@@ -84,6 +160,9 @@ let kong_valid_test
   assert_equal ~printer:string_of_bool expected_output
     (kong_valid hand tile)
 
+(** [ankong_valid_index_test string Tiles.t int Tiles.tile bool] test if
+    the ankong_valid function correctly determine the validility of the
+    hand to ankong *)
 let ankong_valid_index_test
     (name : string)
     (hand : Tiles.t)
@@ -93,6 +172,9 @@ let ankong_valid_index_test
   assert_equal ~printer:string_of_bool expected_output
     (ankong_index_valid hand tile)
 
+(** [hu_valid_test string Tiles.t Tiles.tile option bool] test if the
+    winning_valid function correctly determine the validility of the
+    hand to mahjong *)
 let hu_test
     (name : string)
     (hand : Tiles.t)
@@ -102,6 +184,9 @@ let hu_test
   assert_equal ~printer:string_of_bool expected_output
     (winning_valid hand [] tile_option)
 
+(** [discard suggestion_test string Tiles.t Tiles.tile] test if the
+    discard_suggestion function correctly determine the best tile to
+    discard *)
 let discard_suggestion_test
     (name : string)
     (hand : Tiles.t)
@@ -109,7 +194,17 @@ let discard_suggestion_test
   name >:: fun _ ->
   assert_equal expected_output (discard_suggestion hand)
 
-(* end tiles test *)
+(********************************************************************
+   Tile combinations.
+   Glass-box testing unless otherwise indicated.
+ ********************************************************************)
+
+(********************************************************************
+   The following combinations test the discard suggestion function 
+   unless otherwise indicated. 
+   Integer representation refer to Tiles module.
+ ********************************************************************)
+
 let discard_tiles_1 =
   [
     101; 101; 101; 206; 207; 305; 305; 305; 633; 633; 633; 677; 677; 677;
@@ -158,6 +253,12 @@ let discard_tiles_8 =
   ]
   |> index_to_tiles
 
+(********************************************************************
+   The following combinations test the chow, pung, kong function 
+   unless otherwise indicated. 
+   Integer representation refer to Tiles module.
+ ********************************************************************)
+
 let tiles_list_1 =
   [ 104; 106; 109; 305; 306; 201; 203; 203; 633; 633; 677; 677; 677 ]
   |> index_to_tiles
@@ -165,6 +266,11 @@ let tiles_list_1 =
 let tiles_list_2 =
   [ 101; 103; 109; 207; 208; 301; 304; 304; 633; 633; 666; 666; 666 ]
   |> index_to_tiles
+
+(********************************************************************
+   The following tiles are valid for chowing, konging, punging
+    the above combinations.
+ ********************************************************************)
 
 let tile_1_chow_a = index_tile_converter 105
 
@@ -189,6 +295,12 @@ let tile_2_pung_a = index_tile_converter 304
 let tile_false = index_tile_converter 611
 
 let tile_2_kong = index_tile_converter 666
+
+(********************************************************************
+   The following combinations test the winning_valid function 
+   unless otherwise indicated. 
+   Integer representation refer to Tiles module.
+ ********************************************************************)
 
 let hu_hand_1 =
   index_to_tiles
@@ -349,6 +461,11 @@ let hu_hand_8 =
 let hu_hand_9 =
   index_to_tiles [ 105; 105; 105; 108; 108; 207; 208; 209 ]
 
+(********************************************************************
+   List of tests.
+ ********************************************************************)
+
+(** tiles_tests is the chow, pung, kong test list *)
 let tiles_tests =
   [
     (* chow *)
@@ -394,8 +511,16 @@ let tiles_tests =
     ankong_valid_index_test "ak2n2" tiles_list_2 12 false;
   ]
 
+(********************************************************************
+   Random Tests.
+   Black-box testing unless otherwise indicated.
+ ********************************************************************)
+
+(** [random_Test ()] is tests the chow, pung, kong functions *)
 let random_tests () =
-  (*random generator*)
+  (* random generator. The random generator generate tiles based on the
+     float digits of the current time (less than ~1/1000 second). Thus,
+     we employ multiple random testing, intersected by other testing. *)
   let random_list = initial_int_list () in
   match random_list with
   | [ the_list; chow; pung; others ] -> (
@@ -614,8 +739,11 @@ let random_tests () =
       | _ -> failwith "precondition violation")
   | _ -> failwith "precondition violation"
 
-let possibility_test = []
+(********************************************************************
+  List of tests. Glass-box testing unless otherwise indicated.
+  ********************************************************************)
 
+(** win_tests is the winning validity of the hands above *)
 let win_test =
   [
     hu_test "hu_test_1" hu_hand_1 None true;
@@ -632,6 +760,8 @@ let win_test =
     hu_test "hu_test_9" hu_hand_9 None true;
   ]
 
+(** discard suggestion_tests is the test the discard suggestion of the
+    hands above *)
 let discard_suggestion_tests =
   [
     discard_suggestion_test "discard test 1" hu_hand_2
@@ -654,18 +784,22 @@ let discard_suggestion_tests =
       (index_tile_converter 677);
   ]
 
+(** suite represent a list of all active test suites *)
 let suite =
   "Mahjong test suite"
   >::: List.flatten
          [
+           (* The random generator generate tiles based on the float
+              digits of the current time (less than ~1/1000 second).
+              Thus, we employ multiple random testing, intersected by
+              other testing. *)
            random_tests ();
-           possibility_test;
+           discard_suggestion_tests;
            random_tests ();
            tiles_tests;
            random_tests ();
            win_test;
            random_tests ();
-           discard_suggestion_tests;
          ]
 
 let _ = run_test_tt_main suite
