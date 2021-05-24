@@ -105,32 +105,24 @@ let parse str =
           raise_invalid
             "Please discard a tile, indicate with its index as 1 to 14."
       | [ index_str ] -> (
-          if index_str = "ian" then
-            raise_invalid "🤢ian is just sad☠"
-          else if index_str = "matcha" then
-            raise_invalid "🐕matcha🐕 is so cute"
-          else if index_str = "joy" then
-            raise_invalid
-              "🐖🐖🐖🐖🐖🐖🐖🐖🐷🐖🐖🐽🐖🐖🐖🐖🐖🐖🐖🐖🐖"
-          else
-            match int_of_string_opt index_str with
-            | None ->
+          match int_of_string_opt index_str with
+          | None ->
+              raise_invalid
+                ("What do you mean by, '" ^ index_str
+               ^ "'? \n\
+                 \ To discard a tile, enter a corresponding index. \n\
+                 \ For other command, please begin with Chow, Pung, \
+                  Kong, Quit, Help, Restart, Mahjong, and Played.")
+          | Some index ->
+              if index < 0 then
                 raise_invalid
-                  ("What do you mean by, '" ^ index_str
-                 ^ "'? \n\
-                   \ To discard a tile, enter a corresponding index. \n\
-                   \ For other command, please begin with Chow, Pung, \
-                    Kong, Quit, Help, Restart, Mahjong, and Played.")
-            | Some index ->
-                if index < 0 then
-                  raise_invalid
-                    "Discard index has to be positive (1 for the left \
-                     most tile)"
-                else if index > 14 then
-                  raise_invalid
-                    "Discard index has to be between 1 and 14, \
-                     inclusive (1 for the left most tile)"
-                else Discard index)
+                  "Discard index has to be positive (1 for the left \
+                   most tile)"
+              else if index > 14 then
+                raise_invalid
+                  "Discard index has to be between 1 and 14, inclusive \
+                   (1 for the left most tile)"
+              else Discard index)
       | _ ->
           raise_invalid
             "This command is not understood.\n\

@@ -34,8 +34,11 @@ val shuffle : t -> t
 (** Initialize with 144 tiles*)
 val all_tiles : t
 
+(** [init_tiles ()] is a randomly shuffled set that contain all 144
+    tiles*)
 val init_tiles : unit -> t
 
+(** [tile_length hand] is the length of [hand] *)
 val tile_length : t -> int
 
 (** true if tile is a bonus *)
@@ -79,6 +82,8 @@ val scoring : t -> t -> tile option -> int
     if hand does contain such combo then return true *)
 val selfkong_valid : t -> t -> bool
 
+(** [selfkong_tile hand1 hand2] is the tile in [hand2] that can be self
+    kong onto [hand1] *)
 val selfkong_tile : t -> t -> tile
 
 (** ankong_valid_new hand is true if the hand has a valid hidden kong.
@@ -86,6 +91,8 @@ val selfkong_tile : t -> t -> tile
     valid hand. if hand does contain such pattern then return true *)
 val ankong_valid_new : t -> bool
 
+(** [ankong_tile_opt hand] is an option containing the tile that matches
+    the ankong requirement, if any *)
 val ankong_tile_opt : t -> tile option
 
 (**raise invalid index exception if the player input incorrect index
@@ -145,6 +152,7 @@ val separate_last_tile : t -> t * tile
 (** separate a random tile from the list of tiles *)
 val separate_random_tile : t -> t * tile
 
+(** [add_tile_to_hand tile hand] is hand with tiles added *)
 val add_tile_to_hand : tile -> t -> t
 
 (****************************************************)

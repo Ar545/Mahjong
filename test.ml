@@ -6,6 +6,8 @@ open Players
 open Tiles
 open Tutorial
 
+(** Test Plan: *)
+
 (** [cmp_set_like_lists lst1 lst2] compares two lists to see whether
     they are equivalent set-like lists. That means checking two things.
     First, they must both be {i set-like}, meaning that they do not
@@ -344,6 +346,9 @@ let hu_hand_8 =
       644;
     ]
 
+let hu_hand_9 =
+  index_to_tiles [ 105; 105; 105; 108; 108; 207; 208; 209 ]
+
 let tiles_tests =
   [
     (* chow *)
@@ -624,6 +629,7 @@ let win_test =
     hu_test "hu_test_6" hu_hand_6 None true;
     hu_test "hu_test_7" hu_hand_7 None false;
     hu_test "hu_test_8" hu_hand_8 None false;
+    hu_test "hu_test_9" hu_hand_9 None true;
   ]
 
 let discard_suggestion_tests =

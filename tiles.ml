@@ -254,24 +254,11 @@ and find_trio = function
   | _ -> false
 
 let rec find_trump checked_hand = function
-  | t1 :: t2 :: t3 :: tail -> (
-      (* let [ t1; t2; ct ] = index_to_tiles [ t1; t2; ct ] in *)
-      match (t1 = t2, t2 = t3) with
-      | true, true ->
-          if
-            find_trio (checked_hand @ (t1 :: tail))
-            || find_trio (checked_hand @ (t3 :: tail))
-          then true
-          else find_trump (checked_hand @ [ t1 ]) (t2 :: t3 :: tail)
-      | false, false ->
-          find_trump (checked_hand @ [ t1 ]) (t2 :: t3 :: tail)
-      | true, false ->
-          if find_trio (checked_hand @ (t3 :: tail)) then true
-          else find_trump (checked_hand @ [ t1 ]) (t2 :: t3 :: tail)
-      | false, true ->
-          if find_trio (checked_hand @ (t1 :: tail)) then true
-          else find_trump (checked_hand @ [ t1 ]) (t2 :: t3 :: tail))
-  | [ t1; t2 ] -> if t1 = t2 then find_trio checked_hand else false
+  | t1 :: t2 :: tail ->
+      if t1 = t2 then
+        find_trio (checked_hand @ tail)
+        || find_trump (checked_hand @ [ t1 ]) (t2 :: tail)
+      else find_trump (checked_hand @ [ t1 ]) (t2 :: tail)
   | [ t1 ] -> false
   | [] -> false
 
