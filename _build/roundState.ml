@@ -231,14 +231,9 @@ let win_round
   in
   raise (Winning winning_round_end_message)
 
-(** [discard_hint RoundState.t] represent when the player request to see
-    a hint to discard. The hint is determined based on function
-    implemented in [tiles.ml] No change can be made to the state
-    representation. Requires: the state to be a valid representation of
-    game.
-
-    @return [unit] *)
 let discard_hint state =
+  (* let kong_possible is implemented in tiles.ml *)
+  (* let hu_possible is implemented in tiles.ml *)
   (* check hu *)
   if hu_possible state.hands.(0) then print_endline "you can [hu]!"
   else if (* check kong *)
@@ -250,13 +245,6 @@ let discard_hint state =
     print_string "We suggest you discard: ";
     print_endline (tile_string_converter discard_suggestion_tile)
 
-(** [continue_hint RoundState.t] represent when the player request to
-    see a hint to continue the game. The hint is determined based on
-    function implemented in [tiles.ml] No change can be made to the
-    state representation. Requires: the state to be a valid
-    representation of game.
-
-    @return [unit] *)
 let continue_hint state =
   (* let pung_possible is implemented in tiles.ml *)
   let continue_prompt () =
@@ -272,7 +260,7 @@ let continue_hint state =
     pung_possible state.hands.(0) state.current_discard
   then print_endline "you can [pung]"
   else if state.current_drawer = 0 then (
-    (* check chow *)
+    (* chow_possible is implemented in tiles.ml *)
     match chow_possible state.hands.(0) state.current_discard with
     | None -> continue_prompt ()
     | Some (tile_s1, tile_s2) ->
@@ -281,13 +269,6 @@ let continue_hint state =
         print_endline (tile_string_converter tile_s2))
   else continue_prompt ()
 
-(** [continue_hint RoundState.t] represent when the player request to
-    see help. The help is first seperate into whether the player is
-    about to discard or continue the game, and then redirected to helper
-    functions. No change can be made to the state representation.
-    Requires: the state to be a valid representation of game.
-
-    @return [unit] *)
 let resolve_help state =
   ANSITerminal.print_string [ ANSITerminal.red ]
     "To phrase a command, please begin with Discard, Continue, Chow, \
@@ -298,17 +279,6 @@ let resolve_help state =
   else (* current player is npc *)
     continue_hint state
 
-(**********************************************************************
-  Begin take command function
-  ************************************************************)
-
-(** [player_discard RoundState.t] represent when the player will discard
-    a tile. The help is first seperate into whether the player is
-    request for help. This function also handle for exception of invalid
-    discard index. Then it call for helper function to discard the tile.
-    Requires: the state to be a valid representation of game.
-
-    @return [unit] *)
 let rec player_discard state : unit =
   print_string "{ ";
   print_player_hand state;
@@ -321,24 +291,11 @@ let rec player_discard state : unit =
   | exception Invalid str ->
       print_endline str;
       player_discard state
-  | exception exn ->
-      Unix.sleepf 0.1;
-      raise exn
+  | exception exn -> raise exn
   | () ->
-      Unix.sleepf 0.2;
+      Unix.sleepf 0.5;
       ()
 
-(** [take_command RoundState.t Command.command] represent when the
-    player when the scanner has provide a player's command. Apply
-    pattern match to the command and deal with most of the commands in
-    helper functions. When a game need to be ended, a exception is raise
-    and then return to main menu. If the round need to be ended, an
-    exception is raised and the end_round messsage is provided. If help
-    or played is needed, exception is raised to handle the player
-    request. Requires: the state to be a valid representation of game,
-    and the command to be a valid command.
-
-    @return [unit] *)
 and take_command state command =
   let is_users_turn = state.current_drawer = 1 in
   match command with
@@ -361,28 +318,14 @@ and take_command state command =
   | Continue ->
       if not is_users_turn then ()
       else raise (Invalid "must take action")
-  | Pung -> initialize_pung state is_users_turn
+  | Pung ->
+      if is_users_turn then
+        raise (Invalid "you can only pung other's tiles")
+      else if pung_valid state.hands.(0) state.current_discard then
+        user_pung state
+      else raise (Invalid "this discard is not valid to pung")
   | Chow (index_1, index_2) -> initialize_chow state index_1 index_2
 
-(** [initialize_pung state is_users_turn] represents when the
-    [take_command RoundState.t Command.command] met a pung command. It
-    then goes to specific cases according to the situation of the pung.
-    Requires: the state to be a valid representation of game.
-
-    @return [unit] *)
-and initialize_pung state is_users_turn =
-  if is_users_turn then
-    raise (Invalid "you can only pung other's tiles")
-  else if pung_valid state.hands.(0) state.current_discard then
-    user_pung state
-  else raise (Invalid "this discard is not valid to pung")
-
-(** [user_selfkong state] represents when the
-    [take_command RoundState.t Command.command] met a kong command at
-    self_kong situation. It then edit the state accordingly. Requires:
-    the state to be a valid representation of game.
-
-    @return [unit] *)
 and user_selfkong state =
   let user_index = 0 in
   let self_kong =
@@ -397,13 +340,6 @@ and user_selfkong state =
   player_discard state;
   ()
 
-(** [user_ankong state] represents when the
-    [take_command RoundState.t Command.command] met a kong command at
-    an_kong situation. It then goes to specific cases according to the
-    situation of the pung. Requires: the state to be a valid
-    representation of game.
-
-    @return [unit] *)
 and user_ankong state =
   let ankong =
     match ankong_tile_opt state.hands.(0) with
@@ -421,15 +357,9 @@ and user_ankong state =
   player_discard state;
   ()
 
-(** [user_kong state] represents when the
-    [take_command RoundState.t Command.command] met a kong command at
-    user_kong situation. It then goes to specific cases according to the
-    situation of the pung: in the following sequence to round state:
-    move discard to user's open hand. move three discard - same card to
-    open hand. set current discard to blank. Requires: the state to be a
-    valid representation of game.
-
-    @return [unit] *)
+(** [user_kong state] make the following mutation to round state: move
+    discard to user's open hand. move three discard - same card to open
+    hand. set current discard to blank *)
 and user_kong state =
   let kong = state.current_discard in
   let user_index = 0 in
@@ -443,15 +373,9 @@ and user_kong state =
   player_discard state;
   ()
 
-(** [user_pung state] represents when the
-    [take_command RoundState.t Command.command] met a pung command at
-    user_pung situation. It then goes to specific cases according to the
-    situation of the pung: in the following sequence to round state:
-    move discard to user's open hand. move two discard - same card to
-    open hand. set current discard to blank. Requires: the state to be a
-    valid representation of game.
-
-    @return [unit] *)
+(* make the following mutation to round state: move discard to user's
+   open hand. move two discard - same card to open hand. set current
+   discard to blank *)
 and user_pung state =
   let pung = state.current_discard in
   let user_index = 0 in
@@ -464,15 +388,6 @@ and user_pung state =
   player_discard state;
   ()
 
-(** [user_chow state] represents when the
-    [take_command RoundState.t Command.command] met a chow command at
-    user_chow situation. It then goes to specific cases according to the
-    situation of the pung: in the following sequence to round state:
-    move discard to user's open hand. move two discard - same card to
-    open hand. set current discard to blank. Requires: the state to be a
-    valid representation of game.
-
-    @return [unit] *)
 and user_chow state index_1 index_2 =
   let chow = state.current_discard in
   let user_index = 0 in
@@ -488,14 +403,6 @@ and user_chow state index_1 index_2 =
   player_discard state;
   ()
 
-(** [user_mahjong state] represents when the
-    [take_command RoundState.t Command.command] met a mahjong command at
-    any situation. It determine if the hand is valid to mahjong. If is,
-    then the round will end with an exception of the winning_message.
-    Else, the game continue. Requires: the state to be a valid
-    representation of game.
-
-    @return [unit] *)
 and user_mahjong state is_users_turn =
   let user = List.hd state.players in
   if is_users_turn then
@@ -514,12 +421,6 @@ and user_mahjong state is_users_turn =
          (Some state.current_discard))
   else raise (Invalid "this discard is not valid to hu")
 
-(** [initialize_kong state is_users_turn] represents when the
-    [take_command RoundState.t Command.command] met a kong command. It
-    then goes to specific cases according to the situation of the kong.
-    Requires: the state to be a valid representation of game.
-
-    @return [unit] *)
 and initialize_kong state is_users_turn =
   if is_users_turn then
     if selfkong_valid state.hands_open.(0) state.hands.(0) then
@@ -530,12 +431,6 @@ and initialize_kong state is_users_turn =
     user_kong state
   else raise (Invalid "this discard is not valid to kong")
 
-(** [initialize_chow state is_users_turn] represents when the
-    [take_command RoundState.t Command.command] met a chow command. It
-    then goes to specific cases according to the situation of the chow.
-    Requires: the state to be a valid representation of game.
-
-    @return [unit] *)
 and initialize_chow state index_1 index_2 =
   let is_upper_turn = state.current_drawer = 0 in
   if not is_upper_turn then
@@ -552,9 +447,9 @@ and initialize_chow state index_1 index_2 =
   then user_chow state index_1 index_2
   else raise (Invalid "this discard is not valid to chow")
 
-(**********************************************************************
-  End take command function
-  ************************************************************)
+(***********************************************
+  *****************************************
+  ******************************************)
 
 let init_round input_house input_players : t =
   let rec house_pos acc = function
@@ -589,23 +484,11 @@ let hand index t = tiles_to_str t.hands.(index)
 
 let tiles_left t = tiles_to_str t.tiles_left
 
-(** [npc_response state] representating the npc respoding to the
-    player's discard. In the easy mode, there will be no action. In the
-    advanced mode, the npc may chow if valid, and may hu if valid.
-    Requires: the state to be a valid representation of game.
-
-    @return [unit] *)
 let npc_response state : unit =
   print_endline "No player responded to your discard";
   Unix.sleepf 0.5;
   ()
 
-(** [npc_discard state] representating the npc respoding to the player's
-    discard. In the easy mode, npc will discard randomly. In the
-    advanced mode, the npc will discard according to algorithm.
-    Requires: the state to be a valid representation of game.
-
-    @return [unit] *)
 let npc_discard state index : unit =
   let assoc =
     if index = 2 then separate_last_tile state.hands.(index)
@@ -621,17 +504,12 @@ let npc_discard state index : unit =
   print_endline (tile_string_converter discard);
   ()
 
-(** [player_response state npc_player_index] representating the respond
-    to the npc's discard. Take command from scanner and then deal with
-    the command. Requires: the state to be a valid representation of
-    game, and the index to be a valid representation of the player.
-
-    @return [unit] *)
 let rec player_response state index : unit =
   print_string "{ ";
   print_player_hand state;
   print_endline " }";
   print_string "Please respond to ";
+  (* print_string "player "; print_string (string_of_int index); *)
   print_endline (player_int state index);
   match take_command state (scan ()) with
   | exception Tiles.Invalid_index ->
@@ -645,12 +523,10 @@ let rec player_response state index : unit =
       resolve_help t;
       player_response state index
   | exception exn -> raise exn
-  | () -> ()
+  | () ->
+      Unix.sleepf 0.5;
+      ()
 
-(** [user_round state] representating the execution of a use's round.
-    Requires: the state to be a valid representation of game.
-
-    @return [unit] *)
 let rec user_round state : unit =
   let turn =
     if state.turn < 85 then string_of_int state.turn else "end"
@@ -661,11 +537,6 @@ let rec user_round state : unit =
   npc_response state;
   find_round state
 
-(** [npc_int_round state npc_int] representating the execution of a
-    use's round. Requires: the state to be a valid representation of
-    game, and the index to be a valid representation of the player.
-
-    @return [unit] *)
 and npc_int_round state npc_int : unit =
   let turn =
     if state.turn < 85 then string_of_int state.turn else "end"
@@ -676,18 +547,12 @@ and npc_int_round state npc_int : unit =
   player_response state npc_int;
   find_round state
 
-(** [find_round state] representating the determination of who is the
-    house and thus will begin the game. Requires: the state to be a
-    valid representation of game, and the index to be a valid
-    representation of the player.
-
-    @return [unit] *)
 and find_round state : unit =
   if state.current_drawer = 0 then user_round state
   else npc_int_round state state.current_drawer
 
-(** [round_end_message message] prints the appropriate post round
-    message according to [message] *)
+(* [round_end_message message] prints the appropriate post round message
+   according to [message] *)
 let round_end_message message =
   match message.winner with
   | None ->
