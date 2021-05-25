@@ -24,7 +24,7 @@ type tile =
 
 type t = tile list
 
-(* [dots_set] is a list set of all dots tiles *)
+(** [dots_set] is a list set of all dots tiles *)
 let dots_set =
   [
     Dots 1;
@@ -38,7 +38,7 @@ let dots_set =
     Dots 9;
   ]
 
-(* [bamboo_set] is a list set of all bamboo tiles *)
+(** [bamboo_set] is a list set of all bamboo tiles *)
 let bamboo_set =
   [
     Bamboo 1;
@@ -52,7 +52,7 @@ let bamboo_set =
     Bamboo 9;
   ]
 
-(* [charactesr_set] is a list set of all character tiles *)
+(** [charactesr_set] is a list set of all character tiles *)
 let characters_set =
   [
     Characters 1;
@@ -66,22 +66,22 @@ let characters_set =
     Characters 9;
   ]
 
-(* [orientation_set] is a list set of all orientation tiles *)
+(** [orientation_set] is a list set of all orientation tiles *)
 let orientations_set = [ East; South; West; North; Red; Green; White ]
 
-(* [bonuses] is a list set of all bonus tiles *)
+(** [bonuses] is a list set of all bonus tiles *)
 let bonuses =
   [ Plum; Orchid; Chrysanthemum; Bam; Spring; Summer; Autumn; Winter ]
 
-(* [all_tiles_variety] is a set of all tiles, each with a quantity of
-   one *)
+(** [all_tiles_variety] is a set of all tiles, each with a quantity of
+    one *)
 let all_tiles_variety =
   dots_set @ bamboo_set @ characters_set @ orientations_set
 
 let tile_length tiles = List.length tiles
 
-(* [tile_index_converter tile] is the int index that represents the tile
-   [tile]*)
+(** [tile_index_converter tile] is the int index that represents the
+    tile [tile]*)
 let tile_index_converter = function
   | Bamboo (num : int) -> 100 + num
   | Dots (num : int) -> 200 + num
@@ -103,8 +103,8 @@ let tile_index_converter = function
   | Autumn -> 877
   | Winter -> 888
 
-(* [tiles_to_index t] is the int index list that represents the tile
-   list [t] *)
+(** [tiles_to_index t] is the int index list that represents the tile
+    list [t] *)
 let tiles_to_index hand = List.map tile_index_converter hand
 
 let index_tile_converter (i : int) =
@@ -159,8 +159,8 @@ let init_tiles () : t = shuffle all_tiles
 (***********************************************************************
   init hand - end - c,p,kong - start*)
 
-(* [compare t1 t2] is a positive int if t1 is greater than t2, a
-   negative int if t1 is less than t2, and is zero if t1 is equal to t2 *)
+(** [compare t1 t2] is a positive int if t1 is greater than t2, a
+    negative int if t1 is less than t2, and is zero if t1 is equal to t2 *)
 let compare (t1 : tile) (t2 : tile) =
   tile_index_converter t1 - tile_index_converter t2
 
@@ -225,19 +225,19 @@ let rec add_tile_to_hand tile = function
       else tile' :: add_tile_to_hand tile t
   | [] -> [ tile ]
 
-(* [check_size_14 hand] is true if [hand] has length 14 and false
-   otherwise*)
+(** [check_size_14 hand] is true if [hand] has length 14 and false
+    otherwise*)
 let check_size_14 hand = if 14 == List.length hand then true else false
 
-(* [int_list_remove_once tile hand] is [hand] with the first occurance
-   that matches [tile] removed *)
+(** [int_list_remove_once tile hand] is [hand] with the first occurance
+    that matches [tile] removed *)
 let rec int_list_remove_once tile = function
   | h :: t -> if h = tile then t else h :: int_list_remove_once tile t
   | [] ->
       failwith "precondition violation at int list remove at win trio"
 
-(* [find_trio_chow tile hand] is a find_trio helper that finds and
-   remove chow trio sets, if possible. Return false otherwise *)
+(** [find_trio_chow tile hand] is a find_trio helper that finds and
+    remove chow trio sets, if possible. Return false otherwise *)
 let rec find_trio_chow tile hand =
   if List.mem (tile + 1) hand && List.mem (tile + 2) hand then
     let new_hand =
@@ -248,14 +248,14 @@ let rec find_trio_chow tile hand =
     find_trio new_hand
   else false
 
-(* [find_trio_pung t1 t2 t3 hand] is a find_trio helper that checks if
-   [t1] [t2] [t3] forms a pung trio. If so, carry on execution, else
-   return false *)
+(** [find_trio_pung t1 t2 t3 hand] is a find_trio helper that checks if
+    [t1] [t2] [t3] forms a pung trio. If so, carry on execution, else
+    return false *)
 and find_trio_pung t1 t2 t3 hand =
   if t1 = t2 && t2 = t3 then find_trio hand else false
 
-(* [find_trio hand] checks [hands] in sets of trio. If all trios match
-   pung or chow requirement, true is returned. Otherwise, false *)
+(** [find_trio hand] checks [hands] in sets of trio. If all trios match
+    pung or chow requirement, true is returned. Otherwise, false *)
 and find_trio = function
   | t1 :: t2 :: t3 :: tail ->
       if
@@ -266,9 +266,9 @@ and find_trio = function
   | [] -> true
   | _ -> false
 
-(* [find_trump checked_hand hand] locates every possible trump location
-   and see if it results in a winning hand. If any result does so,
-   return true, otherwise, false *)
+(** [find_trump checked_hand hand] locates every possible trump location
+    and see if it results in a winning hand. If any result does so,
+    return true, otherwise, false *)
 let rec find_trump checked_hand = function
   | t1 :: t2 :: tail ->
       if t1 = t2 then
@@ -278,14 +278,14 @@ let rec find_trump checked_hand = function
   | [ t1 ] -> false
   | [] -> false
 
-(* [winning_hand_standard hand open_hand] checks for the standard
-   winning pattern, which is the most common. Requires hand to be sorted
-   by Tiles.compare *)
+(** [winning_hand_standard hand open_hand] checks for the standard
+    winning pattern, which is the most common. Requires hand to be
+    sorted by Tiles.compare *)
 let winning_hand_standard hand open_hand =
   find_trump [] (tiles_to_index hand)
 
-(* [check_seven hand] is a helper for [winning_hand_seven] with the same
-   objective*)
+(** [check_seven hand] is a helper for [winning_hand_seven] with the
+    same objective*)
 let rec check_seven = function
   | t1 :: t2 :: tail -> if t1 = t2 then check_seven tail else false
   | [] -> true
@@ -297,23 +297,23 @@ let rec check_seven = function
 let winning_hand_seven hand =
   if check_size_14 hand then check_seven hand else false
 
-(* [check_thirteen hand] is a helper for winning_hand_thirteen with the
-   same objective*)
+(** [check_thirteen hand] is a helper for winning_hand_thirteen with the
+    same objective*)
 let rec check_thirteen = function
   | t1 :: t2 :: tail ->
       if 2 < t1 - t2 then check_thirteen (t2 :: tail) else false
   | t1 :: tail -> true
   | [] -> false
 
-(* [winning_hand_thirteen hand] checks for a special winning condition
-   (corner case). Requires hand to be sorted by Tiles.compare *)
+(** [winning_hand_thirteen hand] checks for a special winning condition
+    (corner case). Requires hand to be sorted by Tiles.compare *)
 let winning_hand_thirteen (hand : t) =
   if check_size_14 hand then check_thirteen (tiles_to_index hand)
   else false
 
-(* [winning_hand hand open_hand current] is 0 if [hand] doesn't match
-   winning conidtion. It is an int greater than 0 otherwise. Requires
-   [hand] to be sorted according to Tiles.compare *)
+(** [winning_hand hand open_hand current] is 0 if [hand] doesn't match
+    winning conidtion. It is an int greater than 0 otherwise. Requires
+    [hand] to be sorted according to Tiles.compare *)
 let winning_hand (hand : t) (open_hand : t) (current : tile option) =
   let complete_hand =
     match current with
@@ -325,9 +325,9 @@ let winning_hand (hand : t) (open_hand : t) (current : tile option) =
   else if winning_hand_thirteen complete_hand then 4
   else 0
 
-(* [winnning_valid habd open_hand current] is true if [hand] matches
-   winning condition and false otherwise. Requires [hand] to be sorted
-   according to Tiles.compare *)
+(** [winnning_valid habd open_hand current] is true if [hand] matches
+    winning condition and false otherwise. Requires [hand] to be sorted
+    according to Tiles.compare *)
 let winning_valid (hand : t) (open_hand : t) (current : tile option) =
   if winning_hand (sort_hand hand) (sort_hand open_hand) current <> 0
   then true
@@ -439,21 +439,21 @@ let ankong_valid_new hand =
 (** sort a list of tile by the reverse of standard order *)
 let rev_sort_hand hand = List.rev (sort_hand hand)
 
-(* [separate_first_tile hand] returns a pair containing the first tile
-   in [hand] and everything else in [hand]. Raises an exception if
-   [hand] is empty *)
+(** [separate_first_tile hand] returns a pair containing the first tile
+    in [hand] and everything else in [hand]. Raises an exception if
+    [hand] is empty *)
 let separate_first_tile hand =
   match hand with
   | h :: t -> (t, h)
   | [] -> failwith "precondition violation"
 
-(* [separate_random_tile hand] Raises an exception if [hand] is empty *)
+(** [separate_random_tile hand] Raises an exception if [hand] is empty *)
 let separate_random_tile hand =
   match shuffle hand with
   | h :: t -> (sort_hand t, h)
   | [] -> failwith "precondition violation"
 
-(* [separate_last_tile hand] Raises an exception if [hand] is empty *)
+(** [separate_last_tile hand] Raises an exception if [hand] is empty *)
 let separate_last_tile hand =
   let rev = rev_sort_hand hand in
   match rev with
@@ -467,7 +467,7 @@ let rec print_str_list = function
   | h :: t -> print_string h
   | [] -> ()
 
-(* requires [hand] contain [tile] for at least quantities of [amount] *)
+(** requires [hand] contain [tile] for at least quantities of [amount] *)
 let rec remove hand tile (amount : int) : t =
   if amount < 1 then hand
   else
@@ -499,7 +499,7 @@ let kong_possible hand =
 
 let pung_possible hand tile = pung_valid hand tile
 
-(* [uniq_lst lst tile] is [lst] with one occurence of [tile] *)
+(** [uniq_lst lst tile] is [lst] with one occurence of [tile] *)
 let uniq_lst lst tile = if List.mem tile lst then lst else tile :: lst
 
 (** [chow_possible hand tile] detemines whether [hand] can chow [tile].
@@ -518,14 +518,14 @@ let chow_possible hand tile =
 (*********************************************)
 (* NPC optimization moves and tile suggestion *)
 
-(* [not_orientation tile] checks whether [tile] is an orientation tile *)
+(** [not_orientation tile] checks whether [tile] is an orientation tile *)
 let not_orientation tile =
   match tile with
   | East | South | West | North | Red | Green | White -> false
   | _ -> true
 
-(* [priorities_orientation not_empty hand] is [hand] with tiles that are
-   orientations removed. At least one tile is left in [hand]*)
+(** [priorities_orientation not_empty hand] is [hand] with tiles that
+    are orientations removed. At least one tile is left in [hand]*)
 let rec priorities_orientations not_empty = function
   | h1 :: h2 :: t ->
       if not_orientation h1 then
@@ -534,17 +534,17 @@ let rec priorities_orientations not_empty = function
   | [ h1 ] as lst -> if not_orientation h1 && not_empty then [] else lst
   | [] -> failwith "Precondition Violation"
 
-(* [is_middle tile] checks whether [tile] is a middle tile, meaning it
-   is a tile type with int from 2 to 9, inclusive *)
+(** [is_middle tile] checks whether [tile] is a middle tile, meaning it
+    is a tile type with int from 2 to 9, inclusive *)
 let is_middle tile =
   match tile with
   | Dots n | Characters n | Bamboo n ->
       if n = 1 || n = 9 then false else true
   | _ -> false
 
-(* [priorities_middles not_empty hand] is [hand] with tiles that are
-   middles (2 to 9, inclusive) removed. At least one tile is left in
-   [hand]*)
+(** [priorities_middles not_empty hand] is [hand] with tiles that are
+    middles (2 to 9, inclusive) removed. At least one tile is left in
+    [hand]*)
 let rec priorities_middles not_empty = function
   | h1 :: h2 :: t ->
       if is_middle h1 then
@@ -553,8 +553,8 @@ let rec priorities_middles not_empty = function
   | [ h1 ] as lst -> if is_middle h1 && not_empty then [] else lst
   | [] -> failwith "Precondition Violation"
 
-(* [priorities_skip_seq not_empty hand] is [hand] with pair tiles that
-   are in sequence removed. At least one tile is left in [hand] *)
+(** [priorities_skip_seq not_empty hand] is [hand] with pair tiles that
+    are in sequence removed. At least one tile is left in [hand] *)
 let rec priorities_skip_seq not_empty = function
   | h1 :: h2 :: h3 :: t ->
       if tile_index_converter h1 + 2 = tile_index_converter h2 then
@@ -569,8 +569,8 @@ let rec priorities_skip_seq not_empty = function
       else lst
   | [] -> failwith "Precondition Violation"
 
-(* [priorities_skip_seq not_empty hand] is [hand] with pair tiles that
-   are in sequence removed. At least one tile is left in [hand] *)
+(** [priorities_skip_seq not_empty hand] is [hand] with pair tiles that
+    are in sequence removed. At least one tile is left in [hand] *)
 let rec priorities_seq not_empty = function
   | h1 :: h2 :: h3 :: t ->
       if tile_index_converter h1 + 1 = tile_index_converter h2 then
@@ -585,8 +585,8 @@ let rec priorities_seq not_empty = function
       else lst
   | [] -> failwith "Precondition Violation"
 
-(* [priorities_pair not_empty hand] is [hand] with tiles that are pairs
-   removed. At least one tile is left in [hand] *)
+(** [priorities_pair not_empty hand] is [hand] with tiles that are pairs
+    removed. At least one tile is left in [hand] *)
 let rec priorities_pairs not_empty = function
   | h1 :: h2 :: h3 :: t ->
       if h1 = h2 then priorities_pairs (false || not_empty) (h3 :: t)
@@ -595,8 +595,8 @@ let rec priorities_pairs not_empty = function
   | h1 :: h2 :: t as lst -> if h1 = h2 && not_empty then [] else lst
   | [] -> failwith "Precondition Violation"
 
-(* [priorities_chow_pung hand] is [hand] with tiles that meet chow and
-   pung requirements removed *)
+(** [priorities_chow_pung hand] is [hand] with tiles that meet chow and
+    pung requirements removed *)
 let rec priorities_chow_pung = function
   | h :: t as hand -> (
       let hand_t, tile_h = separate_first_tile hand in
@@ -611,9 +611,9 @@ let rec priorities_chow_pung = function
         | None -> tile_h :: priorities_chow_pung hand_t)
   | [] -> []
 
-(* [discard_suggestion hand] suggest a tile t from list of tile, hand,
-   to be the best to discard. Requires the hand to not meet mahjong
-   standards *)
+(** [discard_suggestion hand] suggest a tile t from list of tile, hand,
+    to be the best to discard. Requires the hand to not meet mahjong
+    standards *)
 let discard_suggestion (hand : t) : tile =
   match
     hand |> priorities_chow_pung |> priorities_pairs false

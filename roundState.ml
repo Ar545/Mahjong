@@ -538,52 +538,65 @@ let round_end_message message =
 
 let rec start_rounds input_house input_players =
   let init_state = init_round input_house input_players in
-  let start_rounds_loop state : result =
-    ANSITerminal.print_string
-      [ ANSITerminal.red; ANSITerminal.Bold ]
-      "Remerber, to phrase a command, please begin with Discard, \
-       Continue, Chow, Pung, Kong, Quit, Help, Restart, Mahjong, and \
-       Played.\n\n";
-    ANSITerminal.print_string
-      [ ANSITerminal.red; ANSITerminal.Bold ]
-      "If you choose to not to respond to other's discard, simply hit \
-       enter.\n\n";
-    ANSITerminal.print_string
-      [ ANSITerminal.red; ANSITerminal.Bold ]
-      "To discard a tile at your turn, simply enter the index of the \
-       tile (starting at 1).\n\n";
-    print_endline ("The House is: " ^ player_to_string input_house);
-    print_string "\nGood luck with your draw:\n{ ";
-    print_player_hand state;
-    print_endline " }\n";
-    match find_round state with
-    | exception Quit_game ->
-        print_endline "\nGame Quit!\n";
-        Unix.sleep 2;
-        Quit_game
-    | exception Restart_round ->
-        print_endline "\nRestart Game!\n";
-        Unix.sleep 2;
-        start_rounds state.house state.players
-    | exception End_of_tiles ->
-        round_end_message end_with_draw;
-        Unix.sleep 2;
-        Round_end end_with_draw
-    | exception Winning message ->
-        round_end_message message;
-        Unix.sleep 2;
-        Round_end message
-    | exception Failure mes ->
-        print_endline
-          ("☣ Unknown Fatal Exception Caught: " ^ mes
-         ^ " Please report this exception to the authors. ☣");
-        Round_end end_with_draw
-    | exception _ ->
-        Unknown_exception
-          "☣ Unknown Fatal Exception Caught. ☣ Please report this \
-           exception to the authors. ☣ Return to Main Menu. ☣ "
-    | () ->
-        Unknown_exception
-          "precondition vilation at start_round of roundstate"
-  in
-  start_rounds_loop init_state
+  start_rounds_loop init_state input_house
+
+and start_rounds_loop state input_house : result =
+  ANSITerminal.print_string
+    [ ANSITerminal.red; ANSITerminal.Bold ]
+    "Remerber, to phrase a command, please begin with Discard, \
+     Continue, Chow, Pung, Kong, Quit, Help, Restart, Mahjong, and \
+     Played.\n\n";
+  ANSITerminal.print_string
+    [ ANSITerminal.red; ANSITerminal.Bold ]
+    "If you choose to not to respond to other's discard, simply hit \
+     enter.\n\n";
+  ANSITerminal.print_string
+    [ ANSITerminal.red; ANSITerminal.Bold ]
+    "To discard a tile at your turn, simply enter the index of the \
+     tile (starting at 1).\n\n";
+  print_endline ("The House is: " ^ player_to_string input_house);
+  print_string "\nGood luck with your draw:\n{ ";
+  print_player_hand state;
+  print_endline " }\n";
+  start_round_helper state
+
+and start_round_helper state =
+  match find_round state with
+  | exception Quit_game -> game_quit ()
+  | exception Restart_round -> restart_game state
+  | exception End_of_tiles -> end_of_tile ()
+  | exception Winning message -> winning message
+  | exception Failure mes -> failure mes
+  | exception _ ->
+      Unknown_exception
+        "☣ Unknown Fatal Exception Caught. ☣ Please report this \
+         exception to the authors. ☣ Return to Main Menu. ☣ "
+  | () ->
+      Unknown_exception
+        "precondition vilation at start_round of roundstate"
+
+and game_quit () =
+  print_endline "\nGame Quit!\n";
+  Unix.sleep 2;
+  Quit_game
+
+and restart_game state =
+  print_endline "\nRestart Game!\n";
+  Unix.sleep 2;
+  start_rounds state.house state.players
+
+and end_of_tile () =
+  round_end_message end_with_draw;
+  Unix.sleep 2;
+  Round_end end_with_draw
+
+and winning message =
+  round_end_message message;
+  Unix.sleep 2;
+  Round_end message
+
+and failure mes =
+  print_endline
+    ("☣ Unknown Fatal Exception Caught: " ^ mes
+   ^ " Please report this exception to the authors. ☣");
+  Round_end end_with_draw
