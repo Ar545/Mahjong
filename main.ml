@@ -18,7 +18,7 @@ let sleep_and_endline () =
     launched *)
 let welcome_text () =
   ANSITerminal.print_string [ ANSITerminal.Bold ]
-    "\n\nWelcome to Mahjong! 🎮\n";
+    "\n\nWelcome to Mahjong!\n\n";
   print_endline "Ian, Andrew, and Leo presents:";
   sleep_and_endline ()
 
@@ -28,17 +28,15 @@ let main_menu () =
     [ ANSITerminal.red; ANSITerminal.Bold ]
     "MAIN MENU - Mahjong Game";
   sleep_and_endline ();
-  ANSITerminal.print_string [ ANSITerminal.blue ]
-    "1. Play Easy Mode 📍";
+  ANSITerminal.print_string [ ANSITerminal.blue ] "1. Play Easy Mode ";
   sleep_and_endline ();
-  ANSITerminal.print_string [ ANSITerminal.cyan ]
-    "2. Play Hard Mode ⚔";
+  ANSITerminal.print_string [ ANSITerminal.cyan ] "2. Play Hard Mode";
   sleep_and_endline ();
   ANSITerminal.print_string [ ANSITerminal.green ]
-    "3. Display Tutorial 📋";
+    "3. Display Tutorial ";
   sleep_and_endline ();
   ANSITerminal.print_string [ ANSITerminal.yellow ]
-    "4. Send love to the authors. ❤️";
+    "4. Send love to the authors";
   (* "4. Game Settings ⚙"; *)
   sleep_and_endline ();
   ANSITerminal.print_string
@@ -51,14 +49,14 @@ let main_menu () =
 let not_ready () =
   print_endline "===================================";
   print_endline
-    "Module Not Ready Yet. Return to Main Menu. Enter 0 to test. 🕹 \n";
+    "Module Not Ready Yet. Return to Main Menu. Enter 0 to test. \n";
   Unix.sleep 1;
   main_menu ()
 
 (** [thanks ()] prints text when the user send love to the author via
     the main menu *)
 let thanks () =
-  print_endline "We appreciate your like of our game!";
+  print_endline "We appreciate your support for our game! ❤️";
   Unix.sleepf 0.4;
   main_menu ()
 
@@ -67,7 +65,7 @@ let rec play_game game =
   print_endline
     ("🎯 Begin Round " ^ (get_round game |> string_of_int) ^ ": ");
   print_endline
-    ("🎰 Scores:\n" ^ string_of_scores game
+    ("Scores:\n" ^ string_of_scores game
    ^ "\n==========================\n");
   Unix.sleep 2;
   match update game with

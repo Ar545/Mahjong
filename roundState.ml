@@ -710,6 +710,8 @@ let rec start_rounds input_house input_players =
   let init_state = init_round input_house input_players in
   start_rounds_loop init_state input_house
 
+(** [start_round_loop state house] starts the loop to carry out the
+    current mahjong round *)
 and start_rounds_loop state input_house : result =
   ANSITerminal.print_string
     [ ANSITerminal.red; ANSITerminal.Bold ]
@@ -730,6 +732,8 @@ and start_rounds_loop state input_house : result =
   print_endline " }\n";
   start_round_helper state
 
+(** [start_round_helper state] matches the termination of a round with
+    the according response *)
 and start_round_helper state =
   match find_round state with
   | exception Quit_game -> game_quit ()
@@ -739,32 +743,39 @@ and start_round_helper state =
   | exception Failure mes -> failure mes
   | exception _ ->
       Unknown_exception
-        "☣ Unknown Fatal Exception Caught. ☣ Please report this \
-         exception to the authors. ☣ Return to Main Menu. ☣ "
+        "☣ Unknown Fatal Exception Caught.\n\
+         Please report this exception to the authors. \n\
+         Return to Main Menu."
   | () ->
       Unknown_exception
         "precondition vilation at start_round of roundstate"
 
+(** [game_quit ()] quit the current round *)
 and game_quit () =
   print_endline "\nGame Quit!\n";
   Unix.sleep 2;
   Quit_game
 
+(** [restart_game ()] restart the current round *)
 and restart_game state =
   print_endline "\nRestart Game!\n";
   Unix.sleep 2;
   start_rounds state.house state.players
 
+(** [end_of_tile ()] end the current round with a draw*)
 and end_of_tile () =
   round_end_message end_with_draw;
   Unix.sleep 2;
   Round_end end_with_draw
 
+(** [winning message] quits the round with a message about the winner,
+    loser, and score, which are stored in [message] *)
 and winning message =
   round_end_message message;
   Unix.sleep 2;
   Round_end message
 
+(** [failure mes] quits the current round with a failure mes*)
 and failure mes =
   print_endline
     ("☣ Unknown Fatal Exception Caught: " ^ mes
