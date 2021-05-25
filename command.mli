@@ -1,4 +1,4 @@
-(** Parsing Player's Commands *)
+(** Representation of a parser of string from the command line. *)
 
 (** The type [command] is a parsed player command that is composed of a
     verb and, depending on the command, followed by a player command *)
@@ -32,6 +32,6 @@ exception Invalid of string
     Requires: [str] to be composed of only alphanumeric characters and
     spaces.
 
-    Raises: [Invalid] when the player's input command is invalid, which
-    corresponds to the following criteria: *)
+    exception: Raises: [Invalid] when the player's input command is
+    invalid, which corresponds to the following criteria: *)
 val parse : string -> command

@@ -1,1 +1,1 @@
-let current_cloc = 1902
+let current_loc : int = 2377

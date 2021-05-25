@@ -19,6 +19,7 @@ let sleep_and_endline () =
 let welcome_text () =
   ANSITerminal.print_string [ ANSITerminal.Bold ]
     "\n\nWelcome to Mahjong! 🎮\n";
+  print_endline "Ian, Andrew, and Leo presents:";
   sleep_and_endline ()
 
 (** [main_menu ()] prints the menu of the mahjong game*)
@@ -37,7 +38,8 @@ let main_menu () =
     "3. Display Tutorial 📋";
   sleep_and_endline ();
   ANSITerminal.print_string [ ANSITerminal.yellow ]
-    "4. Game Settings ⚙";
+    "4. Send love to the authors. ❤️";
+  (* "4. Game Settings ⚙"; *)
   sleep_and_endline ();
   ANSITerminal.print_string
     [ ANSITerminal.magenta; ANSITerminal.Underlined ]
@@ -51,6 +53,13 @@ let not_ready () =
   print_endline
     "Module Not Ready Yet. Return to Main Menu. Enter 0 to test. 🕹 \n";
   Unix.sleep 1;
+  main_menu ()
+
+(** [thanks ()] prints text when the user send love to the author via
+    the main menu *)
+let thanks () =
+  print_endline "We appreciate your like of our game!";
+  Unix.sleepf 0.4;
   main_menu ()
 
 (** [play_game game] helps prompt the beginning of the mahjong game play *)
@@ -149,10 +158,12 @@ end
 (** [test i] make automatic playtests *)
 let test int = Test.test int
 
+(** [quit_game ()] quit the program *)
 let quit_game () =
   print_endline "Game Over. Thank You!\n";
   Stdlib.exit 0
 
+(** [match_input ()] parse the player's input *)
 let rec match_input () : unit =
   print_endline "Please select from 1 to 5: ";
   print_string "-> ";
@@ -161,25 +172,27 @@ let rec match_input () : unit =
       print_string "Invalid Input.";
       match_input ()
   | anystring -> (
-      match int_of_string_opt anystring with
-      | None ->
-          print_string "Please use integer.";
-          match_input ()
-      | Some integer ->
-          if integer = 1 then play_basic ()
-          else if integer = 2 then play_advanced ()
-          else if integer = 3 then (
-            tutorial ();
-            print_endline "Tutorial Ends. Return to Main Menu.";
-            Unix.sleep 2;
-            main_menu ())
-          else if integer = 4 then not_ready ()
-          else if integer = 5 then quit_game ()
-          else if integer = 0 then test 0
-          else if integer = -1 then test 1
-          else if integer = -2 then test 2
-          else print_string "Invalid Index.";
-          match_input ())
+      if anystring = "quit" then quit_game ()
+      else if anystring = "play" then play_basic ()
+      else
+        match int_of_string_opt anystring with
+        | None ->
+            print_string "Please use integer.";
+            match_input ()
+        | Some integer ->
+            if integer = 1 then play_basic ()
+            else if integer = 2 then play_advanced ()
+            else if integer = 3 then (
+              tutorial ();
+              print_endline "Tutorial Ends. Return to Main Menu.";
+              Unix.sleep 2;
+              main_menu ())
+            else if integer = 4 then thanks ()
+            else if integer = 5 then quit_game ()
+            else if integer = 0 then test 0
+            else if integer = -1 then test 1
+            else print_string "Invalid Index.";
+            match_input ())
 
 (** [main ()] is the main program called when program initialized *)
 let main () =

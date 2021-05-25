@@ -1,5 +1,5 @@
 (** Representation of a dynamic round within the game at a particular
-    instance
+    instance.
 
     This module is the state of a round within the game. It keeps track
     of the number and identity of tiles left, the tile hand for each
@@ -39,9 +39,9 @@ val tiles_left : t -> string list
 val take_command : t -> Command.command -> unit
 
 (** start a round of t list of players while t is the house player.
-    raise @exception Quit_game when asked to quit game. raise @exception
-    Winning of player and score when someone win the round. raise
-    @exception end_of_tiles when the round draws. Never return unit. *)
+    return result Quit_game when asked to quit game. return result
+    Winning of player and score when someone win the round. return
+    result end_of_tiles when the round draws. return when the game ends. *)
 val start_rounds : Players.player -> Players.t -> result
 
 (** return true is the result means that the game is draw *)

@@ -22,9 +22,6 @@ play:
 
 check:
 	@bash check.sh
-	
-finalcheck:
-	@bash check.sh final
 
 zip:
 	zip mahjong.zip *.ml* *.json *.sh _tags .merlin .ocamlformat .ocamlinit *.md LICENSE Makefile	

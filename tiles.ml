@@ -172,12 +172,10 @@ let chow_valid (hand : t) t1 t2 (t3 : tile) =
   | [ a; b; c ] -> if a + 1 == b && b + 1 == c then true else false
   | _ -> false
 
-(**raise invalid index exception if the player input incorrect index
-   when chow*)
-exception Invalid_index
+(* raise invalid index exception if the player input incorrect index
+   when chow *)
 
-(**if exception unknown is raise, then there is bug in the code *)
-exception Unknown
+exception Invalid_index
 
 (**chow_index_valid (hand : t) (index1 : int) (index2 : int) t3 take one
    tile t3 to chow and two index of the hand t. Assert index 1 and 2 are
@@ -339,7 +337,7 @@ let scoring hand open_hand (current : tile option) =
   let () = match open_hand with [] -> score := !score * 2 | _ -> () in
   !score
 
-(***************************************************************************
+(***********************************************************************
   winning and scoring - end - tile-printer - start*)
 
 let tile_string_converter = function
@@ -398,7 +396,7 @@ let tile_string_converter = function
 
 let tiles_to_str hand = List.map tile_string_converter hand
 
-(**************************************************************************
+(***********************************************************************
   tile-printer - end *)
 
 (** [is_bonus tile] is true if [tile] is a bonus. Otherwise, false *)

@@ -45,12 +45,19 @@ val is_bonus : tile -> bool
 (* validity of action and winning *)
 (****************************************************)
 
+(** [Invalid_index] is an exception representing invalid index exception
+    if the player input incorrect index when chow. Namely, the game
+    raise invalid index exception if the player input incorrect index
+    when chow *)
+exception Invalid_index
+
 (** [chow_index_valid hand t1 t2 t3] is true if t1 t2 t3 is a chow. \n
     AF: the (hand : tile list) must already contain t1 and t2, otherwise
     it is not a valid chow. In other words, if a person chow 1 2 to 3
     without having 1 2, system will retrun 'invalid command, no such 1
     and 2'. else, here to determine if 1 2 3 forms a valid chow, and if
-    not return 'invalid chow, 1 2 3 is not a chow'*)
+    not return 'invalid chow, 1 2 3 is not a chow' exception raise
+    Invalid_index if the index is not valid *)
 val chow_index_valid : t -> int -> int -> tile -> bool
 
 (** [pung_valid hand tile] is true when [tile] can form a pung
@@ -91,10 +98,6 @@ val ankong_valid_new : t -> bool
 (** [ankong_tile_opt hand] is an option containing the tile that matches
     the ankong requirement, if any *)
 val ankong_tile_opt : t -> tile option
-
-(**raise invalid index exception if the player input incorrect index
-   when chow*)
-exception Invalid_index
 
 (****************************************************)
 (* converter: tiles, string, and int *)
