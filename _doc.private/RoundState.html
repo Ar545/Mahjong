@@ -1,0 +1,670 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Command.html">
+<link rel="next" href="GameState.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Command" rel="Chapter" href="Command.html">
+<link title="RoundState" rel="Chapter" href="RoundState.html">
+<link title="GameState" rel="Chapter" href="GameState.html">
+<link title="Main" rel="Chapter" href="Main.html">
+<link title="Players" rel="Chapter" href="Players.html">
+<link title="Tiles" rel="Chapter" href="Tiles.html">
+<link title="Tutorial" rel="Chapter" href="Tutorial.html"><title>RoundState</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="Command.html" title="Command">Previous</a>
+&nbsp;<a class="up" href="index.html" title="Index">Up</a>
+&nbsp;<a class="post" href="GameState.html" title="GameState">Next</a>
+</div>
+<h1>Module <a href="type_RoundState.html">RoundState</a></h1>
+
+<pre><span id="MODULERoundState"><span class="keyword">module</span> RoundState</span>: <code class="code">sig</code> <a href="RoundState.html">..</a> <code class="code">end</code></pre><div class="info module top">
+<div class="info-desc">
+<p>Representation of a dynamic round within the game at a particular
+    instance.</p>
+
+<p>This module is the state of a round within the game. It keeps track
+    of the number and identity of tiles left, the tile hand for each
+    player that is hidden from other players, the tile hands that are
+    shown, and the player of the current turn</p>
+</div>
+</div>
+<hr width="100%">
+
+<pre><code><span id="TYPEt"><span class="keyword">type</span> <code class="type"></code>t</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTt.house">house</span>&nbsp;: <code class="type"><a href="Players.html#TYPEplayer">Players.player</a></code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTt.house_seat">house_seat</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTt.players">players</span>&nbsp;: <code class="type"><a href="Players.html#TYPEt">Players.t</a></code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span><span id="TYPEELTt.current_drawer">current_drawer</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span><span id="TYPEELTt.tiles_count_left">tiles_count_left</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTt.hands">hands</span>&nbsp;: <code class="type"><a href="Tiles.html#TYPEt">Tiles.t</a> array</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTt.hands_open">hands_open</span>&nbsp;: <code class="type"><a href="Tiles.html#TYPEt">Tiles.t</a> array</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span><span id="TYPEELTt.tiles_left">tiles_left</span>&nbsp;: <code class="type"><a href="Tiles.html#TYPEt">Tiles.t</a></code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span><span id="TYPEELTt.tiles_played">tiles_played</span>&nbsp;: <code class="type"><a href="Tiles.html#TYPEt">Tiles.t</a></code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span><span id="TYPEELTt.current_discard">current_discard</span>&nbsp;: <code class="type"><a href="Tiles.html#TYPEtile">Tiles.tile</a></code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTt.kong_records">kong_records</span>&nbsp;: <code class="type">int array</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span><span id="TYPEELTt.turn">turn</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr></table>
+<code>}</code>
+
+<div class="info ">
+<div class="info-desc">
+<p><code class="code">t</code> is the state of a round within the games</p>
+</div>
+</div>
+
+
+<pre><code><span id="TYPEround_end_message"><span class="keyword">type</span> <code class="type"></code>round_end_message</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTround_end_message.winner">winner</span>&nbsp;: <code class="type"><a href="Players.html#TYPEplayer">Players.player</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTround_end_message.losers">losers</span>&nbsp;: <code class="type"><a href="Players.html#TYPEplayer">Players.player</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTround_end_message.score">score</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr></table>
+<code>}</code>
+
+<div class="info ">
+<div class="info-desc">
+<p><code class="code">round_end_message</code> is a message that is generated when a round
+    terminates</p>
+</div>
+</div>
+
+
+<pre><span id="VALend_with_draw"><span class="keyword">val</span> end_with_draw</span> : <code class="type"><a href="RoundState.html#TYPEround_end_message">round_end_message</a></code></pre>
+<pre><span id="EXCEPTIONEnd_of_tiles"><span class="keyword">exception</span> End_of_tiles</span></pre>
+
+<pre><span id="EXCEPTIONQuit_game"><span class="keyword">exception</span> Quit_game</span></pre>
+
+<pre><span id="EXCEPTIONRestart_round"><span class="keyword">exception</span> Restart_round</span></pre>
+
+<pre><span id="EXCEPTIONHelp_needed"><span class="keyword">exception</span> Help_needed</span> <span class="keyword">of</span> <code class="type"><a href="RoundState.html#TYPEt">t</a></code></pre>
+
+<pre><span id="EXCEPTIONInvalid"><span class="keyword">exception</span> Invalid</span> <span class="keyword">of</span> <code class="type">string</code></pre>
+
+<pre><span id="EXCEPTIONWinning"><span class="keyword">exception</span> Winning</span> <span class="keyword">of</span> <code class="type"><a href="RoundState.html#TYPEround_end_message">round_end_message</a></code></pre>
+
+<pre><code><span id="TYPEresult"><span class="keyword">type</span> <code class="type"></code>result</span> = </code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTresult.Quit_game"><span class="constructor">Quit_game</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTresult.Unknown_exception"><span class="constructor">Unknown_exception</span></span> <span class="keyword">of</span> <code class="type">string</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTresult.Round_end"><span class="constructor">Round_end</span></span> <span class="keyword">of</span> <code class="type"><a href="RoundState.html#TYPEround_end_message">round_end_message</a></code></code></td>
+
+</tr></table>
+
+<div class="info ">
+<div class="info-desc">
+<p><code class="code">result</code> is the result of a round after termination</p>
+</div>
+</div>
+
+
+<pre><span id="VALis_draw"><span class="keyword">val</span> is_draw</span> : <code class="type"><a href="RoundState.html#TYPEresult">result</a> -> bool</code></pre><div class="info ">
+<div class="info-desc">
+<p>return true is the result means that the game is draw</p>
+</div>
+</div>
+
+<pre><span id="VALlocate_player"><span class="keyword">val</span> locate_player</span> : <code class="type">'a list -> int -> 'a</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">locate_player players index</code> is the player at the <code class="code">index</code> in a list
+    of four players <code class="code">players</code></p>
+</div>
+</div>
+
+<pre><span id="VALplayer_int"><span class="keyword">val</span> player_int</span> : <code class="type"><a href="RoundState.html#TYPEt">t</a> -> int -> string</code></pre>
+<pre><span id="VALkong_draw_one"><span class="keyword">val</span> kong_draw_one</span> : <code class="type"><a href="RoundState.html#TYPEt">t</a> -> int -> unit</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">kong_draw_one RoundState.t int</code> representing in the game where a
+    player kong anyone's tile, they need to draw one tile form the wall.
+    Requires: the state to be a valid state, and int to be a valid
+    representation of a player. Mutation: draw one tile for the player
+    who kongs. The state is mutated to be an valid state.</p>
+</div>
+<ul class="info-attributes">
+<li><b>Returns</b> <code class="code">unit</code></li>
+</ul>
+</div>
+
+<pre><span id="VALdraw_one"><span class="keyword">val</span> draw_one</span> : <code class="type"><a href="RoundState.html#TYPEt">t</a> -> unit</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">draw_one RoundState.t</code> representing in the game where a player is
+    in turn to draw, they need to draw one tile form the wall. Requires:
+    the state to be a valid state. Mutation: draw one tile for the
+    player who comes next. The state is mutated to be an valid state.</p>
+</div>
+<ul class="info-attributes">
+<li><b>Returns</b> <code class="code">unit</code></li>
+</ul>
+</div>
+
+<pre><span id="VALskip_to_after"><span class="keyword">val</span> skip_to_after</span> : <code class="type"><a href="RoundState.html#TYPEt">t</a> -> <a href="Players.html#TYPEplayer">Players.player</a> -> unit</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">skip_to_after RoundState.t Players.t</code> representing in the game
+    where the turn of the game need to be change, which is usually after
+    anykong chow, kong, or punged. Who draw next wil be set accordingly.
+    Requires: the state to be a valid state. Mutation: change the
+    current drawer. The state is mutated to be an valid state.</p>
+</div>
+<ul class="info-attributes">
+<li><b>Returns</b> <code class="code">unit</code></li>
+</ul>
+</div>
+
+<pre><span id="VALview_played"><span class="keyword">val</span> view_played</span> : <code class="type"><a href="RoundState.html#TYPEt">t</a> -> unit</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">view_played RoundState.t</code> representing in the game where the player
+    request to see all the tiles played. No change can be made to the
+    state representation. Requires: the state to be a valid
+    representation of game.</p>
+</div>
+<ul class="info-attributes">
+<li><b>Returns</b> <code class="code">unit</code></li>
+</ul>
+</div>
+
+<pre><span id="VALprint_player_hand"><span class="keyword">val</span> print_player_hand</span> : <code class="type"><a href="RoundState.html#TYPEt">t</a> -> unit</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">print_player_hand RoundState.t</code> representing in the game where we
+    show the player what is their current hand. No change can be made to
+    the state representation. Note that this is for printing of the
+    <code class="code">user</code>'s hand, not the <code class="code">npc</code>'s hands. Requires: the state to be a
+    valid representation of game.</p>
+</div>
+<ul class="info-attributes">
+<li><b>Returns</b> <code class="code">unit</code></li>
+</ul>
+</div>
+
+<pre><span id="VALscan"><span class="keyword">val</span> scan</span> : <code class="type">unit -> <a href="Command.html#TYPEcommand">Command.command</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">scan ()</code> scan the input line, and then parse that string into a
+    command representation. the return type should not contain any
+    exceptions and should be in the form of</p>
+</div>
+<ul class="info-attributes">
+<li><b>Returns</b> <code class="code">Command.command</code></li>
+</ul>
+</div>
+
+<pre><span id="VALuser_discard"><span class="keyword">val</span> user_discard</span> : <code class="type"><a href="RoundState.html#TYPEt">t</a> -> int -> unit</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">user_discard RoundState.t</code> representing in the game where the user
+    needs to discard one of the tiles that they currently holds. One
+    change must be made to the state representation where the user's
+    hand is get rid of one of the tile to discard. Note that this is for
+    discard of the <code class="code">user</code>'s hand, not the <code class="code">npc</code>'s hands. Requires: the
+    state to be a valid representation of game.</p>
+</div>
+<ul class="info-attributes">
+<li><b>Returns</b> <code class="code">unit</code></li>
+</ul>
+</div>
+
+<pre><span id="VALwin_round"><span class="keyword">val</span> win_round</span> : <code class="type"><a href="RoundState.html#TYPEt">t</a> -> <a href="Players.html#TYPEplayer">Players.player</a> -> <a href="Players.html#TYPEplayer">Players.player</a> -> int -> unit</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">user_discard RoundState.t</code> representing in the game where the user
+    or the npc is winning the round. The game will ends and return a
+    message carring who wins the game and the score the they wins. Note
+    that this is for winning of a round, not draw of a round. The round
+    is break by raising an <code class="code">exception</code> This exception will then be
+    handled to provide a valid round_end message. Requires: the state to
+    be a valid representation of game.</p>
+</div>
+<ul class="info-attributes">
+<li><b>Returns</b> <code class="code">unit</code> and <code class="code">exception</code></li>
+</ul>
+</div>
+
+<pre><span id="VALdiscard_hint"><span class="keyword">val</span> discard_hint</span> : <code class="type"><a href="RoundState.html#TYPEt">t</a> -> unit</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">discard_hint RoundState.t</code> represent when the player request to see
+    a hint to discard. The hint is determined based on function
+    implemented in <code class="code">tiles.ml</code> No change can be made to the state
+    representation. Requires: the state to be a valid representation of
+    game.</p>
+</div>
+<ul class="info-attributes">
+<li><b>Returns</b> <code class="code">unit</code></li>
+</ul>
+</div>
+
+<pre><span id="VALcontinue_hint"><span class="keyword">val</span> continue_hint</span> : <code class="type"><a href="RoundState.html#TYPEt">t</a> -> unit</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">continue_hint RoundState.t</code> represent when the player request to
+    see a hint to continue the game. The hint is determined based on
+    function implemented in <code class="code">tiles.ml</code> No change can be made to the
+    state representation. Requires: the state to be a valid
+    representation of game.</p>
+</div>
+<ul class="info-attributes">
+<li><b>Returns</b> <code class="code">unit</code></li>
+</ul>
+</div>
+
+<pre><span id="VALresolve_help"><span class="keyword">val</span> resolve_help</span> : <code class="type"><a href="RoundState.html#TYPEt">t</a> -> unit</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">continue_hint RoundState.t</code> represent when the player request to
+    see help. The help is first seperate into whether the player is
+    about to discard or continue the game, and then redirected to helper
+    functions. No change can be made to the state representation.
+    Requires: the state to be a valid representation of game.</p>
+</div>
+<ul class="info-attributes">
+<li><b>Returns</b> <code class="code">unit</code></li>
+</ul>
+</div>
+
+<pre><span id="VALplayer_discard"><span class="keyword">val</span> player_discard</span> : <code class="type"><a href="RoundState.html#TYPEt">t</a> -> unit</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">player_discard RoundState.t</code> represent when the player will discard
+    a tile. The help is first seperate into whether the player is
+    request for help. This function also handle for exception of invalid
+    discard index. Then it call for helper function to discard the tile.
+    Requires: the state to be a valid representation of game.</p>
+</div>
+<ul class="info-attributes">
+<li><b>Returns</b> <code class="code">unit</code></li>
+</ul>
+</div>
+
+<pre><span id="VALtake_command"><span class="keyword">val</span> take_command</span> : <code class="type"><a href="RoundState.html#TYPEt">t</a> -> <a href="Command.html#TYPEcommand">Command.command</a> -> unit</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">take_command RoundState.t Command.command</code> represent when the
+    player when the scanner has provide a player's command. Apply
+    pattern match to the command and deal with most of the commands in
+    helper functions. When a game need to be ended, a exception is raise
+    and then return to main menu. If the round need to be ended, an
+    exception is raised and the end_round messsage is provided. If help
+    or played is needed, exception is raised to handle the player
+    request. Requires: the state to be a valid representation of game,
+    and the command to be a valid command.</p>
+
+<p><code class="code">take_command t command</code> takes in user input and repond accordingly
+    in a round <code class="code">t</code></p>
+</div>
+<ul class="info-attributes">
+<li><b>Returns</b> <code class="code">unit</code></li>
+</ul>
+</div>
+
+<pre><span id="VALinitialize_pung"><span class="keyword">val</span> initialize_pung</span> : <code class="type"><a href="RoundState.html#TYPEt">t</a> -> bool -> unit</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">initialize_pung state is_users_turn</code> represents when the
+    <code class="code">take_command RoundState.t Command.command</code> met a pung command. It
+    then goes to specific cases according to the situation of the pung.
+    Requires: the state to be a valid representation of game.</p>
+</div>
+<ul class="info-attributes">
+<li><b>Returns</b> <code class="code">unit</code></li>
+</ul>
+</div>
+
+<pre><span id="VALuser_selfkong"><span class="keyword">val</span> user_selfkong</span> : <code class="type"><a href="RoundState.html#TYPEt">t</a> -> unit</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">user_selfkong state</code> represents when the
+    <code class="code">take_command RoundState.t Command.command</code> met a kong command at
+    self_kong situation. It then edit the state accordingly. Requires:
+    the state to be a valid representation of game.</p>
+</div>
+<ul class="info-attributes">
+<li><b>Returns</b> <code class="code">unit</code></li>
+</ul>
+</div>
+
+<pre><span id="VALuser_ankong"><span class="keyword">val</span> user_ankong</span> : <code class="type"><a href="RoundState.html#TYPEt">t</a> -> unit</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">user_ankong state</code> represents when the
+    <code class="code">take_command RoundState.t Command.command</code> met a kong command at
+    an_kong situation. It then goes to specific cases according to the
+    situation of the pung. Requires: the state to be a valid
+    representation of game.</p>
+</div>
+<ul class="info-attributes">
+<li><b>Returns</b> <code class="code">unit</code></li>
+</ul>
+</div>
+
+<pre><span id="VALuser_kong"><span class="keyword">val</span> user_kong</span> : <code class="type"><a href="RoundState.html#TYPEt">t</a> -> unit</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">user_kong state</code> represents when the
+    <code class="code">take_command RoundState.t Command.command</code> met a kong command at
+    user_kong situation. It then goes to specific cases according to the
+    situation of the pung: in the following sequence to round state:
+    move discard to user's open hand. move three discard - same card to
+    open hand. set current discard to blank. Requires: the state to be a
+    valid representation of game.</p>
+</div>
+<ul class="info-attributes">
+<li><b>Returns</b> <code class="code">unit</code></li>
+</ul>
+</div>
+
+<pre><span id="VALuser_pung"><span class="keyword">val</span> user_pung</span> : <code class="type"><a href="RoundState.html#TYPEt">t</a> -> unit</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">user_pung state</code> represents when the
+    <code class="code">take_command RoundState.t Command.command</code> met a pung command at
+    user_pung situation. It then goes to specific cases according to the
+    situation of the pung: in the following sequence to round state:
+    move discard to user's open hand. move two discard - same card to
+    open hand. set current discard to blank. Requires: the state to be a
+    valid representation of game.</p>
+</div>
+<ul class="info-attributes">
+<li><b>Returns</b> <code class="code">unit</code></li>
+</ul>
+</div>
+
+<pre><span id="VALuser_chow"><span class="keyword">val</span> user_chow</span> : <code class="type"><a href="RoundState.html#TYPEt">t</a> -> int -> int -> unit</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">user_chow state</code> represents when the
+    <code class="code">take_command RoundState.t Command.command</code> met a chow command at
+    user_chow situation. It then goes to specific cases according to the
+    situation of the pung: in the following sequence to round state:
+    move discard to user's open hand. move two discard - same card to
+    open hand. set current discard to blank. Requires: the state to be a
+    valid representation of game.</p>
+</div>
+<ul class="info-attributes">
+<li><b>Returns</b> <code class="code">unit</code></li>
+</ul>
+</div>
+
+<pre><span id="VALuser_mahjong"><span class="keyword">val</span> user_mahjong</span> : <code class="type"><a href="RoundState.html#TYPEt">t</a> -> bool -> unit</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">user_mahjong state</code> represents when the
+    <code class="code">take_command RoundState.t Command.command</code> met a mahjong command at
+    any situation. It determine if the hand is valid to mahjong. If is,
+    then the round will end with an exception of the winning_message.
+    Else, the game continue. Requires: the state to be a valid
+    representation of game.</p>
+</div>
+<ul class="info-attributes">
+<li><b>Returns</b> <code class="code">unit</code></li>
+</ul>
+</div>
+
+<pre><span id="VALinitialize_kong"><span class="keyword">val</span> initialize_kong</span> : <code class="type"><a href="RoundState.html#TYPEt">t</a> -> bool -> unit</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">initialize_kong state is_users_turn</code> represents when the
+    <code class="code">take_command RoundState.t Command.command</code> met a kong command. It
+    then goes to specific cases according to the situation of the kong.
+    Requires: the state to be a valid representation of game.</p>
+</div>
+<ul class="info-attributes">
+<li><b>Returns</b> <code class="code">unit</code></li>
+</ul>
+</div>
+
+<pre><span id="VALinitialize_chow"><span class="keyword">val</span> initialize_chow</span> : <code class="type"><a href="RoundState.html#TYPEt">t</a> -> int -> int -> unit</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">initialize_chow state is_users_turn</code> represents when the
+    <code class="code">take_command RoundState.t Command.command</code> met a chow command. It
+    then goes to specific cases according to the situation of the chow.
+    Requires: the state to be a valid representation of game.</p>
+</div>
+<ul class="info-attributes">
+<li><b>Returns</b> <code class="code">unit</code></li>
+</ul>
+</div>
+
+<pre><span id="VALinit_round"><span class="keyword">val</span> init_round</span> : <code class="type"><a href="Players.html#TYPEplayer">Players.player</a> -> <a href="Players.html#TYPEt">Players.t</a> -> <a href="RoundState.html#TYPEt">t</a></code></pre><div class="info ">
+<div class="info-desc">
+<p>initialize a state of t list of players while t is the house player.
+    return state</p>
+</div>
+</div>
+
+<pre><span id="VALhand"><span class="keyword">val</span> hand</span> : <code class="type">int -> <a href="RoundState.html#TYPEt">t</a> -> string list</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">hand i t</code> is the player's hand at index <code class="code">i</code> in the round <code class="code">t</code></p>
+</div>
+</div>
+
+<pre><span id="VALtiles_left"><span class="keyword">val</span> tiles_left</span> : <code class="type"><a href="RoundState.html#TYPEt">t</a> -> string list</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">tiles_left t</code> is the string representation of tiles that are left
+    in a given instance during a round</p>
+</div>
+</div>
+
+<pre><span id="VALnpc_response"><span class="keyword">val</span> npc_response</span> : <code class="type">'a -> unit</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">npc_response state</code> representating the npc respoding to the
+    player's discard. In the easy mode, there will be no action. In the
+    advanced mode, the npc may chow if valid, and may hu if valid.
+    Requires: the state to be a valid representation of game.</p>
+</div>
+<ul class="info-attributes">
+<li><b>Returns</b> <code class="code">unit</code></li>
+</ul>
+</div>
+
+<pre><span id="VALnpc_discard"><span class="keyword">val</span> npc_discard</span> : <code class="type"><a href="RoundState.html#TYPEt">t</a> -> int -> unit</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">npc_discard state</code> representating the npc respoding to the player's
+    discard. In the easy mode, npc will discard randomly. In the
+    advanced mode, the npc will discard according to algorithm.
+    Requires: the state to be a valid representation of game.</p>
+</div>
+<ul class="info-attributes">
+<li><b>Returns</b> <code class="code">unit</code></li>
+</ul>
+</div>
+
+<pre><span id="VALplayer_response"><span class="keyword">val</span> player_response</span> : <code class="type"><a href="RoundState.html#TYPEt">t</a> -> int -> unit</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">player_response state npc_player_index</code> representating the respond
+    to the npc's discard. Take command from scanner and then deal with
+    the command. Requires: the state to be a valid representation of
+    game, and the index to be a valid representation of the player.</p>
+</div>
+<ul class="info-attributes">
+<li><b>Returns</b> <code class="code">unit</code></li>
+</ul>
+</div>
+
+<pre><span id="VALuser_round"><span class="keyword">val</span> user_round</span> : <code class="type"><a href="RoundState.html#TYPEt">t</a> -> unit</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">user_round state</code> representating the execution of a use's round.
+    Requires: the state to be a valid representation of game.</p>
+</div>
+<ul class="info-attributes">
+<li><b>Returns</b> <code class="code">unit</code></li>
+</ul>
+</div>
+
+<pre><span id="VALnpc_int_round"><span class="keyword">val</span> npc_int_round</span> : <code class="type"><a href="RoundState.html#TYPEt">t</a> -> int -> unit</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">npc_int_round state npc_int</code> representating the execution of a
+    use's round. Requires: the state to be a valid representation of
+    game, and the index to be a valid representation of the player.</p>
+</div>
+<ul class="info-attributes">
+<li><b>Returns</b> <code class="code">unit</code></li>
+</ul>
+</div>
+
+<pre><span id="VALfind_round"><span class="keyword">val</span> find_round</span> : <code class="type"><a href="RoundState.html#TYPEt">t</a> -> unit</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">find_round state</code> representating the determination of who is the
+    house and thus will begin the game. Requires: the state to be a
+    valid representation of game, and the index to be a valid
+    representation of the player.</p>
+</div>
+<ul class="info-attributes">
+<li><b>Returns</b> <code class="code">unit</code></li>
+</ul>
+</div>
+
+<pre><span id="VALround_end_message"><span class="keyword">val</span> round_end_message</span> : <code class="type"><a href="RoundState.html#TYPEround_end_message">round_end_message</a> -> unit</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">round_end_message message</code> prints the appropriate post round
+    message according to <code class="code">message</code></p>
+</div>
+</div>
+
+<pre><span id="VALstart_rounds"><span class="keyword">val</span> start_rounds</span> : <code class="type"><a href="Players.html#TYPEplayer">Players.player</a> -> <a href="Players.html#TYPEt">Players.t</a> -> <a href="RoundState.html#TYPEresult">result</a></code></pre><div class="info ">
+<div class="info-desc">
+<p>start a round of t list of players while t is the house player.
+    return result Quit_game when asked to quit game. return result
+    Winning of player and score when someone win the round. return
+    result end_of_tiles when the round draws. return when the game ends.</p>
+</div>
+</div>
+
+<pre><span id="VALstart_rounds_loop"><span class="keyword">val</span> start_rounds_loop</span> : <code class="type"><a href="RoundState.html#TYPEt">t</a> -> <a href="Players.html#TYPEplayer">Players.player</a> -> <a href="RoundState.html#TYPEresult">result</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">start_round_loop state house</code> starts the loop to carry out the
+    current mahjong round</p>
+</div>
+</div>
+
+<pre><span id="VALstart_round_helper"><span class="keyword">val</span> start_round_helper</span> : <code class="type"><a href="RoundState.html#TYPEt">t</a> -> <a href="RoundState.html#TYPEresult">result</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">start_round_helper state</code> matches the termination of a round with
+    the according response</p>
+</div>
+</div>
+
+<pre><span id="VALgame_quit"><span class="keyword">val</span> game_quit</span> : <code class="type">unit -> <a href="RoundState.html#TYPEresult">result</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">game_quit ()</code> quit the current round</p>
+</div>
+</div>
+
+<pre><span id="VALrestart_game"><span class="keyword">val</span> restart_game</span> : <code class="type"><a href="RoundState.html#TYPEt">t</a> -> <a href="RoundState.html#TYPEresult">result</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">restart_game ()</code> restart the current round</p>
+</div>
+</div>
+
+<pre><span id="VALend_of_tile"><span class="keyword">val</span> end_of_tile</span> : <code class="type">unit -> <a href="RoundState.html#TYPEresult">result</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">end_of_tile ()</code> end the current round with a draw</p>
+</div>
+</div>
+
+<pre><span id="VALwinning"><span class="keyword">val</span> winning</span> : <code class="type"><a href="RoundState.html#TYPEround_end_message">round_end_message</a> -> <a href="RoundState.html#TYPEresult">result</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">winning message</code> quits the round with a message about the winner,
+    loser, and score, which are stored in <code class="code">message</code></p>
+</div>
+</div>
+
+<pre><span id="VALfailure"><span class="keyword">val</span> failure</span> : <code class="type">string -> <a href="RoundState.html#TYPEresult">result</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">failure mes</code> quits the current round with a failure mes</p>
+</div>
+</div>
+</body></html>
