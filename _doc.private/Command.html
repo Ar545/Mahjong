@@ -1,0 +1,155 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="Start" href="index.html">
+<link rel="next" href="RoundState.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Command" rel="Chapter" href="Command.html">
+<link title="RoundState" rel="Chapter" href="RoundState.html">
+<link title="GameState" rel="Chapter" href="GameState.html">
+<link title="Main" rel="Chapter" href="Main.html">
+<link title="Players" rel="Chapter" href="Players.html">
+<link title="Tiles" rel="Chapter" href="Tiles.html">
+<link title="Tutorial" rel="Chapter" href="Tutorial.html"><title>Command</title>
+</head>
+<body>
+<div class="navbar">&nbsp;<a class="up" href="index.html" title="Index">Up</a>
+&nbsp;<a class="post" href="RoundState.html" title="RoundState">Next</a>
+</div>
+<h1>Module <a href="type_Command.html">Command</a></h1>
+
+<pre><span id="MODULECommand"><span class="keyword">module</span> Command</span>: <code class="code">sig</code> <a href="Command.html">..</a> <code class="code">end</code></pre><div class="info module top">
+<div class="info-desc">
+<p>The type <code class="code">player_command</code> is a player command phrase where each
+    element is word within the phrase. A word is defined to be a
+    sequence of non-space characters Do not expose to outside, mli.</p>
+
+<p>Representation of a parser of string from the command line.</p>
+</div>
+</div>
+<hr width="100%">
+
+<pre><span id="TYPEplayer_command"><span class="keyword">type</span> <code class="type"></code>player_command</span> = <code class="type">string list</code> </pre>
+
+
+<pre><code><span id="TYPEcommand"><span class="keyword">type</span> <code class="type"></code>command</span> = </code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcommand.Quit"><span class="constructor">Quit</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcommand.Restart"><span class="constructor">Restart</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcommand.Played"><span class="constructor">Played</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcommand.Help"><span class="constructor">Help</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcommand.Next"><span class="constructor">Next</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcommand.Kong"><span class="constructor">Kong</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcommand.Mahjong"><span class="constructor">Mahjong</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcommand.Discard"><span class="constructor">Discard</span></span> <span class="keyword">of</span> <code class="type">int</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcommand.Continue"><span class="constructor">Continue</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcommand.Pung"><span class="constructor">Pung</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcommand.Chow"><span class="constructor">Chow</span></span> <span class="keyword">of</span> <code class="type">(int * int)</code></code></td>
+
+</tr></table>
+
+<div class="info ">
+<div class="info-desc">
+<p>The type <code class="code">command</code> is a parsed player command that is composed of a
+    verb and, depending on the command, followed by a player command</p>
+</div>
+</div>
+
+
+<pre><span id="EXCEPTIONInvalid"><span class="keyword">exception</span> Invalid</span> <span class="keyword">of</span> <code class="type">string</code></pre>
+<div class="info ">
+<div class="info-desc">
+<p><code class="code">Invalid</code> is an exception that is raised when a command is invalid
+    and can not be parsed</p>
+</div>
+</div>
+
+<pre><span id="VALremove_space"><span class="keyword">val</span> remove_space</span> : <code class="type"><a href="Command.html#TYPEplayer_command">player_command</a> -> <a href="Command.html#TYPEplayer_command">player_command</a></code></pre>
+<pre><span id="VALto_lower"><span class="keyword">val</span> to_lower</span> : <code class="type"><a href="Command.html#TYPEplayer_command">player_command</a> -> <a href="Command.html#TYPEplayer_command">player_command</a></code></pre>
+<pre><span id="VALraise_invalid"><span class="keyword">val</span> raise_invalid</span> : <code class="type">string -> 'a</code></pre>
+<pre><span id="VALparse"><span class="keyword">val</span> parse</span> : <code class="type">string -> <a href="Command.html#TYPEcommand">command</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">parse str</code> translates a player's input command into the
+    corresponding <code class="code">command</code> if valid. If <code class="code">str</code> is empty, then the game
+    will continue without further action. Otherwise, the function will
+    parse the first word as a verb and the rest, if not empty, will be
+    the player_command</p>
+
+<p>Requires: <code class="code">str</code> to be composed of only alphanumeric characters and
+    spaces.</p>
+
+<p>exception: Raises: <code class="code">Invalid</code> when the player's input command is
+    invalid, which corresponds to the following criteria:</p>
+</div>
+</div>
+</body></html>

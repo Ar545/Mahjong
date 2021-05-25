@@ -1,0 +1,285 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Command.html">
+<link rel="next" href="GameState.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Command" rel="Chapter" href="Command.html">
+<link title="RoundState" rel="Chapter" href="RoundState.html">
+<link title="GameState" rel="Chapter" href="GameState.html">
+<link title="Main" rel="Chapter" href="Main.html">
+<link title="Players" rel="Chapter" href="Players.html">
+<link title="Tiles" rel="Chapter" href="Tiles.html">
+<link title="Tutorial" rel="Chapter" href="Tutorial.html"><title>RoundState</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="Command.html" title="Command">Previous</a>
+&nbsp;<a class="up" href="index.html" title="Index">Up</a>
+&nbsp;<a class="post" href="GameState.html" title="GameState">Next</a>
+</div>
+<h1>Module <a href="type_RoundState.html">RoundState</a></h1>
+
+<pre><span id="MODULERoundState"><span class="keyword">module</span> RoundState</span>: <code class="code">sig</code> <a href="RoundState.html">..</a> <code class="code">end</code></pre><div class="info module top">
+<div class="info-desc">
+<p>Representation of a dynamic round within the game at a particular
+    instance.</p>
+
+<p>This module is the state of a round within the game. It keeps track
+    of the number and identity of tiles left, the tile hand for each
+    player that is hidden from other players, the tile hands that are
+    shown, and the player of the current turn</p>
+</div>
+</div>
+<hr width="100%">
+
+<pre><code><span id="TYPEt"><span class="keyword">type</span> <code class="type"></code>t</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTt.house">house</span>&nbsp;: <code class="type"><a href="Players.html#TYPEplayer">Players.player</a></code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTt.house_seat">house_seat</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTt.players">players</span>&nbsp;: <code class="type"><a href="Players.html#TYPEt">Players.t</a></code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span><span id="TYPEELTt.current_drawer">current_drawer</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span><span id="TYPEELTt.tiles_count_left">tiles_count_left</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTt.hands">hands</span>&nbsp;: <code class="type"><a href="Tiles.html#TYPEt">Tiles.t</a> array</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTt.hands_open">hands_open</span>&nbsp;: <code class="type"><a href="Tiles.html#TYPEt">Tiles.t</a> array</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span><span id="TYPEELTt.tiles_left">tiles_left</span>&nbsp;: <code class="type"><a href="Tiles.html#TYPEt">Tiles.t</a></code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span><span id="TYPEELTt.tiles_played">tiles_played</span>&nbsp;: <code class="type"><a href="Tiles.html#TYPEt">Tiles.t</a></code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span><span id="TYPEELTt.current_discard">current_discard</span>&nbsp;: <code class="type"><a href="Tiles.html#TYPEtile">Tiles.tile</a></code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTt.kong_records">kong_records</span>&nbsp;: <code class="type">int array</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span><span id="TYPEELTt.turn">turn</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr></table>
+<code>}</code>
+
+<div class="info ">
+<div class="info-desc">
+<p><code class="code">t</code> is the state of a round within the games</p>
+</div>
+</div>
+
+
+<pre><code><span id="TYPEround_end_message"><span class="keyword">type</span> <code class="type"></code>round_end_message</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTround_end_message.winner">winner</span>&nbsp;: <code class="type"><a href="Players.html#TYPEplayer">Players.player</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTround_end_message.losers">losers</span>&nbsp;: <code class="type"><a href="Players.html#TYPEplayer">Players.player</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTround_end_message.score">score</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr></table>
+<code>}</code>
+
+<div class="info ">
+<div class="info-desc">
+<p><code class="code">round_end_message</code> is a message that is generated when a round
+    terminates</p>
+</div>
+</div>
+
+
+<pre><span id="VALend_with_draw"><span class="keyword">val</span> end_with_draw</span> : <code class="type"><a href="RoundState.html#TYPEround_end_message">round_end_message</a></code></pre>
+<pre><span id="EXCEPTIONEnd_of_tiles"><span class="keyword">exception</span> End_of_tiles</span></pre>
+
+<pre><span id="EXCEPTIONQuit_game"><span class="keyword">exception</span> Quit_game</span></pre>
+
+<pre><span id="EXCEPTIONRestart_round"><span class="keyword">exception</span> Restart_round</span></pre>
+
+<pre><span id="EXCEPTIONHelp_needed"><span class="keyword">exception</span> Help_needed</span> <span class="keyword">of</span> <code class="type"><a href="RoundState.html#TYPEt">t</a></code></pre>
+
+<pre><span id="EXCEPTIONInvalid"><span class="keyword">exception</span> Invalid</span> <span class="keyword">of</span> <code class="type">string</code></pre>
+
+<pre><span id="EXCEPTIONWinning"><span class="keyword">exception</span> Winning</span> <span class="keyword">of</span> <code class="type"><a href="RoundState.html#TYPEround_end_message">round_end_message</a></code></pre>
+
+<pre><code><span id="TYPEresult"><span class="keyword">type</span> <code class="type"></code>result</span> = </code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTresult.Quit_game"><span class="constructor">Quit_game</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTresult.Unknown_exception"><span class="constructor">Unknown_exception</span></span> <span class="keyword">of</span> <code class="type">string</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTresult.Round_end"><span class="constructor">Round_end</span></span> <span class="keyword">of</span> <code class="type"><a href="RoundState.html#TYPEround_end_message">round_end_message</a></code></code></td>
+
+</tr></table>
+
+<div class="info ">
+<div class="info-desc">
+<p><code class="code">result</code> is the result of a round after termination</p>
+</div>
+</div>
+
+
+<pre><span id="VALis_draw"><span class="keyword">val</span> is_draw</span> : <code class="type"><a href="RoundState.html#TYPEresult">result</a> -> bool</code></pre><div class="info ">
+<div class="info-desc">
+<p>return true is the result means that the game is draw</p>
+</div>
+</div>
+
+<pre><span id="VALlocate_player"><span class="keyword">val</span> locate_player</span> : <code class="type">'a list -> int -> 'a</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">locate_player players index</code> is the player at the <code class="code">index</code> in a list
+    of four players <code class="code">players</code></p>
+</div>
+</div>
+
+<pre><span id="VALplayer_int"><span class="keyword">val</span> player_int</span> : <code class="type"><a href="RoundState.html#TYPEt">t</a> -> int -> string</code></pre>
+<pre><span id="VALkong_draw_one"><span class="keyword">val</span> kong_draw_one</span> : <code class="type"><a href="RoundState.html#TYPEt">t</a> -> int -> unit</code></pre>
+<pre><span id="VALdraw_one"><span class="keyword">val</span> draw_one</span> : <code class="type"><a href="RoundState.html#TYPEt">t</a> -> unit</code></pre>
+<pre><span id="VALskip_to_after"><span class="keyword">val</span> skip_to_after</span> : <code class="type"><a href="RoundState.html#TYPEt">t</a> -> <a href="Players.html#TYPEplayer">Players.player</a> -> unit</code></pre>
+<pre><span id="VALview_played"><span class="keyword">val</span> view_played</span> : <code class="type"><a href="RoundState.html#TYPEt">t</a> -> unit</code></pre>
+<pre><span id="VALprint_player_hand"><span class="keyword">val</span> print_player_hand</span> : <code class="type"><a href="RoundState.html#TYPEt">t</a> -> unit</code></pre>
+<pre><span id="VALscan"><span class="keyword">val</span> scan</span> : <code class="type">unit -> <a href="Command.html#TYPEcommand">Command.command</a></code></pre><div class="info ">
+<div class="info-desc">
+<p>scan input line. de - exception and parse into command</p>
+</div>
+</div>
+
+<pre><span id="VALuser_discard"><span class="keyword">val</span> user_discard</span> : <code class="type"><a href="RoundState.html#TYPEt">t</a> -> int -> unit</code></pre>
+<pre><span id="VALwin_round"><span class="keyword">val</span> win_round</span> : <code class="type"><a href="RoundState.html#TYPEt">t</a> -> <a href="Players.html#TYPEplayer">Players.player</a> -> <a href="Players.html#TYPEplayer">Players.player</a> -> int -> unit</code></pre>
+<pre><span id="VALdiscard_hint"><span class="keyword">val</span> discard_hint</span> : <code class="type"><a href="RoundState.html#TYPEt">t</a> -> unit</code></pre>
+<pre><span id="VALcontinue_hint"><span class="keyword">val</span> continue_hint</span> : <code class="type"><a href="RoundState.html#TYPEt">t</a> -> unit</code></pre>
+<pre><span id="VALresolve_help"><span class="keyword">val</span> resolve_help</span> : <code class="type"><a href="RoundState.html#TYPEt">t</a> -> unit</code></pre>
+<pre><span id="VALplayer_discard"><span class="keyword">val</span> player_discard</span> : <code class="type"><a href="RoundState.html#TYPEt">t</a> -> unit</code></pre>
+<pre><span id="VALtake_command"><span class="keyword">val</span> take_command</span> : <code class="type"><a href="RoundState.html#TYPEt">t</a> -> <a href="Command.html#TYPEcommand">Command.command</a> -> unit</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">take_command t command</code> takes in user input and repond accordingly
+    in a round <code class="code">t</code></p>
+</div>
+</div>
+
+<pre><span id="VALinit_round"><span class="keyword">val</span> init_round</span> : <code class="type"><a href="Players.html#TYPEplayer">Players.player</a> -> <a href="Players.html#TYPEt">Players.t</a> -> <a href="RoundState.html#TYPEt">t</a></code></pre><div class="info ">
+<div class="info-desc">
+<p>initialize a state of t list of players while t is the house player.
+    return state</p>
+</div>
+</div>
+
+<pre><span id="VALhand"><span class="keyword">val</span> hand</span> : <code class="type">int -> <a href="RoundState.html#TYPEt">t</a> -> string list</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">hand i t</code> is the player's hand at index <code class="code">i</code> in the round <code class="code">t</code></p>
+</div>
+</div>
+
+<pre><span id="VALtiles_left"><span class="keyword">val</span> tiles_left</span> : <code class="type"><a href="RoundState.html#TYPEt">t</a> -> string list</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">tiles_left t</code> is the string representation of tiles that are left
+    in a given instance during a round</p>
+</div>
+</div>
+
+<pre><span id="VALnpc_response"><span class="keyword">val</span> npc_response</span> : <code class="type">'a -> unit</code></pre>
+<pre><span id="VALnpc_discard"><span class="keyword">val</span> npc_discard</span> : <code class="type"><a href="RoundState.html#TYPEt">t</a> -> int -> unit</code></pre>
+<pre><span id="VALplayer_response"><span class="keyword">val</span> player_response</span> : <code class="type"><a href="RoundState.html#TYPEt">t</a> -> int -> unit</code></pre>
+<pre><span id="VALuser_round"><span class="keyword">val</span> user_round</span> : <code class="type"><a href="RoundState.html#TYPEt">t</a> -> unit</code></pre>
+<pre><span id="VALnpc_int_round"><span class="keyword">val</span> npc_int_round</span> : <code class="type"><a href="RoundState.html#TYPEt">t</a> -> int -> unit</code></pre>
+<pre><span id="VALfind_round"><span class="keyword">val</span> find_round</span> : <code class="type"><a href="RoundState.html#TYPEt">t</a> -> unit</code></pre>
+<pre><span id="VALround_end_message"><span class="keyword">val</span> round_end_message</span> : <code class="type"><a href="RoundState.html#TYPEround_end_message">round_end_message</a> -> unit</code></pre>
+<pre><span id="VALstart_rounds"><span class="keyword">val</span> start_rounds</span> : <code class="type"><a href="Players.html#TYPEplayer">Players.player</a> -> <a href="Players.html#TYPEt">Players.t</a> -> <a href="RoundState.html#TYPEresult">result</a></code></pre><div class="info ">
+<div class="info-desc">
+<p>start a round of t list of players while t is the house player.
+    return result Quit_game when asked to quit game. return result
+    Winning of player and score when someone win the round. return
+    result end_of_tiles when the round draws. return when the game ends.</p>
+</div>
+</div>
+</body></html>

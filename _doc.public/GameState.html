@@ -1,0 +1,154 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="Start" href="index.html">
+<link rel="previous" href="RoundState.html">
+<link rel="next" href="Main.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Command" rel="Chapter" href="Command.html">
+<link title="RoundState" rel="Chapter" href="RoundState.html">
+<link title="GameState" rel="Chapter" href="GameState.html">
+<link title="Main" rel="Chapter" href="Main.html">
+<link title="Players" rel="Chapter" href="Players.html">
+<link title="Tiles" rel="Chapter" href="Tiles.html">
+<link title="Tutorial" rel="Chapter" href="Tutorial.html"><title>GameState</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="RoundState.html" title="RoundState">Previous</a>
+&nbsp;<a class="up" href="index.html" title="Index">Up</a>
+&nbsp;<a class="post" href="Main.html" title="Main">Next</a>
+</div>
+<h1>Module <a href="type_GameState.html">GameState</a></h1>
+
+<pre><span id="MODULEGameState"><span class="keyword">module</span> GameState</span>: <code class="code">sig</code> <a href="GameState.html">..</a> <code class="code">end</code></pre><div class="info module top">
+<div class="info-desc">
+<p>Representation of the dynamic game at a particular instance</p>
+
+<p>This module is the state of the game. It keeps track of the current
+    house out of the four players, the points for each player, distance
+    from termination, and the number of rounds that has elapsed.</p>
+</div>
+</div>
+<hr width="100%">
+
+<pre><code><span id="TYPEt"><span class="keyword">type</span> <code class="type"></code>t</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTt.round_num">round_num</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTt.termination_distance">termination_distance</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTt.scores">scores</span>&nbsp;: <code class="type">int array</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTt.players">players</span>&nbsp;: <code class="type"><a href="Players.html#TYPEplayer">Players.player</a> list</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTt.house">house</span>&nbsp;: <code class="type"><a href="Players.html#TYPEplayer">Players.player</a></code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTt.house_streak">house_streak</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTt.house_index">house_index</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr></table>
+<code>}</code>
+
+<div class="info ">
+<div class="info-desc">
+<p><code class="code">t</code> is the state of the entire games</p>
+</div>
+</div>
+
+
+<pre><code><span id="TYPEgame_progress"><span class="keyword">type</span> <code class="type"></code>game_progress</span> = </code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTgame_progress.Quit"><span class="constructor">Quit</span></span> <span class="keyword">of</span> <code class="type"><a href="GameState.html#TYPEt">t</a></code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTgame_progress.Continue"><span class="constructor">Continue</span></span> <span class="keyword">of</span> <code class="type"><a href="GameState.html#TYPEt">t</a></code></code></td>
+
+</tr></table>
+
+<div class="info ">
+<div class="info-desc">
+<p><code class="code">game_progress</code> is a wrapper of the game states that indicates
+    whether the game should continue or quit</p>
+</div>
+</div>
+
+
+<pre><span id="VALinit_game"><span class="keyword">val</span> init_game</span> : <code class="type">int -> bool -> <a href="GameState.html#TYPEt">t</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">init_game distance is_advanced</code> starts a new game state that
+    represent the entirety of the mahjong game. <code class="code">distance</code> is the amount
+    of rounds that will be passed before the game terminates.
+    <code class="code">is_advanced</code> decides whether the user will play with three advanced
+    level npc or three basic level npc</p>
+</div>
+</div>
+
+<pre><span id="VALget_round"><span class="keyword">val</span> get_round</span> : <code class="type"><a href="GameState.html#TYPEt">t</a> -> int</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">get_round t</code> is current round number of the current game state <code class="code">t</code></p>
+</div>
+</div>
+
+<pre><span id="VALstring_of_scores"><span class="keyword">val</span> string_of_scores</span> : <code class="type"><a href="GameState.html#TYPEt">t</a> -> string</code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">get_score t</code> is the pretty formatted string of scores of the four
+    player in the current game state <code class="code">t</code></p>
+</div>
+</div>
+
+<pre><span id="VALupdate"><span class="keyword">val</span> update</span> : <code class="type"><a href="GameState.html#TYPEt">t</a> -> <a href="GameState.html#TYPEgame_progress">game_progress</a></code></pre><div class="info ">
+<div class="info-desc">
+<p><code class="code">update_round_results t results</code> takes in the current game state <code class="code">t</code>
+    and the results of the last round <code class="code">results</code> and return whether the
+    game will continue and initializa a new round or end the game</p>
+</div>
+</div>
+</body></html>
