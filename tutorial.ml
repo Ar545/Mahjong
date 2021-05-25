@@ -251,7 +251,10 @@ and chapter_3 () =
   Unix.sleep 1;
   ANSITerminal.print_string [ ANSITerminal.Bold ]
     "For example, this following hand:";
+  chapter_3_contd ()
 
+(** [chapter_3_contd ()] will continue display chapter 3 *)
+and chapter_3_contd () =
   (* [random_list] generate a random hand to display *)
   let random_list = initial_int_list () in
   match random_list with

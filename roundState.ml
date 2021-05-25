@@ -68,6 +68,13 @@ let locate_player players index = List.nth players index
 let player_int state (index : int) =
   player_to_string (locate_player state.players index)
 
+(** [kong_draw_one RoundState.t int] representing in the game where a
+    player kong anyone's tile, they need to draw one tile form the wall.
+    Requires: the state to be a valid state, and int to be a valid
+    representation of a player. Mutation: draw one tile for the player
+    who kongs. The state is mutated to be an valid state.
+
+    @return [unit] *)
 let rec kong_draw_one state (konger_index : int) : unit =
   match state.tiles_left with
   | [] -> raise End_of_tiles
@@ -85,6 +92,12 @@ let rec kong_draw_one state (konger_index : int) : unit =
           add_tile_to_hand h state.hands.(konger_index);
       ()
 
+(** [draw_one RoundState.t] representing in the game where a player is
+    in turn to draw, they need to draw one tile form the wall. Requires:
+    the state to be a valid state. Mutation: draw one tile for the
+    player who comes next. The state is mutated to be an valid state.
+
+    @return [unit] *)
 let rec draw_one state =
   match state.tiles_left with
   | [] -> raise End_of_tiles
@@ -104,6 +117,13 @@ let rec draw_one state =
         state.turn <- state.turn + 1;
         ())
 
+(** [skip_to_after RoundState.t Players.t] representing in the game
+    where the turn of the game need to be change, which is usually after
+    anykong chow, kong, or punged. Who draw next wil be set accordingly.
+    Requires: the state to be a valid state. Mutation: change the
+    current drawer. The state is mutated to be an valid state.
+
+    @return [unit] *)
 let skip_to_after state player =
   let rec pos player acc = function
     | h :: t -> if h = player then acc else pos player (acc + 1) t
@@ -111,6 +131,12 @@ let skip_to_after state player =
   in
   state.current_drawer <- pos player 0 state.players + 1
 
+(** [view_played RoundState.t] representing in the game where the player
+    request to see all the tiles played. No change can be made to the
+    state representation. Requires: the state to be a valid
+    representation of game.
+
+    @return [unit] *)
 let view_played (state : t) : unit =
   Unix.sleep 1;
   print_endline "Here is the current discard:";
@@ -127,13 +153,22 @@ let view_played (state : t) : unit =
   print_string " ].";
   ()
 
+(** [print_player_hand RoundState.t] representing in the game where we
+    show the player what is their current hand. No change can be made to
+    the state representation. Note that this is for printing of the
+    [user]'s hand, not the [npc]'s hands. Requires: the state to be a
+    valid representation of game.
+
+    @return [unit] *)
 let print_player_hand state : unit =
   print_str_list (tiles_to_str state.hands.(0));
   print_string " }:  { ";
   print_str_list (tiles_to_str state.hands_open.(0));
   ()
 
-(** scan input line. de - exception and parse into command *)
+(** [scan ()] scan the input line, and then parse that string into a
+    command representation. the return type should not contain any
+    exceptions and should be in the form of @return [Command.command] *)
 let rec scan () =
   print_string "> ";
   match parse (read_line ()) with
@@ -145,6 +180,14 @@ let rec scan () =
       scan ()
   | t -> t
 
+(** [user_discard RoundState.t] representing in the game where the user
+    needs to discard one of the tiles that they currently holds. One
+    change must be made to the state representation where the user's
+    hand is get rid of one of the tile to discard. Note that this is for
+    discard of the [user]'s hand, not the [npc]'s hands. Requires: the
+    state to be a valid representation of game.
+
+    @return [unit] *)
 let user_discard state (index : int) =
   let user_index = 0 in
   let discard_option =
@@ -164,6 +207,15 @@ let user_discard state (index : int) =
   state.current_discard <- discard;
   ()
 
+(** [user_discard RoundState.t] representing in the game where the user
+    or the npc is winning the round. The game will ends and return a
+    message carring who wins the game and the score the they wins. Note
+    that this is for winning of a round, not draw of a round. The round
+    is break by raising an [exception] This exception will then be
+    handled to provide a valid round_end message. Requires: the state to
+    be a valid representation of game.
+
+    @return [unit] and [exception] *)
 let win_round
     (state : t)
     (player : Players.player)
@@ -256,100 +308,12 @@ and take_command state command =
       raise (Invalid "\n====================")
   | Next -> raise End_of_tiles
   (* anytime, check *)
-  | Mahjong ->
-      let user = List.hd state.players in
-      if is_users_turn then
-        if winning_valid state.hands.(0) state.hands_open.(0) None then
-          win_round state user
-            (List.nth state.players 0)
-            (scoring state.hands.(0) state.hands_open.(0) None)
-        else
-          raise (Invalid "your hand does not meet mahjong requirement")
-      else if
-        winning_valid state.hands.(0) state.hands_open.(0)
-          (Some state.current_discard)
-      then
-        win_round state user
-          (List.nth state.players (state.current_drawer - 1))
-          (scoring state.hands.(0) state.hands_open.(0)
-             (Some state.current_discard))
-      else raise (Invalid "this discard is not valid to hu")
-  | Kong ->
-      if is_users_turn then
-        if selfkong_valid state.hands_open.(0) state.hands.(0) then
-          let user_selfkong state =
-            let user_index = 0 in
-            let self_kong =
-              selfkong_tile
-                state.hands_open.(user_index)
-                state.hands.(user_index)
-            in
-            state.hands_open.(user_index) <-
-              add_tile_to_hand self_kong state.hands_open.(user_index);
-            state.hands.(user_index) <-
-              remove state.hands.(user_index) self_kong 1;
-            state.kong_records.(user_index) <-
-              state.kong_records.(user_index) + 1;
-            kong_draw_one state 0;
-            player_discard state;
-            ()
-          in
-
-          user_selfkong state
-        else if ankong_valid_new state.hands.(0) then
-          let user_ankong state =
-            let ankong =
-              match ankong_tile_opt state.hands.(0) with
-              | None ->
-                  failwith
-                    "precondition violation at user ankong at \
-                     roundstate"
-              | Some t -> t
-            in
-            let user_index = 0 in
-            state.hands.(user_index) <-
-              remove state.hands.(user_index) ankong 4;
-            state.hands_open.(user_index) <-
-              ankong :: ankong :: ankong :: ankong
-              :: state.hands_open.(user_index);
-            state.kong_records.(user_index) <-
-              state.kong_records.(user_index) + 2;
-            kong_draw_one state 0;
-            player_discard state;
-            ()
-          in
-
-          user_ankong state
-        else raise (Invalid "this discard is not valid to kong")
-      else if kong_valid state.hands.(0) state.current_discard then
-        (* make the following mutation to round state: move discard to
-           user's open hand. move three discard - same card to open
-           hand. set current discard to blank *)
-        let user_kong state =
-          let kong = state.current_discard in
-          let user_index = 0 in
-          state.hands_open.(user_index) <-
-            kong :: kong :: kong :: kong
-            :: state.hands_open.(user_index);
-          state.hands.(user_index) <-
-            remove state.hands.(user_index) kong 3;
-          state.current_discard <- Blank;
-          state.kong_records.(user_index) <-
-            state.kong_records.(user_index) + 1;
-          kong_draw_one state 0;
-
-          skip_to_after state (List.hd state.players);
-          player_discard state;
-          ()
-        in
-
-        user_kong state
-      else raise (Invalid "this discard is not valid to kong")
+  | Mahjong -> user_mahjong state is_users_turn
+  | Kong -> initialize_kong state is_users_turn
   (* player only, check *)
   | Discard int ->
       if is_users_turn then user_discard state int
       else raise (Invalid "It is not your turn to discard")
-  (* user_discard state int; skip_to_after state (List.hd state.players) *)
   (* npc only, check *)
   | Continue ->
       if not is_users_turn then ()
@@ -358,63 +322,134 @@ and take_command state command =
       if is_users_turn then
         raise (Invalid "you can only pung other's tiles")
       else if pung_valid state.hands.(0) state.current_discard then
-        (* make the following mutation to round state: move discard to
-           user's open hand. move two discard - same card to open hand.
-           set current discard to blank *)
-        let user_pung state =
-          let pung = state.current_discard in
-          let user_index = 0 in
-          state.hands_open.(user_index) <-
-            pung :: pung :: pung :: state.hands_open.(user_index);
-          state.hands.(user_index) <-
-            remove state.hands.(user_index) pung 2;
-          state.current_discard <- Blank;
-
-          skip_to_after state (List.hd state.players);
-          player_discard state;
-          ()
-        in
-
         user_pung state
       else raise (Invalid "this discard is not valid to pung")
-  | Chow (index_1, index_2) ->
-      let is_upper_turn = state.current_drawer = 0 in
-      if not is_upper_turn then
-        raise (Invalid "you can only chow your upper hand's tiles")
-      else if
-        match
-          chow_index_valid state.hands.(0) index_1 index_2
-            state.current_discard
-        with
-        | exception Tiles.Invalid_index ->
-            raise
-              (Invalid
-                 "index must be positive and bounded by hand length")
-        | t -> t
-      then
-        let user_chow state index_1 index_2 =
-          let chow = state.current_discard in
-          let user_index = 0 in
-          let first_tile =
-            List.nth state.hands.(user_index) (index_1 - 1)
-          in
-          let second_tile =
-            List.nth state.hands.(user_index) (index_2 - 1)
-          in
-          state.hands_open.(user_index) <-
-            first_tile :: second_tile :: chow
-            :: state.hands_open.(user_index);
-          state.hands.(user_index) <-
-            chow_remove state.hands.(user_index) index_1 index_2;
-          state.current_discard <- Blank;
+  | Chow (index_1, index_2) -> initialize_chow state index_1 index_2
 
-          skip_to_after state (List.hd state.players);
-          player_discard state;
-          ()
-        in
+and user_selfkong state =
+  let user_index = 0 in
+  let self_kong =
+    selfkong_tile state.hands_open.(user_index) state.hands.(user_index)
+  in
+  state.hands_open.(user_index) <-
+    add_tile_to_hand self_kong state.hands_open.(user_index);
+  state.hands.(user_index) <-
+    remove state.hands.(user_index) self_kong 1;
+  state.kong_records.(user_index) <- state.kong_records.(user_index) + 1;
+  kong_draw_one state 0;
+  player_discard state;
+  ()
 
-        user_chow state index_1 index_2
-      else raise (Invalid "this discard is not valid to chow")
+and user_ankong state =
+  let ankong =
+    match ankong_tile_opt state.hands.(0) with
+    | None ->
+        failwith "precondition violation at user ankong at roundstate"
+    | Some t -> t
+  in
+  let user_index = 0 in
+  state.hands.(user_index) <- remove state.hands.(user_index) ankong 4;
+  state.hands_open.(user_index) <-
+    ankong :: ankong :: ankong :: ankong
+    :: state.hands_open.(user_index);
+  state.kong_records.(user_index) <- state.kong_records.(user_index) + 2;
+  kong_draw_one state 0;
+  player_discard state;
+  ()
+
+(** [user_kong state] make the following mutation to round state: move
+    discard to user's open hand. move three discard - same card to open
+    hand. set current discard to blank *)
+and user_kong state =
+  let kong = state.current_discard in
+  let user_index = 0 in
+  state.hands_open.(user_index) <-
+    kong :: kong :: kong :: kong :: state.hands_open.(user_index);
+  state.hands.(user_index) <- remove state.hands.(user_index) kong 3;
+  state.current_discard <- Blank;
+  state.kong_records.(user_index) <- state.kong_records.(user_index) + 1;
+  kong_draw_one state 0;
+  skip_to_after state (List.hd state.players);
+  player_discard state;
+  ()
+
+(* make the following mutation to round state: move discard to user's
+   open hand. move two discard - same card to open hand. set current
+   discard to blank *)
+and user_pung state =
+  let pung = state.current_discard in
+  let user_index = 0 in
+  state.hands_open.(user_index) <-
+    pung :: pung :: pung :: state.hands_open.(user_index);
+  state.hands.(user_index) <- remove state.hands.(user_index) pung 2;
+  state.current_discard <- Blank;
+
+  skip_to_after state (List.hd state.players);
+  player_discard state;
+  ()
+
+and user_chow state index_1 index_2 =
+  let chow = state.current_discard in
+  let user_index = 0 in
+  let first_tile = List.nth state.hands.(user_index) (index_1 - 1) in
+  let second_tile = List.nth state.hands.(user_index) (index_2 - 1) in
+  state.hands_open.(user_index) <-
+    first_tile :: second_tile :: chow :: state.hands_open.(user_index);
+  state.hands.(user_index) <-
+    chow_remove state.hands.(user_index) index_1 index_2;
+  state.current_discard <- Blank;
+
+  skip_to_after state (List.hd state.players);
+  player_discard state;
+  ()
+
+and user_mahjong state is_users_turn =
+  let user = List.hd state.players in
+  if is_users_turn then
+    if winning_valid state.hands.(0) state.hands_open.(0) None then
+      win_round state user
+        (List.nth state.players 0)
+        (scoring state.hands.(0) state.hands_open.(0) None)
+    else raise (Invalid "your hand does not meet mahjong requirement")
+  else if
+    winning_valid state.hands.(0) state.hands_open.(0)
+      (Some state.current_discard)
+  then
+    win_round state user
+      (List.nth state.players (state.current_drawer - 1))
+      (scoring state.hands.(0) state.hands_open.(0)
+         (Some state.current_discard))
+  else raise (Invalid "this discard is not valid to hu")
+
+and initialize_kong state is_users_turn =
+  if is_users_turn then
+    if selfkong_valid state.hands_open.(0) state.hands.(0) then
+      user_selfkong state
+    else if ankong_valid_new state.hands.(0) then user_ankong state
+    else raise (Invalid "this discard is not valid to kong")
+  else if kong_valid state.hands.(0) state.current_discard then
+    user_kong state
+  else raise (Invalid "this discard is not valid to kong")
+
+and initialize_chow state index_1 index_2 =
+  let is_upper_turn = state.current_drawer = 0 in
+  if not is_upper_turn then
+    raise (Invalid "you can only chow your upper hand's tiles")
+  else if
+    match
+      chow_index_valid state.hands.(0) index_1 index_2
+        state.current_discard
+    with
+    | exception Tiles.Invalid_index ->
+        raise
+          (Invalid "index must be positive and bounded by hand length")
+    | t -> t
+  then user_chow state index_1 index_2
+  else raise (Invalid "this discard is not valid to chow")
+
+(***********************************************
+  *****************************************
+  ******************************************)
 
 let init_round input_house input_players : t =
   let rec house_pos acc = function
