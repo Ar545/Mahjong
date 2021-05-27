@@ -126,11 +126,16 @@ let rec draw_one state =
 
     @return [unit] *)
 let skip_to_after state player =
+  state.current_drawer <- (1 + find_player player state.players) mod 4
+
+(** @deprecated old [skip_to_after state player] function *)
+let skip_to_after state player =
   let rec pos player acc = function
     | h :: t -> if h = player then acc else pos player (acc + 1) t
     | [] -> failwith "precondition violation"
   in
-  state.current_drawer <- pos player 0 state.players + 1
+  state.current_drawer <- (1 + pos player 0 state.players) mod 4;
+  ()
 
 (** [view_played RoundState.t] representing in the game where the player
     request to see all the tiles played. No change can be made to the
@@ -334,11 +339,13 @@ let rec player_discard state : unit =
     player when the scanner has provide a player's command. Apply
     pattern match to the command and deal with most of the commands in
     helper functions. When a game need to be ended, a exception is raise
-    and then return to main menu. If the round need to be ended, an
-    exception is raised and the end_round messsage is provided. If help
-    or played is needed, exception is raised to handle the player
-    request. Requires: the state to be a valid representation of game,
-    and the command to be a valid command.
+    and then return to main menu.
+
+    If the round need to be ended, an exception is raised and the
+    end_round messsage is provided. If help or played is needed,
+    exception is raised to handle the player request. Requires: the
+    state to be a valid representation of game, and the command to be a
+    valid command.
 
     @return [unit] *)
 and take_command state command =
@@ -416,8 +423,8 @@ and user_ankong state =
   let user_index = 0 in
   state.hands.(user_index) <- remove state.hands.(user_index) ankong 4;
   state.hands_open.(user_index) <-
-    ankong
-    :: ankong :: ankong :: ankong :: state.hands_open.(user_index);
+    ankong :: ankong :: ankong :: ankong
+    :: state.hands_open.(user_index);
   state.kong_records.(user_index) <- state.kong_records.(user_index) + 2;
   kong_draw_one state 0;
   player_discard state;
@@ -466,6 +473,11 @@ and anyone_pung_current_discard (punger_index : int) state =
     player_discard state;
     ())
   else (
+    print_endline
+      ("Mr. "
+      ^ string_of_int punger_index
+      ^ player_to_string (List.nth state.players punger_index)
+      ^ " liked your discard!");
     npc_discard state punger_index;
     ())
 
@@ -558,20 +570,20 @@ and initialize_chow state index_1 index_2 =
   else raise (Invalid "this discard is not valid to chow")
 
 (** [npc_discard state] representating the basic npc respoding to the
-    player's discard. In the easy mode, npc will discard randomly.
-    requires: the state to be a valid representation of game.
+    player's discard. requires: the state to be a valid representation
+    of game.
 
+    @param In the easy mode, npc will discard randomly.
     @return [unit] *)
 and npc_discard state index : unit =
-  let assoc =
-    if index = 2 then separate_last_tile state.hands.(index)
+  let discarded_hand, discard =
+    if state.advanced then separate_best_tile state.hands.(index)
+    else if index = 2 then separate_last_tile state.hands.(index)
     else separate_random_tile state.hands.(index)
   in
-  let discard = snd assoc in
-  state.hands.(index) <- fst assoc;
+  state.hands.(index) <- discarded_hand;
   state.current_discard <- discard;
   state.tiles_played <- discard :: state.tiles_played;
-  (* print_string ("Player " ^ string_of_int index ^ " "); *)
   print_string (player_int state index);
   print_string " has discarded: ";
   print_endline (tile_string_converter discard);
@@ -628,7 +640,7 @@ let npc_response state : unit =
 
 (** [adv_npc_int_wins_user (npc_int : int) state : unit] represent the
     state mutation when npc of int wins from the player. raise exception
-    fo the winning message. @requires [Advanced Mode]. @return
+    fo the winning message. @param mode [Advanced Mode]. @return
     [exception] / [unit]*)
 let adv_npc_int_wins_user (npc_int : int) state : unit =
   win_round state
@@ -638,25 +650,43 @@ let adv_npc_int_wins_user (npc_int : int) state : unit =
        state.hands_open.(npc_int)
        (Some state.current_discard))
 
+(** [adv_npc_int1_wins_adv_npc_int2 win_int lose_int state : unit]
+    represent the state mutation when npc of int wins from the npc of
+    lose_int. raise exception fo the winning message. @param mode
+    [Advanced Mode]. @return [exception] / [unit]*)
+let adv_npc_int1_wins_adv_npc_int2 int1_win int2_lose state =
+  win_round state
+    (List.nth state.players int1_win)
+    (List.nth state.players int2_lose)
+    (scoring state.hands.(int1_win)
+       state.hands_open.(int1_win)
+       (Some state.current_discard))
+
 (** [sequence_check_hu] will check if, sequencelt, npc1, 2, 3 can hu
     with this current discard. state should not be mutated.
 
     @return [unit] *)
-let rec sequence_check_hu (i : int) state =
+let rec sequence_check_hu (i : int) state discarder_representation_int =
   if
     add_tile_to_hand state.current_discard state.hands.(i)
     |> hu_possible
-  then adv_npc_int_wins_user i state
+    && not (i = discarder_representation_int)
+  then
+    if discarder_representation_int = 0 then
+      adv_npc_int_wins_user i state
+    else
+      adv_npc_int1_wins_adv_npc_int2 i discarder_representation_int
+        state
   else if i = 3 then ()
-  else sequence_check_hu (i + 1) state
+  else sequence_check_hu (i + 1) state discarder_representation_int
 
 (** [npc_int_pung_curren_discard (npc_int : int) state : unit] represent
     the state mutation when npc of int punged the current discard.
-    @requires [Advanced Mode]. @return [unit]*)
+    @param mode [Advanced Mode]. @return [unit]*)
 let npc_int_pung_current_discard (i : int) state : unit =
   anyone_pung_current_discard i state
 
-(** [sequence_check_hu] will check if, sequencelt, npc1, 2, 3 can pung
+(** [sequence_check_pung] will check if, sequencelt, npc1, 2, 3 can pung
     with this current discard. state should not be mutated.
 
     @return [unit] *)
@@ -669,7 +699,7 @@ let rec sequence_check_pung (i : int) state : bool =
 
 (** [npc_int_chow_curren_discard (npc_int : int) state : unit] represent
     the state mutation when npc of int chowed the current discard.
-    @requires [Advanced Mode]. @return [unit]*)
+    @param mode [Advanced Mode]. @return [unit]*)
 let npc_int_chow_current_discard (i : int) state first_tile second_tile
     : unit =
   let chow = state.current_discard in
@@ -682,15 +712,14 @@ let npc_int_chow_current_discard (i : int) state first_tile second_tile
   npc_discard state i;
   ()
 
-(** [sequence_check_hu] will check if hte chow person can chow this
-    current discard. state should not be mutated.
+(** [check_chow] will check if hte chow person can chow this current
+    discard. state should not be mutated.
 
     @return [unit] *)
-
 let check_chow (chow_person_int : int) state : unit =
   match chow_possible state.hands.(1) state.current_discard with
   | None ->
-      print_endline "No player responded to your discard";
+      print_endline "The smart guys does not responded to your discard";
       ()
   | Some (tile_s1, tile_s2) ->
       npc_int_chow_current_discard 1 state tile_s1 tile_s2;
@@ -704,7 +733,7 @@ let check_chow (chow_person_int : int) state : unit =
 
     @return [unit] *)
 let add_adv_npc_response_to_user state : unit =
-  sequence_check_hu 1 state;
+  sequence_check_hu 1 state 0;
   let punged = sequence_check_pung 1 state in
   if punged then (
     Unix.sleepf 0.5;
@@ -741,8 +770,30 @@ let rec player_response state index : unit =
       Unix.sleepf 0.4;
       ()
 
+(** Costco coupon: FQ40FI1 *)
+let sequence_respond_to_npc_int_discard state npc_int =
+  if
+    add_tile_to_hand state.current_discard state.hands.(0)
+    |> hu_possible
+  then player_response state npc_int
+  else (
+    sequence_check_hu 1 state npc_int;
+    player_response state npc_int)
+
+(** [npc_check_hu] checks if npc_int can just hu with their draw.
+
+    @param mode advanced *)
+let npc_check_hu state npc_int =
+  if hu_possible state.hands.(npc_int) then
+    let winner = List.nth state.players npc_int in
+    win_round state winner winner
+      (scoring state.hands.(npc_int) state.hands_open.(npc_int) None)
+  else ()
+
 (** [user_round state] representating the execution of a use's round.
     Requires: the state to be a valid representation of game.
+
+    ** Notice ** that advanced npc response has been implemented.
 
     @return [unit] *)
 let rec user_round state : unit =
@@ -752,7 +803,9 @@ let rec user_round state : unit =
   print_endline ("\nTurn " ^ turn);
   draw_one state;
   player_discard state;
-  npc_response state;
+
+  if state.advanced then add_adv_npc_response_to_user state
+  else npc_response state;
   find_round state
 
 (** [npc_int_round state npc_int] representating the execution of a
@@ -766,8 +819,11 @@ and npc_int_round state npc_int : unit =
   in
   print_endline ("\nTurn " ^ turn);
   draw_one state;
+  if state.advanced then npc_check_hu state npc_int else ();
   npc_discard state npc_int;
-  player_response state npc_int;
+  if state.advanced then
+    sequence_respond_to_npc_int_discard state npc_int
+  else player_response state npc_int;
   find_round state
 
 (** [find_round state] representating the determination of who is the
@@ -836,11 +892,8 @@ and start_round_helper state =
   | exception End_of_tiles -> end_of_tile ()
   | exception Winning message -> winning message
   | exception Failure mes -> failure mes
-  | exception _ ->
-      Unknown_exception
-        "☣ Unknown Fatal Exception Caught.\n\
-         Please report this exception to the authors. \n\
-         Return to Main Menu."
+  | exception Invalid_argument mes -> failure ("Invalid_argument:" ^ mes)
+  | exception exn -> failure "Error"
   | () ->
       Unknown_exception
         "precondition vilation at start_round of roundstate"
@@ -873,6 +926,7 @@ and winning message =
 (** [failure mes] quits the current round with a failure mes*)
 and failure mes =
   print_endline
-    ("☣ Unknown Fatal Exception Caught: " ^ mes
-   ^ " Please report this exception to the authors. ☣");
+    ("☣ Fatal: '" ^ mes
+   ^ "'. End round with draw. Please report this exception to the \
+      authors. ☣");
   Round_end end_with_draw

@@ -149,6 +149,9 @@ val separate_random_tile : t -> t * tile
 (** [add_tile_to_hand tile hand] is hand with tiles added *)
 val add_tile_to_hand : tile -> t -> t
 
+(** separate a best tile from the list of tiles for adv npc to discard *)
+val separate_best_tile : t -> t * tile
+
 (****************************************************)
 (* help and suggestion *)
 (****************************************************)

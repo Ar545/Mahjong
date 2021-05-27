@@ -622,3 +622,7 @@ let discard_suggestion (hand : t) : tile =
   with
   | h :: t -> h
   | [] -> failwith "precondition violation"
+
+let separate_best_tile (hand : t) : t * tile =
+  let best_tile = discard_suggestion hand in
+  (remove hand best_tile 1, best_tile)
