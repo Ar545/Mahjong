@@ -24,6 +24,9 @@ type tile =
 
 type t = tile list
 
+(** representation may not be changed to other than list *)
+let empty_hand = []
+
 (** [dots_set] is a list set of all dots tiles *)
 let dots_set =
   [

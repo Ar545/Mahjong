@@ -30,6 +30,9 @@ type tile =
     with 144 tiles*)
 type t = tile list
 
+(** representation of the empty hand *)
+val empty_hand : t
+
 (** Initialize with 144 tiles*)
 val all_tiles : t
 

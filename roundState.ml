@@ -28,7 +28,7 @@ type round_end_message = {
 
 (* [end_with_draw] is a round end message with draw conditions *)
 let end_with_draw : round_end_message =
-  { winner = None; losers = None; score = 0; hand = [] }
+  { winner = None; losers = None; score = 0; hand = empty_hand }
 
 (* exception [End_of_tiles] is thrown when there are no more tiles in
    the current round *)
@@ -450,8 +450,8 @@ and user_ankong state =
   let user_index = 0 in
   state.hands.(user_index) <- remove state.hands.(user_index) ankong 4;
   state.hands_open.(user_index) <-
-    ankong :: ankong :: ankong :: ankong
-    :: state.hands_open.(user_index);
+    ankong
+    :: ankong :: ankong :: ankong :: state.hands_open.(user_index);
   state.kong_records.(user_index) <- state.kong_records.(user_index) + 2;
   kong_draw_one state 0;
   player_discard state;
@@ -562,7 +562,7 @@ and user_mahjong state is_users_turn =
       (List.nth state.players (state.current_drawer - 1))
       (scoring state.hands.(0) state.hands_open.(0)
          (Some state.current_discard))
-      ((state.current_discard :: state.hands.(0)) @ state.hands_open.(0))
+      (state.current_discard :: state.hands.(0) @ state.hands_open.(0))
   else raise (Invalid "this discard is not valid to hu")
 
 (** [initialize_kong state is_users_turn] represents when the
@@ -647,20 +647,20 @@ let init_round input_house input_players is_adv : t =
       players = input_players;
       current_drawer = house_seat_int;
       tiles_count_left = tile_length (init_tiles ());
-      hands = [| []; []; []; [] |];
-      hands_open = [| []; []; []; [] |];
+      hands = [| empty_hand; empty_hand; empty_hand; empty_hand |];
+      hands_open = [| empty_hand; empty_hand; empty_hand; empty_hand |];
       tiles_left = init_tiles ();
       tiles_left_count = 144;
-      tiles_played = [];
+      tiles_played = empty_hand;
       current_discard = Blank;
       kong_records = [| 0; 0; 0; 0 |];
       turn = 1;
       advanced = is_adv;
     }
 
-let hand index t = tiles_to_str t.hands.(index)
+let show_hand index t = tiles_to_str t.hands.(index)
 
-let tiles_left t = tiles_to_str t.tiles_left
+let show_tiles_left t = tiles_to_str t.tiles_left
 
 (** [npc_response state] representating the npc respoding to the
     player's discard. In the easy mode, there will be no action. In the
@@ -684,7 +684,7 @@ let adv_npc_int_wins_user (npc_int : int) state : unit =
     (scoring state.hands.(npc_int)
        state.hands_open.(npc_int)
        (Some state.current_discard))
-    ((state.current_discard :: state.hands.(npc_int))
+    (state.current_discard :: state.hands.(npc_int)
     @ state.hands_open.(npc_int))
 
 (** [adv_npc_int1_wins_adv_npc_int2 win_int lose_int state : unit]
@@ -698,7 +698,7 @@ let adv_npc_int1_wins_adv_npc_int2 int1_win int2_lose state =
     (scoring state.hands.(int1_win)
        state.hands_open.(int1_win)
        (Some state.current_discard))
-    ((state.current_discard :: state.hands.(int1_win))
+    (state.current_discard :: state.hands.(int1_win)
     @ state.hands_open.(int1_win))
 
 (** [sequence_check_hu] will check if, sequencelt, npc1, 2, 3 can hu
