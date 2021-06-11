@@ -39,3 +39,8 @@ let basic_players : t = [ User; Basic One; Basic Two; Basic Three ]
 let adv_players : t = [ User; Adv One; Adv Two; Adv Three ]
 
 let execute_round player = ()
+
+let rec find_player player pl : int =
+  match pl with
+  | [] -> 0
+  | h :: t -> if player = h then 0 else 1 + find_player player t

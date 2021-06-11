@@ -13,6 +13,7 @@ type t = {
   house : Players.player;
   house_streak : int;
   house_index : int;
+  is_adv : bool;
 }
 
 (** [game_progress] is a wrapper of the game states that indicates

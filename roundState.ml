@@ -16,6 +16,7 @@ type t = {
   mutable current_discard : Tiles.tile;
   kong_records : int array;
   mutable turn : int;
+  advanced : bool;
 }
 
 type round_end_message = {
@@ -134,11 +135,16 @@ let rec draw_one state print_true =
 
     @return [unit] *)
 let skip_to_after state player =
+  state.current_drawer <- (1 + find_player player state.players) mod 4
+
+(** @deprecated old [skip_to_after state player] function *)
+let skip_to_after state player =
   let rec pos player acc = function
     | h :: t -> if h = player then acc else pos player (acc + 1) t
     | [] -> failwith "precondition violation"
   in
-  state.current_drawer <- pos player 0 state.players + 1
+  state.current_drawer <- (1 + pos player 0 state.players) mod 4;
+  ()
 
 (** [view_played RoundState.t] representing in the game where the player
     request to see all the tiles played. No change can be made to the
@@ -233,18 +239,24 @@ let win_round
     (from_player : Players.player)
     (dekong_score : int) : unit =
   let same_player = player = from_player in
+  let winner_index = find_player player state.players in
   let winning_round_end_message =
     {
       winner = Some player;
       losers = (if same_player then None else Some from_player);
-      score = dekong_score + state.kong_records.(0);
+      score = dekong_score + state.kong_records.(winner_index);
     }
   in
   raise (Winning winning_round_end_message)
 
+(** [discard_hint RoundState.t] represent when the player request to see
+    a hint to discard. The hint is determined based on function
+    implemented in [tiles.ml] No change can be made to the state
+    representation. Requires: the state to be a valid representation of
+    game.
+
+    @return [unit] *)
 let discard_hint state =
-  (* let kong_possible is implemented in tiles.ml *)
-  (* let hu_possible is implemented in tiles.ml *)
   (* check hu *)
   if hu_possible state.hands.(0) then print_endline "you can [hu]!"
   else if (* check kong *)
@@ -256,6 +268,13 @@ let discard_hint state =
     print_string "We suggest you discard: ";
     print_endline (tile_string_converter discard_suggestion_tile)
 
+(** [continue_hint RoundState.t] represent when the player request to
+    see a hint to continue the game. The hint is determined based on
+    function implemented in [tiles.ml] No change can be made to the
+    state representation. Requires: the state to be a valid
+    representation of game.
+
+    @return [unit] *)
 let continue_hint state =
   (* let pung_possible is implemented in tiles.ml *)
   let continue_prompt () =
@@ -271,7 +290,7 @@ let continue_hint state =
     pung_possible state.hands.(0) state.current_discard
   then print_endline "you can [pung]"
   else if state.current_drawer = 0 then (
-    (* chow_possible is implemented in tiles.ml *)
+    (* check chow *)
     match chow_possible state.hands.(0) state.current_discard with
     | None -> continue_prompt ()
     | Some (tile_s1, tile_s2) ->
@@ -280,6 +299,13 @@ let continue_hint state =
         print_endline (tile_string_converter tile_s2))
   else continue_prompt ()
 
+(** [resolve_help RoundState.t] represent when the player request to see
+    help. The help is first seperate into whether the player is about to
+    discard or continue the game, and then redirected to helper
+    functions. No change can be made to the state representation.
+    Requires: the state to be a valid representation of game.
+
+    @return [unit] *)
 let resolve_help state =
   ANSITerminal.print_string [ ANSITerminal.red ]
     "To phrase a command, please begin with Discard, Continue, Chow, \
@@ -290,6 +316,17 @@ let resolve_help state =
   else (* current player is npc *)
     continue_hint state
 
+(**********************************************************************
+  Begin take command function
+  ************************************************************)
+
+(** [player_discard RoundState.t] represent when the player will discard
+    a tile. The help is first seperate into whether the player is
+    request for help. This function also handle for exception of invalid
+    discard index. Then it call for helper function to discard the tile.
+    Requires: the state to be a valid representation of game.
+
+    @return [unit] *)
 let rec player_discard state : unit =
   print_string "{ ";
   print_player_hand state;
@@ -302,11 +339,26 @@ let rec player_discard state : unit =
   | exception Invalid str ->
       print_endline str;
       player_discard state
-  | exception exn -> raise exn
+  | exception exn ->
+      Unix.sleepf 0.1;
+      raise exn
   | () ->
-      Unix.sleepf 0.5;
+      Unix.sleepf 0.2;
       ()
 
+(** [take_command RoundState.t Command.command] represent when the
+    player when the scanner has provide a player's command. Apply
+    pattern match to the command and deal with most of the commands in
+    helper functions. When a game need to be ended, a exception is raise
+    and then return to main menu.
+
+    If the round need to be ended, an exception is raised and the
+    end_round messsage is provided. If help or played is needed,
+    exception is raised to handle the player request. Requires: the
+    state to be a valid representation of game, and the command to be a
+    valid command.
+
+    @return [unit] *)
 and take_command state command =
   let is_users_turn = state.current_drawer = 1 in
   match command with
@@ -329,12 +381,7 @@ and take_command state command =
   | Continue ->
       if not is_users_turn then ()
       else raise (Invalid "must take action")
-  | Pung ->
-      if is_users_turn then
-        raise (Invalid "you can only pung other's tiles")
-      else if pung_valid state.hands.(0) state.current_discard then
-        user_pung state
-      else raise (Invalid "this discard is not valid to pung")
+  | Pung -> initialize_pung state is_users_turn
   | Chow (index_1, index_2) -> initialize_chow state index_1 index_2
 
 and turn_print state no_draw =
@@ -346,6 +393,25 @@ and turn_print state no_draw =
   print_endline ("\nTurn " ^ turn);
   state.turn <- state.turn + 1
 
+(** [initialize_pung state is_users_turn] represents when the
+    [take_command RoundState.t Command.command] met a pung command. It
+    then goes to specific cases according to the situation of the pung.
+    Requires: the state to be a valid representation of game.
+
+    @return [unit] *)
+and initialize_pung state is_users_turn =
+  if is_users_turn then
+    raise (Invalid "you can only pung other's tiles")
+  else if pung_valid state.hands.(0) state.current_discard then
+    anyone_pung_current_discard 0 state
+  else raise (Invalid "this discard is not valid to pung")
+
+(** [user_selfkong state] represents when the
+    [take_command RoundState.t Command.command] met a kong command at
+    self_kong situation. It then edit the state accordingly. Requires:
+    the state to be a valid representation of game.
+
+    @return [unit] *)
 and user_selfkong state =
   turn_print state true;
   let user_index = 0 in
@@ -361,6 +427,13 @@ and user_selfkong state =
   player_discard state;
   ()
 
+(** [user_ankong state] represents when the
+    [take_command RoundState.t Command.command] met a kong command at
+    an_kong situation. It then goes to specific cases according to the
+    situation of the pung. Requires: the state to be a valid
+    representation of game.
+
+    @return [unit] *)
 and user_ankong state =
   turn_print state true;
   let ankong =
@@ -379,9 +452,15 @@ and user_ankong state =
   player_discard state;
   ()
 
-(** [user_kong state] make the following mutation to round state: move
-    discard to user's open hand. move three discard - same card to open
-    hand. set current discard to blank *)
+(** [user_kong state] represents when the
+    [take_command RoundState.t Command.command] met a kong command at
+    user_kong situation. It then goes to specific cases according to the
+    situation of the pung: in the following sequence to round state:
+    move discard to user's open hand. move three discard - same card to
+    open hand. set current discard to blank. Requires: the state to be a
+    valid representation of game.
+
+    @return [unit] *)
 and user_kong state =
   turn_print state true;
   let kong = state.current_discard in
@@ -395,22 +474,49 @@ and user_kong state =
   skip_to_after state (List.hd state.players);
   player_discard state;
   ()
+  (* make the following mutation to round state: move discard to user's
+     open hand. move two discard - same card to open hand. set current
+     discard to blank *)
 
-(* make the following mutation to round state: move discard to user's
-   open hand. move two discard - same card to open hand. set current
-   discard to blank *)
-and user_pung state =
+(** [anyone_pung state] represents when the
+    [take_command RoundState.t Command.command] met a pung command at
+    user_pung situation. It then goes to specific cases according to the
+    situation of the pung: in the following sequence to round state:
+    move discard to user's open hand. move two discard - same card to
+    open hand. set current discard to blank. Requires: the state to be a
+    valid representation of game.
+
+    @return [unit] *)
+and anyone_pung_current_discard (punger_index : int) state =
   turn_print state true;
   let pung = state.current_discard in
-  let user_index = 0 in
-  state.hands_open.(user_index) <-
-    pung :: pung :: pung :: state.hands_open.(user_index);
-  state.hands.(user_index) <- remove state.hands.(user_index) pung 2;
+  state.hands_open.(punger_index) <-
+    pung :: pung :: pung :: state.hands_open.(punger_index);
+  state.hands.(punger_index) <- remove state.hands.(punger_index) pung 2;
   state.current_discard <- Blank;
-  skip_to_after state (List.hd state.players);
-  player_discard state;
-  ()
 
+  skip_to_after state (List.nth state.players punger_index);
+  if punger_index = 0 then (
+    player_discard state;
+    ())
+  else (
+    print_endline
+      ("Mr. "
+      ^ string_of_int punger_index
+      ^ player_to_string (List.nth state.players punger_index)
+      ^ " liked your discard!");
+    npc_discard state punger_index;
+    ())
+
+(** [user_chow state] represents when the
+    [take_command RoundState.t Command.command] met a chow command at
+    user_chow situation. It then goes to specific cases according to the
+    situation of the pung: in the following sequence to round state:
+    move discard to user's open hand. move two discard - same card to
+    open hand. set current discard to blank. Requires: the state to be a
+    valid representation of game.
+
+    @return [unit] *)
 and user_chow state index_1 index_2 =
   turn_print state true;
   let chow = state.current_discard in
@@ -426,6 +532,14 @@ and user_chow state index_1 index_2 =
   player_discard state;
   ()
 
+(** [user_mahjong state] represents when the
+    [take_command RoundState.t Command.command] met a mahjong command at
+    any situation. It determine if the hand is valid to mahjong. If is,
+    then the round will end with an exception of the winning_message.
+    Else, the game continue. Requires: the state to be a valid
+    representation of game.
+
+    @return [unit] *)
 and user_mahjong state is_users_turn =
   let user = List.hd state.players in
   if is_users_turn then
@@ -444,6 +558,12 @@ and user_mahjong state is_users_turn =
          (Some state.current_discard))
   else raise (Invalid "this discard is not valid to hu")
 
+(** [initialize_kong state is_users_turn] represents when the
+    [take_command RoundState.t Command.command] met a kong command. It
+    then goes to specific cases according to the situation of the kong.
+    Requires: the state to be a valid representation of game.
+
+    @return [unit] *)
 and initialize_kong state is_users_turn =
   if is_users_turn then
     if selfkong_valid state.hands_open.(0) state.hands.(0) then
@@ -454,6 +574,12 @@ and initialize_kong state is_users_turn =
     user_kong state
   else raise (Invalid "this discard is not valid to kong")
 
+(** [initialize_chow state is_users_turn] represents when the
+    [take_command RoundState.t Command.command] met a chow command. It
+    then goes to specific cases according to the situation of the chow.
+    Requires: the state to be a valid representation of game.
+
+    @return [unit] *)
 and initialize_chow state index_1 index_2 =
   let is_upper_turn = state.current_drawer = 0 in
   if not is_upper_turn then
@@ -470,11 +596,31 @@ and initialize_chow state index_1 index_2 =
   then user_chow state index_1 index_2
   else raise (Invalid "this discard is not valid to chow")
 
-(***********************************************
-  *****************************************
-  ******************************************)
+(** [npc_discard state] representating the basic npc respoding to the
+    player's discard. requires: the state to be a valid representation
+    of game.
 
-let init_round input_house input_players : t =
+    @param In the easy mode, npc will discard randomly.
+    @return [unit] *)
+and npc_discard state index : unit =
+  let discarded_hand, discard =
+    if state.advanced then separate_best_tile state.hands.(index)
+    else if index = 2 then separate_last_tile state.hands.(index)
+    else separate_random_tile state.hands.(index)
+  in
+  state.hands.(index) <- discarded_hand;
+  state.current_discard <- discard;
+  state.tiles_played <- discard :: state.tiles_played;
+  print_string (player_int state index);
+  print_string " has discarded: ";
+  print_endline (tile_string_converter discard);
+  ()
+
+(**********************************************************************
+  End take command function
+  ************************************************************)
+
+let init_round input_house input_players is_adv : t =
   let rec house_pos acc = function
     | h :: t -> if h = input_house then acc else house_pos (acc + 1) t
     | _ -> failwith "precondition violation"
@@ -502,38 +648,139 @@ let init_round input_house input_players : t =
       current_discard = Blank;
       kong_records = [| 0; 0; 0; 0 |];
       turn = 1;
+      advanced = is_adv;
     }
 
 let hand index t = tiles_to_str t.hands.(index)
 
 let tiles_left t = tiles_to_str t.tiles_left
 
+(** [npc_response state] representating the npc respoding to the
+    player's discard. In the easy mode, there will be no action. In the
+    advanced mode, the npc may chow if valid, and may hu if valid.
+    Requires: the state to be a valid representation of game.
+
+    @return [unit] *)
 let npc_response state : unit =
   print_endline "No player responded to your discard";
   Unix.sleepf 0.5;
   ()
 
-let npc_discard state index : unit =
-  let assoc =
-    if index = 2 then separate_last_tile state.hands.(index)
-    else separate_random_tile state.hands.(index)
-  in
-  let discard = snd assoc in
-  state.hands.(index) <- fst assoc;
-  state.current_discard <- discard;
-  state.tiles_played <- discard :: state.tiles_played;
-  (* print_string ("Player " ^ string_of_int index ^ " "); *)
-  print_string (player_int state index);
-  print_string " has discarded: ";
-  print_endline (tile_string_converter discard);
+(** [adv_npc_int_wins_user (npc_int : int) state : unit] represent the
+    state mutation when npc of int wins from the player. raise exception
+    fo the winning message. @param mode [Advanced Mode]. @return
+    [exception] / [unit]*)
+let adv_npc_int_wins_user (npc_int : int) state : unit =
+  win_round state
+    (List.nth state.players npc_int)
+    (List.hd state.players)
+    (scoring state.hands.(npc_int)
+       state.hands_open.(npc_int)
+       (Some state.current_discard))
+
+(** [adv_npc_int1_wins_adv_npc_int2 win_int lose_int state : unit]
+    represent the state mutation when npc of int wins from the npc of
+    lose_int. raise exception fo the winning message. @param mode
+    [Advanced Mode]. @return [exception] / [unit]*)
+let adv_npc_int1_wins_adv_npc_int2 int1_win int2_lose state =
+  win_round state
+    (List.nth state.players int1_win)
+    (List.nth state.players int2_lose)
+    (scoring state.hands.(int1_win)
+       state.hands_open.(int1_win)
+       (Some state.current_discard))
+
+(** [sequence_check_hu] will check if, sequencelt, npc1, 2, 3 can hu
+    with this current discard. state should not be mutated.
+
+    @return [unit] *)
+let rec sequence_check_hu (i : int) state discarder_representation_int =
+  if
+    add_tile_to_hand state.current_discard state.hands.(i)
+    |> hu_possible
+    && not (i = discarder_representation_int)
+  then
+    if discarder_representation_int = 0 then
+      adv_npc_int_wins_user i state
+    else
+      adv_npc_int1_wins_adv_npc_int2 i discarder_representation_int
+        state
+  else if i = 3 then ()
+  else sequence_check_hu (i + 1) state discarder_representation_int
+
+(** [npc_int_pung_curren_discard (npc_int : int) state : unit] represent
+    the state mutation when npc of int punged the current discard.
+    @param mode [Advanced Mode]. @return [unit]*)
+let npc_int_pung_current_discard (i : int) state : unit =
+  anyone_pung_current_discard i state
+
+(** [sequence_check_pung] will check if, sequencelt, npc1, 2, 3 can pung
+    with this current discard. state should not be mutated.
+
+    @return [unit] *)
+let rec sequence_check_pung (i : int) state : bool =
+  if pung_possible state.hands.(i) state.current_discard then (
+    npc_int_pung_current_discard i state;
+    true)
+  else if i = 3 then false
+  else sequence_check_pung (i + 1) state
+
+(** [npc_int_chow_curren_discard (npc_int : int) state : unit] represent
+    the state mutation when npc of int chowed the current discard.
+    @param mode [Advanced Mode]. @return [unit]*)
+let npc_int_chow_current_discard (i : int) state first_tile second_tile
+    : unit =
+  let chow = state.current_discard in
+  state.hands_open.(i) <-
+    first_tile :: second_tile :: chow :: state.hands_open.(i);
+  state.hands.(i) <- remove state.hands.(i) first_tile 1;
+  state.hands.(i) <- remove state.hands.(i) second_tile 1;
+  state.current_discard <- Blank;
+  skip_to_after state (List.nth state.players i);
+  npc_discard state i;
   ()
 
+(** [check_chow] will check if hte chow person can chow this current
+    discard. state should not be mutated.
+
+    @return [unit] *)
+let check_chow (chow_person_int : int) state : unit =
+  match chow_possible state.hands.(1) state.current_discard with
+  | None ->
+      print_endline "The smart guys does not responded to your discard";
+      ()
+  | Some (tile_s1, tile_s2) ->
+      npc_int_chow_current_discard 1 state tile_s1 tile_s2;
+      ()
+
+(** [add_adv_npc_response_to_user state] representating the advanced npc
+    respoding to the user's discard. In the advanced mode, the npc will
+    first check hu, then check pung, then check chow of discard
+    according to algorithm. Requires: the state to be a valid
+    representation of game.
+
+    @return [unit] *)
+let add_adv_npc_response_to_user state : unit =
+  sequence_check_hu 1 state 0;
+  let punged = sequence_check_pung 1 state in
+  if punged then (
+    Unix.sleepf 0.5;
+    ())
+  else check_chow 1 state;
+  Unix.sleepf 0.5;
+  ()
+
+(** [player_response state npc_player_index] representating the respond
+    to the npc's discard. Take command from scanner and then deal with
+    the command. Requires: the state to be a valid representation of
+    game, and the index to be a valid representation of the player.
+
+    @return [unit] *)
 let rec player_response state index : unit =
   print_string "{ ";
   print_player_hand state;
   print_endline " }";
   print_string "Please respond to ";
-  (* print_string "player "; print_string (string_of_int index); *)
   print_endline (player_int state index);
   match take_command state (scan ()) with
   | exception Tiles.Invalid_index ->
@@ -548,23 +795,64 @@ let rec player_response state index : unit =
       player_response state index
   | exception exn -> raise exn
   | () ->
-      Unix.sleepf 0.5;
+      Unix.sleepf 0.4;
       ()
 
+(** Costco coupon: FQ40FI1 *)
+let sequence_respond_to_npc_int_discard state npc_int =
+  if
+    add_tile_to_hand state.current_discard state.hands.(0)
+    |> hu_possible
+  then player_response state npc_int
+  else (
+    sequence_check_hu 1 state npc_int;
+    player_response state npc_int)
+
+(** [npc_check_hu] checks if npc_int can just hu with their draw.
+
+    @param mode advanced *)
+let npc_check_hu state npc_int =
+  if hu_possible state.hands.(npc_int) then
+    let winner = List.nth state.players npc_int in
+    win_round state winner winner
+      (scoring state.hands.(npc_int) state.hands_open.(npc_int) None)
+  else ()
+
+(** [user_round state] representating the execution of a use's round.
+    Requires: the state to be a valid representation of game.
+
+    ** Notice ** that advanced npc response has been implemented.
+
+    @return [unit] *)
 let rec user_round state : unit =
   turn_print state false;
   draw_one state true;
   player_discard state;
-  npc_response state;
+  if state.advanced then add_adv_npc_response_to_user state
+  else npc_response state;
   find_round state
 
+(** [npc_int_round state npc_int] representating the execution of a
+    use's round. Requires: the state to be a valid representation of
+    game, and the index to be a valid representation of the player.
+
+    @return [unit] *)
 and npc_int_round state npc_int : unit =
   turn_print state false;
   draw_one state true;
+  if state.advanced then npc_check_hu state npc_int else ();
   npc_discard state npc_int;
-  player_response state npc_int;
+  if state.advanced then
+    sequence_respond_to_npc_int_discard state npc_int
+  else player_response state npc_int;
   find_round state
 
+(** [find_round state] representating the determination of who is the
+    house and thus will begin the game. Requires: the state to be a
+    valid representation of game, and the index to be a valid
+    representation of the player.
+
+    @return [unit] *)
 and find_round state : unit =
   if state.current_drawer = 0 then user_round state
   else npc_int_round state state.current_drawer
@@ -589,8 +877,9 @@ let round_end_message message =
            print_endline (player_to_string loser ^ " Loses!\n"));
       Unix.sleep 2
 
-let rec start_rounds input_house input_players =
-  let init_state = init_round input_house input_players in
+let rec start_rounds input_house input_players (is_adv : bool) : result
+    =
+  let init_state = init_round input_house input_players is_adv in
   start_rounds_loop init_state input_house
 
 (** [start_round_loop state house] starts the loop to carry out the
@@ -624,11 +913,8 @@ and start_round_helper state =
   | exception End_of_tiles -> end_of_tile ()
   | exception Winning message -> winning message
   | exception Failure mes -> failure mes
-  | exception _ ->
-      Unknown_exception
-        "☣ Unknown Fatal Exception Caught.\n\
-         Please report this exception to the authors. \n\
-         Return to Main Menu."
+  | exception Invalid_argument mes -> failure ("Invalid_argument:" ^ mes)
+  | exception exn -> failure "Error"
   | () ->
       Unknown_exception
         "precondition vilation at start_round of roundstate"
@@ -643,7 +929,7 @@ and game_quit () =
 and restart_game state =
   print_endline "\nRestart Game!\n";
   Unix.sleep 2;
-  start_rounds state.house state.players
+  start_rounds state.house state.players state.advanced
 
 (** [end_of_tile ()] end the current round with a draw*)
 and end_of_tile () =
@@ -661,6 +947,7 @@ and winning message =
 (** [failure mes] quits the current round with a failure mes*)
 and failure mes =
   print_endline
-    ("☣ Unknown Fatal Exception Caught: " ^ mes
-   ^ " Please report this exception to the authors. ☣");
+    ("☣ Fatal: '" ^ mes
+   ^ "'. End round with draw. Please report this exception to the \
+      authors. ☣");
   Round_end end_with_draw

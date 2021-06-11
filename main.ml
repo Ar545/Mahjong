@@ -118,7 +118,7 @@ module Test = struct
       hands of a mahjong round*)
   let example_game () =
     let game = init_game 1 false in
-    let round = RoundState.init_round game.house game.players in
+    let round = RoundState.init_round game.house game.players false in
     print_string "player one hand:\n";
     round |> RoundState.hand 0 |> print_str_list;
     print_string "\n\nplayer two hand:\n";
@@ -169,6 +169,12 @@ let rec match_input () : unit =
   | exception End_of_file ->
       print_string "Invalid Input.";
       match_input ()
+  | exception exn ->
+      print_endline
+        "☣ Unknown Fatal Exception Caught.\n\
+         Please report this exception to the authors. \n\
+         Return to Main Menu.";
+      main_menu ()
   | anystring -> (
       if anystring = "quit" then quit_game ()
       else if anystring = "play" then play_basic ()

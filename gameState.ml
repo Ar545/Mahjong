@@ -9,6 +9,7 @@ type t = {
   house : player;
   house_streak : int;
   house_index : int;
+  is_adv : bool;
 }
 
 type game_progress =
@@ -45,6 +46,7 @@ let init_game (distance : int) (is_advanced : bool) : t =
     house;
     house_index;
     house_streak = 0;
+    is_adv = is_advanced;
   }
 
 (****************************************************)
@@ -124,7 +126,7 @@ let update_game_state t winning_message =
       continue_or_quit t house house_wins
 
 let rec update t =
-  match start_rounds t.house t.players with
+  match start_rounds t.house t.players t.is_adv with
   | Quit_game -> Quit t
   | Round_end winning_message -> update_game_state t winning_message
   | Unknown_exception str ->

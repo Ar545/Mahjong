@@ -25,7 +25,7 @@ type result =
 
 (** initialize a state of t list of players while t is the house player.
     return state *)
-val init_round : Players.player -> Players.player list -> t
+val init_round : Players.player -> Players.player list -> bool -> t
 
 (** [hand i t] is the player's hand at index [i] in the round [t] *)
 val hand : int -> t -> string list
@@ -42,7 +42,7 @@ val take_command : t -> Command.command -> unit
     return result Quit_game when asked to quit game. return result
     Winning of player and score when someone win the round. return
     result end_of_tiles when the round draws. return when the game ends. *)
-val start_rounds : Players.player -> Players.t -> result
+val start_rounds : Players.player -> Players.t -> bool -> result
 
 (** return true is the result means that the game is draw *)
 val is_draw : result -> bool
