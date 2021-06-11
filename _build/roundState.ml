@@ -344,7 +344,7 @@ let resolve_admin state =
   state |> show_hand 3 |> print_str_list;
   print_endline "\nTiles left:";
   state |> show_tiles_left |> print_str_list;
-  print_endline "\n======================"
+  print_endline "======================"
 
 (**********************************************************************
   Begin take command function
