@@ -59,6 +59,7 @@ type result =
   | Unknown_exception of string
   | Round_end of round_end_message
 
+(** return true is the result means that the game is draw *)
 let is_draw (res : result) : bool =
   match res with
   | Quit_game -> false
@@ -73,6 +74,10 @@ let locate_player players index = List.nth players index
 (* [player_int state i] is the player at index [i] in [state] *)
 let player_int state (index : int) =
   player_to_string (locate_player state.players index)
+
+(**********************************************************************
+  [3. draw] draw a card. Raise [E. Round_end Exception if drawed game]
+  *******************************************************************)
 
 (** [kong_draw_one RoundState.t int] representing in the game where a
     player kong anyone's tile, they need to draw one tile form the wall.
@@ -150,44 +155,9 @@ let skip_to_after state player =
   state.current_drawer <- (1 + pos player 0 state.players) mod 4;
   ()
 
-(** [view_played RoundState.t] representing in the game where the player
-    request to see all the tiles played. No change can be made to the
-    state representation. Requires: the state to be a valid
-    representation of game.
-
-    @return [unit] *)
-let view_played (state : t) : unit =
-  Unix.sleep 1;
-  print_endline "\nTiles Left Count:";
-  print_endline (string_of_int state.tiles_count_left);
-  print_endline "Here is the current discard:";
-  print_endline (tile_string_converter state.current_discard);
-  print_endline "Here are all the tiles played:";
-  print_str_list (tiles_to_str state.tiles_played);
-  print_endline "\nHere are player's open hand:";
-  print_string (player_to_string (List.nth state.players 1) ^ ":[ ");
-  print_str_list (tiles_to_str state.hands_open.(1));
-  print_string
-    (" ];\n" ^ player_to_string (List.nth state.players 2) ^ ":[ ");
-  print_str_list (tiles_to_str state.hands_open.(2));
-  print_string
-    (" ];\n" ^ player_to_string (List.nth state.players 3) ^ ":[ ");
-  print_str_list (tiles_to_str state.hands_open.(3));
-  print_string " ].";
-  ()
-
-(** [print_player_hand RoundState.t] representing in the game where we
-    show the player what is their current hand. No change can be made to
-    the state representation. Note that this is for printing of the
-    [user]'s hand, not the [npc]'s hands. Requires: the state to be a
-    valid representation of game.
-
-    @return [unit] *)
-let print_player_hand state : unit =
-  print_str_list (tiles_to_str state.hands.(0));
-  print_string " }:  { ";
-  print_str_list (tiles_to_str state.hands_open.(0));
-  ()
+(***********************************************************************
+  [E. Round_end exception] and [Scanner]
+  ********************************************************************)
 
 (** [scan ()] scan the input line, and then parse that string into a
     command representation. the return type should not contain any
@@ -257,6 +227,49 @@ let win_round
   in
   raise (Winning winning_round_end_message)
 
+(**********************************************************************
+  [6. In_round Exception] end to [unit].
+  *******************************************************************)
+
+(** [view_played RoundState.t] representing in the game where the player
+    request to see all the tiles played. No change can be made to the
+    state representation. Requires: the state to be a valid
+    representation of game.
+
+    @return [unit] *)
+let view_played (state : t) : unit =
+  Unix.sleep 1;
+  print_endline "\nTiles Left Count:";
+  print_endline (string_of_int state.tiles_count_left);
+  print_endline "Here is the current discard:";
+  print_endline (tile_string_converter state.current_discard);
+  print_endline "Here are all the tiles played:";
+  print_str_list (tiles_to_str state.tiles_played);
+  print_endline "\nHere are player's open hand:";
+  print_string (player_to_string (List.nth state.players 1) ^ ":[ ");
+  print_str_list (tiles_to_str state.hands_open.(1));
+  print_string
+    (" ];\n" ^ player_to_string (List.nth state.players 2) ^ ":[ ");
+  print_str_list (tiles_to_str state.hands_open.(2));
+  print_string
+    (" ];\n" ^ player_to_string (List.nth state.players 3) ^ ":[ ");
+  print_str_list (tiles_to_str state.hands_open.(3));
+  print_string " ].";
+  ()
+
+(** [print_player_hand RoundState.t] representing in the game where we
+    show the player what is their current hand. No change can be made to
+    the state representation. Note that this is for printing of the
+    [user]'s hand, not the [npc]'s hands. Requires: the state to be a
+    valid representation of game.
+
+    @return [unit] *)
+let print_player_hand state : unit =
+  print_str_list (tiles_to_str state.hands.(0));
+  print_string " }:  { ";
+  print_str_list (tiles_to_str state.hands_open.(0));
+  ()
+
 (** [discard_hint RoundState.t] represent when the player request to see
     a hint to discard. The hint is determined based on function
     implemented in [tiles.ml] No change can be made to the state
@@ -324,10 +337,13 @@ let resolve_help state =
   else (* current player is npc *)
     continue_hint state
 
-(* function currently used only for admin and testing *)
+(** [hand i t] is the player's hand at index [i] in the round [t]. Note:
+    this function currently used only for admin and testing *)
 let show_hand index t = tiles_to_str t.hands.(index)
 
-(* function currently used only for admin and testing *)
+(** [tiles_left t] is the string representation of tiles that are left
+    in a given instance during a round. Note: this function currently
+    used only for admin and testing *)
 let show_tiles_left t = tiles_to_str t.tiles_left
 
 (** [resolve_admin state] will print out all npc's hands as well as the
@@ -347,8 +363,9 @@ let resolve_admin state =
   print_endline "\n======================"
 
 (**********************************************************************
-  Begin take command function
-  ************************************************************)
+  Begin [4 A - 5 A] take command function and [4 B] user discard. Player
+  may call for [6. In_round Exception] or [E. Round_end Exception].
+  *****************************************************************)
 
 (** [player_discard RoundState.t] represent when the player will discard
     a tile. The help is first seperate into whether the player is
@@ -388,6 +405,9 @@ let rec player_discard state : unit =
     exception is raised to handle the player request. Requires: the
     state to be a valid representation of game, and the command to be a
     valid command.
+
+    [take_command t command] takes in user input and repond accordingly
+    in a round [t]
 
     @return [unit] *)
 and take_command state command =
@@ -657,39 +677,13 @@ and npc_discard state index : unit =
   ()
 
 (**********************************************************************
-  End take command function
+  End [4 A - 5 A] take command function
   ************************************************************)
 
-let init_round input_house input_players is_adv : t =
-  let rec house_pos acc = function
-    | h :: t -> if h = input_house then acc else house_pos (acc + 1) t
-    | _ -> failwith "precondition violation"
-  in
-  let rec helper n state =
-    match n with
-    | 0 -> state
-    | _ ->
-        draw_one state false;
-        helper (n - 1) state
-  in
-  let house_seat_int = house_pos 0 input_players in
-  helper 52
-    {
-      house = input_house;
-      house_seat = house_seat_int;
-      players = input_players;
-      current_drawer = house_seat_int;
-      tiles_count_left = tile_length (init_tiles ());
-      hands = [| empty_hand; empty_hand; empty_hand; empty_hand |];
-      hands_open = [| empty_hand; empty_hand; empty_hand; empty_hand |];
-      tiles_left = init_tiles ();
-      tiles_left_count = 144;
-      tiles_played = empty_hand;
-      current_discard = Blank;
-      kong_records = [| 0; 0; 0; 0 |];
-      turn = 1;
-      advanced = is_adv;
-    }
+(***************************************************************************
+  [5. Response] is catagoirzed into [5 A. take Command - A - Player
+  response] and [5 B. npc Response].
+  *************************************************************************)
 
 (** [npc_response state] representating the npc respoding to the
     player's discard. In the easy mode, there will be no action. In the
@@ -881,6 +875,14 @@ let npc_check_hu state npc_int =
       (state.hands.(npc_int) @ state.hands_open.(npc_int))
   else ()
 
+(***************************************************************************
+  [2. Turns cycle] execute in sequence, user round followed by 3 npc
+  rounds. Each round (marked by [Turn print]) follows [3. Draw], [4.
+  Discard], and [5. Response], among which [4 and 5] require [4 A - 5 A.
+  take Command]. Round continues unless broke by [E. round_end
+  Exceptions].
+  *************************************************************************)
+
 (** [user_round state] representating the execution of a use's round.
     Requires: the state to be a valid representation of game.
 
@@ -919,6 +921,45 @@ and npc_int_round state npc_int : unit =
 and find_round state : unit =
   if state.current_drawer = 0 then user_round state
   else npc_int_round state state.current_drawer
+
+(***************************************************************************
+  [1. Initializtion of a round]. Call for [2. Turns cycle] unless met
+  [E. round_end Exceptions].
+  *************************************************************************)
+
+(** initialize a state of t list of players while t is the house player.
+    return state. mli: val init_round : Players.player -> Players.player
+    list -> bool -> t *)
+let init_round input_house input_players is_adv : t =
+  let rec house_pos acc = function
+    | h :: t -> if h = input_house then acc else house_pos (acc + 1) t
+    | _ -> failwith "precondition violation"
+  in
+  let rec helper n state =
+    match n with
+    | 0 -> state
+    | _ ->
+        draw_one state false;
+        helper (n - 1) state
+  in
+  let house_seat_int = house_pos 0 input_players in
+  helper 52
+    {
+      house = input_house;
+      house_seat = house_seat_int;
+      players = input_players;
+      current_drawer = house_seat_int;
+      tiles_count_left = tile_length (init_tiles ());
+      hands = [| empty_hand; empty_hand; empty_hand; empty_hand |];
+      hands_open = [| empty_hand; empty_hand; empty_hand; empty_hand |];
+      tiles_left = init_tiles ();
+      tiles_left_count = 144;
+      tiles_played = empty_hand;
+      current_discard = Blank;
+      kong_records = [| 0; 0; 0; 0 |];
+      turn = 1;
+      advanced = is_adv;
+    }
 
 (** [round_end_message message] prints the appropriate post round
     message according to [message] *)
