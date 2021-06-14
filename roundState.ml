@@ -7,7 +7,7 @@ type t = {
   house_seat : int;
   players : Players.t;
   mutable current_drawer : int;
-  mutable tiles_count_left : int;
+  (* mutable tiles_count_left : int; *)
   hands : Tiles.t array;
   hands_open : Tiles.t array;
   mutable tiles_left : Tiles.t;
@@ -90,7 +90,7 @@ let rec kong_draw_one state (konger_index : int) : unit =
   match state.tiles_left with
   | [] -> raise End_of_tiles
   | h :: t ->
-      state.tiles_count_left <- state.tiles_count_left - 1;
+      (* state.tiles_count_left <- state.tiles_count_left - 1; *)
       state.tiles_left <- t;
       if Tiles.is_bonus h then (
         (* redraw a tile when the draw is bonus *)
@@ -117,7 +117,7 @@ let rec draw_one state print_true =
   match state.tiles_left with
   | [] -> raise End_of_tiles
   | h :: t ->
-      state.tiles_count_left <- state.tiles_count_left - 1;
+      (* state.tiles_count_left <- state.tiles_count_left - 1; *)
       state.tiles_left <- t;
       if Tiles.is_bonus h then (
         (* redraw a tile when the draw is bonus *)
@@ -240,7 +240,7 @@ let win_round
 let view_played (state : t) : unit =
   Unix.sleep 1;
   print_endline "\nTiles Left Count:";
-  print_endline (string_of_int state.tiles_count_left);
+  print_endline (string_of_int state.tiles_left_count);
   print_endline "Here is the current discard:";
   print_endline (tile_string_converter state.current_discard);
   print_endline "Here are all the tiles played:";
@@ -440,7 +440,7 @@ and take_command state command =
 
 and turn_print state no_draw =
   let turn =
-    if state.tiles_count_left > 0 || no_draw then
+    if state.tiles_left_count > 0 || no_draw then
       string_of_int state.turn
     else "end"
   in
@@ -949,11 +949,11 @@ let init_round input_house input_players is_adv : t =
       house_seat = house_seat_int;
       players = input_players;
       current_drawer = house_seat_int;
-      tiles_count_left = tile_length (init_tiles ());
+      (* tiles_count_left = 144; *)
       hands = [| empty_hand; empty_hand; empty_hand; empty_hand |];
       hands_open = [| empty_hand; empty_hand; empty_hand; empty_hand |];
       tiles_left = init_tiles ();
-      tiles_left_count = 144;
+      tiles_left_count = tile_length (init_tiles ());
       tiles_played = empty_hand;
       current_discard = Blank;
       kong_records = [| 0; 0; 0; 0 |];
