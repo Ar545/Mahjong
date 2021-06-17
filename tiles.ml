@@ -1,8 +1,12 @@
 (**************************************************************************
   tile def start*)
 
+(** [Blank] represents tile_placeholder when there are no valid
+    [current_discard]. [true] represents mahjong_valid (for example
+    discard updated afte kong). [false] representes mahjong_invalid (for
+    example discard updated after chow and pung) *)
 type tile =
-  | Blank
+  | Blank of bool
   | Dots of int
   | Bamboo of int
   | Characters of int
@@ -72,9 +76,22 @@ let characters_set =
 (** [orientation_set] is a list set of all orientation tiles *)
 let orientations_set = [ East; South; West; North; Red; Green; White ]
 
+(** [not_orientation tile] checks whether [tile] is an orientation tile *)
+let not_orientation tile =
+  match tile with
+  | East | South | West | North | Red | Green | White -> false
+  | _ -> true
+
 (** [bonuses] is a list set of all bonus tiles *)
 let bonuses =
   [ Plum; Orchid; Chrysanthemum; Bam; Spring; Summer; Autumn; Winter ]
+
+(** [is_bonus tile] is true if [tile] is a bonus. Otherwise, false *)
+let is_bonus = function
+  | Plum | Orchid | Chrysanthemum | Bam | Spring | Summer | Autumn
+  | Winter ->
+      true
+  | _ -> false
 
 (** [all_tiles_variety] is a set of all tiles, each with a quantity of
     one *)
@@ -89,7 +106,8 @@ let tile_index_converter = function
   | Bamboo (num : int) -> 100 + num
   | Dots (num : int) -> 200 + num
   | Characters (num : int) -> 300 + num
-  | Blank -> 0
+  | Blank true -> 1
+  | Blank false -> 0
   | East -> 611
   | South -> 622
   | West -> 633
@@ -111,7 +129,8 @@ let tile_index_converter = function
 let tiles_to_index hand = List.map tile_index_converter hand
 
 let index_tile_converter (i : int) =
-  if i = 0 then Blank
+  if i = 0 then Blank false
+  else if i = 1 then Blank true
   else if i < 110 then Bamboo (i - 100)
   else if i < 210 then Dots (i - 200)
   else if i < 310 then Characters (i - 300)
@@ -220,6 +239,29 @@ let ankong_index_valid hand (pos : int) =
 (**************************************************************************
   cpkong - end - winning and scoring - start*)
 
+(** [contains_all hand requirement_hand] return true if hand contains at
+    least one of each of the tiles in requirement_hand and return false
+    otherwise. Prerequirement: [requirement_hand] must be an instance of
+    sort_uniq. *)
+let rec contains_all hand requirement_hand : bool =
+  match requirement_hand with
+  | [] -> true
+  | h :: t -> if List.mem h hand then contains_all hand t else false
+
+(** [contains_dragon hand] return [true] if the hand contains [dragon]
+    and [false] otherwise *)
+let contains_dragon hand : bool =
+  contains_all hand bamboo_set
+  || contains_all hand dots_set
+  || contains_all hand characters_set
+
+(** [bonus_only hand] return [true] if the hand is bonus only and return
+    [false] otherwise *)
+let rec bonus_only hand : bool =
+  match hand with
+  | h :: t -> if not (is_bonus h) then false else bonus_only t
+  | [] -> true
+
 let rec add_tile_to_hand tile = function
   | tile' :: t as hand ->
       if compare tile tile' <= 0 then tile :: hand
@@ -267,6 +309,12 @@ and find_trio = function
   | [] -> true
   | _ -> false
 
+let rec find_bunky = function
+  | t1 :: t2 :: t3 :: tail ->
+      if t1 = t2 && t2 = t3 then find_bunky tail else false
+  | [] -> true
+  | _ -> false
+
 (** [find_trump checked_hand hand] locates every possible trump location
     and see if it results in a winning hand. If any result does so,
     return true, otherwise, false *)
@@ -279,11 +327,22 @@ let rec find_trump checked_hand = function
   | [ t1 ] -> false
   | [] -> false
 
+let rec find_bunky_trump checked_hand = function
+  | t1 :: t2 :: tail ->
+      if t1 = t2 then
+        find_bunky (checked_hand @ tail)
+        || find_bunky_trump (checked_hand @ [ t1 ]) (t2 :: tail)
+      else find_bunky_trump (checked_hand @ [ t1 ]) (t2 :: tail)
+  | [ t1 ] -> false
+  | [] -> false
+
 (** [winning_hand_standard hand open_hand] checks for the standard
     winning pattern, which is the most common. Requires hand to be
     sorted by Tiles.compare *)
 let winning_hand_standard hand open_hand =
   find_trump [] (tiles_to_index hand)
+
+let winning_hand_bunky hand = find_bunky_trump [] (tiles_to_index hand)
 
 (** [check_seven hand] is a helper for [winning_hand_seven] with the
     same objective*)
@@ -321,7 +380,8 @@ let winning_hand (hand : t) (open_hand : t) (current : tile option) =
     | None -> hand
     | Some tile -> add_tile_to_hand tile hand
   in
-  if winning_hand_standard complete_hand open_hand then 1
+  if winning_hand_bunky complete_hand then 2
+  else if winning_hand_standard complete_hand open_hand then 1
   else if winning_hand_seven complete_hand then 2
   else if winning_hand_thirteen complete_hand then 4
   else 0
@@ -336,8 +396,50 @@ let winning_valid (hand : t) (open_hand : t) (current : tile option) =
 
 let scoring hand open_hand (current : tile option) =
   let (score : int ref) = ref (winning_hand hand open_hand current) in
-  let () = match current with None -> score := !score * 2 | _ -> () in
-  let () = match open_hand with [] -> score := !score * 2 | _ -> () in
+  let check_from_wall =
+    match current with
+    | None ->
+        score := !score * 2;
+        print_endline "!win from wall, score double!";
+        ()
+    | Some (Blank true) ->
+        score := !score * 4;
+        print_endline "!win from kong, score quatrable!"
+    | Some (Blank false) ->
+        score := !score * 8;
+        print_endline "!win from start, score scale bonus 8!"
+    | Some (Characters 5) ->
+        score := !score + 2;
+        print_endline "!win Chara 5, bonus score 200!"
+    | Some some_tile ->
+        if tile_index_converter some_tile > 400 then (
+          score := !score + 1;
+          print_endline "!win from wind, bonus score 100!")
+        else ()
+  in
+  let check_no_open_hand =
+    match open_hand with
+    | [] ->
+        score := !score * 4;
+        print_endline "!win with concealed hand, score quatrable!"
+    | some_hand ->
+        if bonus_only some_hand then (
+          score := !score * 2;
+          print_endline "!bonus only, score double!")
+        else ()
+  in
+  let check_dragon =
+    if contains_dragon open_hand then (
+      score := !score * 4;
+      print_endline "!win with open dragon, score quatrable!")
+    else if contains_dragon hand then (
+      score := !score * 8;
+      print_endline "!win from concealed dragon, score scale bonus 8!")
+    else ()
+  in
+  check_from_wall;
+  check_no_open_hand;
+  check_dragon;
   !score
 
 (***********************************************************************
@@ -380,7 +482,7 @@ let tile_string_converter = function
       | 8 -> "🀎"
       | 9 -> "🀏"
       | _ -> failwith "precondition violation at converter tiles.ml")
-  | Blank -> " 🀫 "
+  | Blank _ -> " 🀫 "
   | East -> "🀀"
   | South -> "🀁"
   | West -> "🀂"
@@ -401,13 +503,6 @@ let tiles_to_str hand = List.map tile_string_converter hand
 
 (***********************************************************************
   tile-printer - end *)
-
-(** [is_bonus tile] is true if [tile] is a bonus. Otherwise, false *)
-let is_bonus = function
-  | Plum | Orchid | Chrysanthemum | Bam | Spring | Summer | Autumn
-  | Winter ->
-      true
-  | _ -> false
 
 (** selfkong_valid open_hand hand is true if one can use one of the hand
     to kong some three in the open hand. AF: the hand is a valid hand.
@@ -498,7 +593,7 @@ let hu_possible hand =
 let kong_possible hand =
   match ankong_valid_new hand with exception exn -> false | t -> t
 
-let pung_possible hand tile = pung_valid hand tile
+let pung_possible = pung_valid
 
 (** [uniq_lst lst tile] is [lst] with one occurence of [tile] *)
 let uniq_lst lst tile = if List.mem tile lst then lst else tile :: lst
@@ -518,12 +613,6 @@ let chow_possible hand tile =
 
 (*********************************************)
 (* NPC optimization moves and tile suggestion *)
-
-(** [not_orientation tile] checks whether [tile] is an orientation tile *)
-let not_orientation tile =
-  match tile with
-  | East | South | West | North | Red | Green | White -> false
-  | _ -> true
 
 (** [priorities_orientation not_empty hand] is [hand] with tiles that
     are orientations removed. At least one tile is left in [hand]*)
@@ -629,3 +718,23 @@ let discard_suggestion (hand : t) : tile =
 let separate_best_tile (hand : t) : t * tile =
   let best_tile = discard_suggestion hand in
   (remove hand best_tile 1, best_tile)
+
+let count_bonus open_hand : int =
+  let rec count_helper open_hand acc : int =
+    match open_hand with
+    | h :: t ->
+        if is_bonus h then count_helper t (acc + 1)
+        else count_helper t acc
+    | [] -> acc
+  in
+  count_helper open_hand 0
+
+(** [locate_tile_in_hand_hp hand tile acc] is tail recursive locate tile
+    in hand, return position. *)
+let rec locate_tile_in_hand_hp hand tile acc : int =
+  match hand with
+  | [] -> -1
+  | h :: t ->
+      if h = tile then acc else locate_tile_in_hand_hp t tile (acc + 1)
+
+let locate_tile hand tile : int = locate_tile_in_hand_hp hand tile 1

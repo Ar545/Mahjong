@@ -7,7 +7,6 @@ type t = {
   house_seat : int;
   players : Players.t;
   mutable current_drawer : int;
-  (* mutable tiles_count_left : int; *)
   hands : Tiles.t array;
   hands_open : Tiles.t array;
   mutable tiles_left : Tiles.t;
@@ -221,7 +220,10 @@ let win_round
     {
       winner = Some player;
       losers = (if same_player then None else Some from_player);
-      score = dekong_score + state.kong_records.(winner_index);
+      score =
+        dekong_score
+        + state.kong_records.(winner_index)
+        + count_bonus state.hands_open.(winner_index);
       hand = winners_hand;
     }
   in
@@ -286,8 +288,12 @@ let discard_hint state =
   else
     let discard_suggestion_tile = discard_suggestion state.hands.(0) in
     (* give discard suggestions *)
-    print_string "We suggest you discard: ";
-    print_endline (tile_string_converter discard_suggestion_tile)
+    print_string "We suggest you discard: [";
+    print_string (tile_string_converter discard_suggestion_tile);
+    print_string " ] at '";
+    print_int (locate_tile state.hands.(0) discard_suggestion_tile);
+    print_endline "'.";
+    ()
 
 (** [continue_hint RoundState.t] represent when the player request to
     see a hint to continue the game. The hint is determined based on
@@ -522,7 +528,7 @@ and user_kong state =
   state.hands_open.(user_index) <-
     kong :: kong :: kong :: kong :: state.hands_open.(user_index);
   state.hands.(user_index) <- remove state.hands.(user_index) kong 3;
-  state.current_discard <- Blank;
+  state.current_discard <- Blank true;
   state.kong_records.(user_index) <- state.kong_records.(user_index) + 1;
   kong_draw_one state 0;
   skip_to_after state (List.hd state.players);
@@ -547,7 +553,7 @@ and anyone_pung_current_discard (punger_index : int) state =
   state.hands_open.(punger_index) <-
     pung :: pung :: pung :: state.hands_open.(punger_index);
   state.hands.(punger_index) <- remove state.hands.(punger_index) pung 2;
-  state.current_discard <- Blank;
+  state.current_discard <- Blank false;
 
   skip_to_after state (List.nth state.players punger_index);
   if punger_index = 0 then (
@@ -555,10 +561,12 @@ and anyone_pung_current_discard (punger_index : int) state =
     ())
   else (
     print_endline
-      ("Mr. "
-      ^ string_of_int punger_index
+      (string_of_int punger_index
+      ^ ": Mr. "
       ^ player_to_string (List.nth state.players punger_index)
-      ^ " punged your discard!");
+      ^ " punged current discard :["
+      ^ tile_string_converter pung
+      ^ " ]!");
     npc_discard state punger_index;
     ())
 
@@ -581,7 +589,7 @@ and user_chow state index_1 index_2 =
     first_tile :: second_tile :: chow :: state.hands_open.(user_index);
   state.hands.(user_index) <-
     chow_remove state.hands.(user_index) index_1 index_2;
-  state.current_discard <- Blank;
+  state.current_discard <- Blank false;
   skip_to_after state (List.hd state.players);
   player_discard state;
   ()
@@ -597,11 +605,32 @@ and user_chow state index_1 index_2 =
 and user_mahjong state is_users_turn =
   let user = List.hd state.players in
   if is_users_turn then
-    if winning_valid state.hands.(0) state.hands_open.(0) None then
-      win_round state user
-        (List.nth state.players 0)
-        (scoring state.hands.(0) state.hands_open.(0) None)
-        (state.hands.(0) @ state.hands_open.(0))
+    if
+      winning_valid state.hands.(0) state.hands_open.(0) None
+      && not (state.current_discard = Blank false)
+    then
+      (* represents first turn mahjong *)
+      if state.turn = 1 then
+        win_round state user
+          (List.nth state.players 0)
+          (scoring state.hands.(0) state.hands_open.(0)
+             (Some (Blank false)))
+          (state.hands.(0) @ state.hands_open.(0))
+      else if
+        (* represents kong draw mahjong *)
+        state.current_discard = Blank true
+      then
+        win_round state user
+          (List.nth state.players 0)
+          (scoring state.hands.(0) state.hands_open.(0)
+             (Some (Blank true)))
+          (state.hands.(0) @ state.hands_open.(0))
+      else
+        (* represents standard concealed mahjong *)
+        win_round state user
+          (List.nth state.players 0)
+          (scoring state.hands.(0) state.hands_open.(0) None)
+          (state.hands.(0) @ state.hands_open.(0))
     else raise (Invalid "your hand does not meet mahjong requirement")
   else if
     winning_valid state.hands.(0) state.hands_open.(0)
@@ -753,7 +782,11 @@ let npc_int_pung_current_discard (i : int) state : unit =
 
     @return [unit] *)
 let rec sequence_check_pung (i : int) state : bool =
-  if pung_possible state.hands.(i) state.current_discard then (
+  if
+    pung_possible
+      (priorities_chow_pung state.hands.(i))
+      state.current_discard
+  then (
     npc_int_pung_current_discard i state;
     true)
   else if i = 3 then false
@@ -775,7 +808,7 @@ let npc_int_chow_current_discard (i : int) state first_tile second_tile
     first_tile :: second_tile :: chow :: state.hands_open.(i);
   state.hands.(i) <- remove state.hands.(i) first_tile 1;
   state.hands.(i) <- remove state.hands.(i) second_tile 1;
-  state.current_discard <- Blank;
+  state.current_discard <- Blank false;
   skip_to_after state (List.nth state.players i);
   npc_discard state i;
   ()
@@ -785,7 +818,11 @@ let npc_int_chow_current_discard (i : int) state first_tile second_tile
 
     @return [unit] *)
 let check_chow (chow_person_int : int) state : unit =
-  match chow_possible state.hands.(1) state.current_discard with
+  match
+    chow_possible
+      (priorities_chow_pung state.hands.(1))
+      state.current_discard
+  with
   | None ->
       print_endline "The smart guys does not responded to your discard";
       ()
@@ -842,7 +879,9 @@ let rec player_response state index : unit =
 let npc_check_chow state discarder_int =
   let chow_taker = discarder_int + 1 in
   match
-    chow_possible state.hands.(chow_taker) state.current_discard
+    chow_possible
+      (priorities_chow_pung state.hands.(chow_taker))
+      state.current_discard
   with
   | None -> player_response state discarder_int
   | Some (chow_tile_1, chow_tile_2) ->
@@ -857,10 +896,14 @@ let sequence_respond_to_npc_int_discard state npc_int =
   then player_response state npc_int
   else (
     sequence_check_hu 1 state npc_int;
+
     (* chow check for npc 1 and 2 *)
+    let npc_pung_npc_possible = sequence_check_pung 1 state in
+
     if
       (not (pung_possible state.hands.(0) state.current_discard))
       && npc_int < 3
+      && not npc_pung_npc_possible
     then npc_check_chow state npc_int
     else player_response state npc_int)
 
@@ -949,13 +992,13 @@ let init_round input_house input_players is_adv : t =
       house_seat = house_seat_int;
       players = input_players;
       current_drawer = house_seat_int;
-      (* tiles_count_left = 144; *)
       hands = [| empty_hand; empty_hand; empty_hand; empty_hand |];
       hands_open = [| empty_hand; empty_hand; empty_hand; empty_hand |];
       tiles_left = init_tiles ();
+      (* tiles_left_count = 144; *)
       tiles_left_count = tile_length (init_tiles ());
       tiles_played = empty_hand;
-      current_discard = Blank;
+      current_discard = Blank true;
       kong_records = [| 0; 0; 0; 0 |];
       turn = 1;
       advanced = is_adv;
