@@ -351,11 +351,21 @@ let rec check_seven = function
   | [] -> true
   | [ h ] -> false
 
+let rec check_ultra_seven = function
+  | t1 :: t2 :: t3 :: t4 :: tail ->
+      if t1 = t2 && t2 = t3 && t3 = t4 then check_seven tail
+      else if t1 = t2 then check_ultra_seven (t3 :: t4 :: tail)
+      else false
+  | anything -> false
+
 (** [winning_hand_seven hand] checks for a special winning condition
     (corner case). Return true if the hands constitutes 7 eyes. Requires
     hand to be sorted by Tiles.compare *)
 let winning_hand_seven hand =
   if check_size_14 hand then check_seven hand else false
+
+let winning_hand_ultra_seven hand =
+  if check_size_14 hand then check_ultra_seven hand else false
 
 (** [check_thirteen hand] is a helper for winning_hand_thirteen with the
     same objective*)
@@ -382,6 +392,7 @@ let winning_hand (hand : t) (open_hand : t) (current : tile option) =
   in
   if winning_hand_bunky complete_hand then 2
   else if winning_hand_standard complete_hand open_hand then 1
+  else if winning_hand_ultra_seven complete_hand then 4
   else if winning_hand_seven complete_hand then 2
   else if winning_hand_thirteen complete_hand then 4
   else 0
@@ -396,6 +407,7 @@ let winning_valid (hand : t) (open_hand : t) (current : tile option) =
 
 let scoring hand open_hand (current : tile option) =
   let (score : int ref) = ref (winning_hand hand open_hand current) in
+  print_endline ("Base score: " ^ string_of_int !score);
   let check_from_wall =
     match current with
     | None ->
@@ -437,6 +449,7 @@ let scoring hand open_hand (current : tile option) =
       print_endline "!win from concealed dragon, score scale bonus 8!")
     else ()
   in
+  print_endline ("Case score: " ^ string_of_int !score);
   check_from_wall;
   check_no_open_hand;
   check_dragon;

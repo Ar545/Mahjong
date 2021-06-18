@@ -796,15 +796,15 @@ let npc_int_pung_current_discard (i : int) state : unit =
     with this current discard. state should not be mutated.
 
     @return [unit] *)
-let rec sequence_check_pung (i : int) state : bool =
+let rec sequence_check_pung (i : int) state : int =
   if
     pung_possible
       (priorities_chow_pung state.hands.(i))
       state.current_discard
   then (
     npc_int_pung_current_discard i state;
-    true)
-  else if i = 3 then false
+    i)
+  else if i = 3 then -1
   else sequence_check_pung (i + 1) state
 
 (** [npc_int_chow_curren_discard (npc_int : int) state : unit] represent
@@ -855,7 +855,7 @@ let check_chow (chow_person_int : int) state : unit =
 let add_adv_npc_response_to_user state : unit =
   sequence_check_hu 1 state 0;
   let punged = sequence_check_pung 1 state in
-  if punged then (
+  if punged <> -1 then (
     Unix.sleepf 0.5;
     ())
   else check_chow 1 state;
@@ -914,11 +914,12 @@ let sequence_respond_to_npc_int_discard state npc_int =
 
     (* chow check for npc 1 and 2 *)
     let npc_pung_npc_possible = sequence_check_pung 1 state in
-
-    if
+    if npc_pung_npc_possible <> -1 then (
+      player_response state npc_pung_npc_possible;
+      ())
+    else if
       (not (pung_possible state.hands.(0) state.current_discard))
       && npc_int < 3
-      && not npc_pung_npc_possible
     then npc_check_chow state npc_int
     else player_response state npc_int)
 
