@@ -131,9 +131,9 @@ let tiles_to_index hand = List.map tile_index_converter hand
 let index_tile_converter (i : int) =
   if i = 0 then Blank false
   else if i = 1 then Blank true
-  else if i < 110 then Bamboo (i - 100)
-  else if i < 210 then Dots (i - 200)
-  else if i < 310 then Characters (i - 300)
+  else if i < 110 && i > 100 then Bamboo (i - 100)
+  else if i < 210 && i > 200 then Dots (i - 200)
+  else if i < 310 && i > 300 then Characters (i - 300)
   else if i = 611 then East
   else if i = 622 then South
   else if i = 633 then West
@@ -701,6 +701,46 @@ let rec priorities_chow_pung = function
         | None -> tile_h :: priorities_chow_pung hand_t)
   | [] -> []
 
+let give_pre int_orig_hand (current_pref, int_tile) : int * int =
+  let update_minus_2 =
+    if List.mem (int_tile - 2) int_orig_hand then current_pref + 10
+    else current_pref
+  in
+  let update_minus_1 =
+    if List.mem (int_tile - 1) int_orig_hand then update_minus_2 + 30
+    else update_minus_2
+  in
+  let update_plus_1 =
+    if List.mem (int_tile + 1) int_orig_hand then update_minus_1 + 30
+    else update_minus_1
+  in
+  let update_plus_2 =
+    if List.mem (int_tile + 2) int_orig_hand then update_plus_1 + 10
+    else update_plus_1
+  in
+  let update_self =
+    if
+      List.length (List.filter (fun x -> x = int_tile) int_orig_hand)
+      > 1
+    then update_plus_2 + 50
+    else update_plus_2
+  in
+  (update_self, int_tile)
+
+let give_self tile =
+  let int_tile = tile_index_converter tile in
+  if int_tile > 400 then (0, int_tile)
+  else if int_tile mod 10 > 5 then (10 - (int_tile mod 10), int_tile)
+  else (int_tile mod 10, int_tile)
+
+let sort_by_preferences orig_hand sortee_hand : t =
+  let int_orig_hand = tiles_to_index orig_hand in
+  let assoc_hand : (int * int) list = List.map give_self sortee_hand in
+  List.sort
+    (fun (a, b) (c, d) -> a - c)
+    (List.map (give_pre int_orig_hand) assoc_hand)
+  |> List.map snd |> index_to_tiles
+
 (** [discard_suggestion hand] suggest a tile t from list of tile, hand,
     to be the best to discard. Requires the hand to not meet mahjong
     standards *)
@@ -712,7 +752,11 @@ let discard_suggestion (hand : t) : tile =
     |> priorities_middles false
     |> priorities_orientations false
   with
-  | h :: t -> h
+  | [ h ] -> h
+  | h :: t as lst -> (
+      match sort_by_preferences hand lst with
+      | h :: t -> h
+      | [] -> failwith "precondition violation")
   | [] -> failwith "precondition violation"
 
 let separate_best_tile (hand : t) : t * tile =
@@ -738,3 +782,23 @@ let rec locate_tile_in_hand_hp hand tile acc : int =
       if h = tile then acc else locate_tile_in_hand_hp t tile (acc + 1)
 
 let locate_tile hand tile : int = locate_tile_in_hand_hp hand tile 1
+
+exception No_such_tile
+
+(** [get_tile_helper acc_hand remain_hand tile_need] is a tail recursive
+    function to raise the tile of choice to the first tile of the hand *)
+let rec get_tile_helper acc_hand remain_hand tile_need =
+  match remain_hand with
+  | h :: t ->
+      if h = tile_need then (h :: acc_hand) @ t
+      else get_tile_helper (acc_hand @ [ h ]) t tile_need
+  | [] -> raise No_such_tile
+
+let get_tile_to_top hand tile_int =
+  let target_tile =
+    match index_tile_converter tile_int with
+    | exception Failure f -> raise No_such_tile
+    | exception _ -> raise No_such_tile
+    | anything -> anything
+  in
+  get_tile_helper empty_hand hand target_tile

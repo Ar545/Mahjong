@@ -19,7 +19,7 @@ type command =
   | Pung
   | Chow of (int * int)
   (* admin use only *)
-  | Admin
+  | Admin of int
 
 (** [Invalid] is an exception that is raised when a command is invalid
     and can not be parsed *)

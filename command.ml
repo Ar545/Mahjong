@@ -15,7 +15,7 @@ type command =
   | Continue
   | Pung
   | Chow of (int * int)
-  | Admin
+  | Admin of int
 
 exception Invalid of string
 
@@ -77,9 +77,12 @@ let parse str =
   | "admin" :: t -> (
       match t with
       | [] -> raise_invalid "Use admin with password."
-      | ["password"] -> Admin
-      | _ ->
-          raise_invalid "Incorrect password.")
+      | [ "password" ] -> Admin 0
+      | [ str ] -> (
+          match int_of_string_opt str with
+          | Some int -> Admin int
+          | None -> raise_invalid "Incorrect password.")
+      | _ -> raise_invalid "Incorrect password, no space.")
   | "played" :: t | "view" :: "played" :: t -> (
       match t with
       | [] -> Played

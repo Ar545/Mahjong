@@ -366,7 +366,18 @@ let resolve_admin state =
   state |> show_hand 3 |> print_str_list;
   print_endline "\nTiles left:";
   state |> show_tiles_left |> print_str_list;
-  print_endline "\n======================"
+  print_endline "\n========================"
+
+let move_tile state integer =
+  match get_tile_to_top state.tiles_left integer with
+  | exception No_such_tile -> print_endline "Failure to move tile."
+  | h :: t ->
+      print_endline ("Success with " ^ tile_string_converter h);
+      state.tiles_left <- h :: t;
+      ()
+  | [] ->
+      print_endline "Failure with empty.";
+      ()
 
 (**********************************************************************
   Begin [4 A - 5 A] take command function and [4 B] user discard. Player
@@ -440,9 +451,13 @@ and take_command state command =
       else raise (Invalid "must take action")
   | Pung -> initialize_pung state is_users_turn
   | Chow (index_1, index_2) -> initialize_chow state index_1 index_2
-  | Admin ->
-      resolve_admin state;
-      raise (Invalid "\n====================")
+  | Admin integer ->
+      if integer = 0 then (
+        resolve_admin state;
+        raise (Invalid "\n===================="))
+      else (
+        move_tile state integer;
+        raise (Invalid "\n===================="))
 
 and turn_print state no_draw =
   let turn =

@@ -188,3 +188,14 @@ val pung_possible : t -> tile -> bool
 (** [priorities_chow_pung hand] is [hand] with tiles that meet chow and
     pung requirements removed *)
 val priorities_chow_pung : t -> t
+
+(****************************************************)
+(* admin *)
+(****************************************************)
+
+(** such exception is raise when admin raise action failed *)
+exception No_such_tile
+
+(** [get_tile_to_top hand tile_int] raise, if such tile exist, such tile
+    to the top of the list. If not, raise exception No_such_tile *)
+val get_tile_to_top : t -> int -> t
