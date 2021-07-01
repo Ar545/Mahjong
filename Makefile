@@ -6,6 +6,7 @@ MLS=$(MODULES:=.ml)
 MLIS=$(MODULES:=.mli)
 TEST=test.byte
 MAIN=main.byte
+NATIVE=main.native
 OCAMLBUILD=ocamlbuild -use-ocamlfind
 
 default: build
@@ -17,11 +18,20 @@ build:
 test:
 	$(OCAMLBUILD) -tag 'debug' $(TEST) && ./$(TEST) -runner sequential
 
+byte:
+	$(OCAMLBUILD) -tag 'debug' $(MAIN)
+
 play:
 	$(OCAMLBUILD) -tag 'debug' $(MAIN) && OCAMLRUNPARAM=b ./$(MAIN)
 
+native:
+	$(OCAMLBUILD) -tag 'debug' $(NATIVE) && OCAMLRUNPARAM=b ./$(NATIVE)
+
 check:
 	@bash check.sh
+
+js:
+	ocamlbuild -use-ocamlfind -plugin-tag "package(js_of_ocaml.ocamlbuild)" main.js
 
 zip:
 	zip mahjong.zip *.ml* *.json *.sh _tags .merlin .ocamlformat .ocamlinit *.md LICENSE Makefile	
@@ -41,4 +51,4 @@ docs-private: build
 
 clean:
 	ocamlbuild -clean
-	rm -rf _doc.public _doc.private mahjong.zip
+	rm -rf _doc.public _doc.private mahjong.zip main.js
