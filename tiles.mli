@@ -6,7 +6,7 @@
 
 (** Representation of one tile*)
 type tile =
-  | Blank
+  | Blank of bool
   | Dots of int
   | Bamboo of int
   | Characters of int
@@ -29,6 +29,9 @@ type tile =
 (** Representation of the tiles left in a mahjong game round. Initialize
     with 144 tiles*)
 type t = tile list
+
+(** representation of the empty hand *)
+val empty_hand : t
 
 (** Initialize with 144 tiles*)
 val all_tiles : t
@@ -79,10 +82,6 @@ val ankong_index_valid : t -> int -> bool
     hand in mahjong and false otherwise*)
 val winning_valid : t -> t -> tile option -> bool
 
-(** [scoring hand open_hand] is the amount of points that is awarded to
-    the player with the winning [hand]*)
-val scoring : t -> t -> tile option -> int
-
 (** selfkong_valid open_hand hand is true if one can use one of the hand
     to kong some three in the open hand. AF: the hand is a valid hand.
     if hand does contain such combo then return true *)
@@ -100,6 +99,17 @@ val ankong_valid_new : t -> bool
 (** [ankong_tile_opt hand] is an option containing the tile that matches
     the ankong requirement, if any *)
 val ankong_tile_opt : t -> tile option
+
+(****************************************************)
+(* scoring *)
+(****************************************************)
+
+(** [count_bonus open_hand] return the number of bonus in the open_hand *)
+val count_bonus : t -> int
+
+(** [scoring hand open_hand] is the amount of points that is awarded to
+    the player with the winning [hand]*)
+val scoring : t -> t -> tile option -> int
 
 (****************************************************)
 (* converter: tiles, string, and int *)
@@ -123,6 +133,10 @@ val tile_string_converter : tile -> string
 
 (** [print_str_list lst] prints the string list [lst] and returns unit *)
 val print_str_list : string list -> unit
+
+(** [locate_tile hand tile acc] returns the location (first occorance)
+    of the tile in the hand *)
+val locate_tile : t -> tile -> int
 
 (****************************************************)
 (* sort, spearate, and remove *)
@@ -149,6 +163,9 @@ val separate_random_tile : t -> t * tile
 (** [add_tile_to_hand tile hand] is hand with tiles added *)
 val add_tile_to_hand : tile -> t -> t
 
+(** separate a best tile from the list of tiles for adv npc to discard *)
+val separate_best_tile : t -> t * tile
+
 (****************************************************)
 (* help and suggestion *)
 (****************************************************)
@@ -167,3 +184,18 @@ val chow_possible : t -> tile -> (tile * tile) option
 
 (** determine if a hand is possible to pung a given tile*)
 val pung_possible : t -> tile -> bool
+
+(** [priorities_chow_pung hand] is [hand] with tiles that meet chow and
+    pung requirements removed *)
+val priorities_chow_pung : t -> t
+
+(****************************************************)
+(* admin *)
+(****************************************************)
+
+(** such exception is raise when admin raise action failed *)
+exception No_such_tile
+
+(** [get_tile_to_top hand tile_int] raise, if such tile exist, such tile
+    to the top of the list. If not, raise exception No_such_tile *)
+val get_tile_to_top : t -> int -> t

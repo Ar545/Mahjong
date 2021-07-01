@@ -37,3 +37,7 @@ val adv_players : t
 (** [execute_round npc] is the action the npc takes during its turn in a
     round *)
 val execute_round : player -> unit
+
+(** [find_player player t] return the int representation of the player
+    in list t. If [not in] list t, return [4] *)
+val find_player : player -> t -> int

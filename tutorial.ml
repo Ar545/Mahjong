@@ -328,13 +328,14 @@ and chapter_4 () =
      won:";
   sne ();
   ANSITerminal.print_string [ ANSITerminal.green ]
-    "1. Each kong is 100 points.";
+    "1. Each kong is 100 points, with the exception of concealed kong \
+     which worth 200 points.";
   sne ();
   ANSITerminal.print_string [ ANSITerminal.cyan ]
-    "2. Each bonus is 100 points ";
+    "2. Each bonus is 100 points.";
   sne ();
   ANSITerminal.print_string [ ANSITerminal.blue ]
-    "3. Character of 5 is 50 points.";
+    "3. Win from a kong draw, or Charater of 5 is 100 points.";
   sne ();
   print_endline
     "That's it. Press enter to end tutorial. Enter \"Replay\" to \
