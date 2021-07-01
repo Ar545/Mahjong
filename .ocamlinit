@@ -1,6 +1,5 @@
 #require "ounit2";;
 #require "ANSITerminal";;
-#require "graphics";;
 #directory "_build";;
 #load "command.cmo";;
 #load "tiles.cmo";;
