@@ -51,4 +51,4 @@ docs-private: build
 
 clean:
 	ocamlbuild -clean
-	rm -rf _doc.public _doc.private mahjong.zip main.js
+	rm -rf _doc.public _doc.private mahjong.zip main.js *.cmx
